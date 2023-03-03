@@ -38,8 +38,8 @@ async function bootstrap() {
   )
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('NestJS API Template')
-    .setDescription('NestJS API template documentation')
+    .setTitle('E-Commerce API')
+    .setDescription('E-Commerce API documentation')
     .setVersion('1.0')
     .addBearerAuth(
       {

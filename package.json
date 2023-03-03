@@ -1,7 +1,7 @@
 {
-  "name": "nestjs-api-template",
+  "name": "e-comm-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "API for e-commerce site",
   "author": "Matt Burnett mburnett@tutanota.de",
   "private": true,
   "license": "ISC",
