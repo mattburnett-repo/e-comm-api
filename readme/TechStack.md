@@ -1,0 +1,30 @@
+# Tech Stack
+
+- NestJS
+  - Swagger / OpenAPI documentation
+  - Basic logging
+  - Compodoc
+- Docker
+  - Dockerfile
+  - docker-compose.yaml file
+- TypeORM
+- Passport JS
+  - JWT Strategy
+- Postgres connectivity
+- Testing
+  - Unit testing
+  - E2E / endpoint testing
+- CI/CD
+  - Github Actions
+    - Tests are run for pull requests
+    - Deployment happens when code is merged
+- Additional packages
+  - argon2
+  - typeorm-extention
+  - class-validator
+  - cookie-parser
+  - helmet
+  - pg (postgres driver)
+  - uuid-ossp (postges extention to enable uuid support)
+  - @jest-mock/express (for testing. mocks request and result objects)
+  - express-basic-auth (provides basic authentication for Swagger API doc)

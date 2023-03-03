@@ -1,0 +1,28 @@
+version: '3'
+
+# Remember that 'environment' section doesn't like single or double quotes.
+# 'environment' uses your preferred .env vars.
+
+services:
+  api:
+    build: ./
+    container_name: nestjs-api-template
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=
+      - DB_PORT=5432
+      - DB_USER_NAME=
+      - DB_PASSWORD=
+      - DB_DATABASE_NAME=
+      # DB_SSL_MODE=false for postgres localhost, usually. true for postgres hosted deployement, usually.
+      - DB_SSL_MODE=false
+
+      - API_PORT=4000
+
+      - SWAGGER_USER=
+      - SWAGGER_PASSWORD=
+
+      - JWT_SECRET=
+      - JWT_REFRESH_SECRET=
+    ports:
+      - '4000:4000'
