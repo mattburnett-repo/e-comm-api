@@ -1,0 +1,43 @@
+# fly.toml file generated for e-comm-api on 2023-03-06T18:07:57+01:00
+
+app = "e-comm-api"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[env]
+  DB_TYPE = "postgres"
+  DB_PORT = 5432
+  DB_SSL_MODE = "true"
+  API_PORT = 4000
+  SWAGGER_USER = "e-comm"
+  SWAGGER_PASSWORD = "e-comm"
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 4000
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

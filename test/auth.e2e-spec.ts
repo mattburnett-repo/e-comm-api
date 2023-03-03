@@ -8,7 +8,7 @@ import { AuthModule } from '../src/auth/auth.module'
 import { AuthDto } from '../src/auth/dto/auth.dto'
 import { AuthService } from '../src/auth/auth.service'
 
-import { User } from '../src/users/entities/user.entity'
+import { User } from '../src/user/entities/user.entity'
 
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
 import { AccessTokenStrategy } from '../src/auth/strategies/accessToken.strategy'

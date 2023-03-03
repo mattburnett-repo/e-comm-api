@@ -36,14 +36,13 @@ describe('AppController (e2e)', () => {
       .expect(401)
   })
 
-  // FIXME: mock the call to /auth/login. We don't need to call the database here. We just need to get a token.
   // FIXME: refactor the loginResponse block to a BeforeAll hook, so that we can reuse it in future tests.
   it('GETs a protected endpoint when auth is provided.', async () => {
     // https://stackoverflow.com/questions/58359414/how-e2e-with-guard-nestjs
 
     const loginResponse = await request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'testOne', password: 'testOne' }) // how to mock this? mock auth.service.getTokens()?
+      .send({ username: 'testOne', password: 'testOne' })
       .expect(201)
 
     // store the jwt token for the next request
@@ -58,5 +57,36 @@ describe('AppController (e2e)', () => {
         .expect('Content-Type', 'text/html; charset=utf-8')
         .expect(200)
     )
+  })
+
+  it('can see /address', () => {
+    return request(app.getHttpServer()).get('/address').expect(200)
+  })
+  it('can see /cart', () => {
+    return request(app.getHttpServer()).get('/cart').expect(200)
+  })
+  it('can see /cart-item', () => {
+    return request(app.getHttpServer()).get('/cart-item').expect(200)
+  })
+  it('can see /example', () => {
+    return request(app.getHttpServer()).get('/example').expect(200)
+  })
+  it('can see /order', () => {
+    return request(app.getHttpServer()).get('/order').expect(200)
+  })
+  it('can see /payment', () => {
+    return request(app.getHttpServer()).get('/payment').expect(200)
+  })
+  it('can see /payment-type', () => {
+    return request(app.getHttpServer()).get('/payment-type').expect(200)
+  })
+  it('can see /product', () => {
+    return request(app.getHttpServer()).get('/product').expect(200)
+  })
+  it('can see /product-category', () => {
+    return request(app.getHttpServer()).get('/product-category').expect(200)
+  })
+  it('can see /user', () => {
+    return request(app.getHttpServer()).get('/user').expect(200)
   })
 })

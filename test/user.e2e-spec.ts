@@ -1,70 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { UsersModule } from '../src/users/users.module'
-import { User } from '../src/users/entities/user.entity'
-import { CreateUserDto } from '../src/users/dto/create-user.dto'
-import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+import { mockToken } from './mockData'
+import { AppModule } from '../src/app.module'
 
-// https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
+const testUserData = {
+  id: '4c02b8be-c099-11ed-afa1-0242ac120002',
+  username: 'testUsername',
+  email: 'test@user.com',
+  password: 'password',
+  firstName: 'testFirstName',
+  lastName: 'testLastName',
+  refreshToken: mockToken
+}
 
 describe('UserController (e2e)', () => {
   let app: INestApplication
 
-  const mockUser: CreateUserDto = {
-    id: '1c027e94-d9dc-45f6-8661-7e26891aacd5',
-    username: 'test',
-    email: 'efpyi@example.com',
-    password: '123456',
-    name: 'test',
-    refreshToken: '123456'
-  }
-
-  const mockUsers: CreateUserDto[] = [
-    {
-      id: '1c027e94-d9dc-45f6-8661-7e26891aacd5',
-      username: 'test1',
-      email: 'efpyi@example.com',
-      password: '123456',
-      name: 'test',
-      refreshToken: '123456'
-    },
-    {
-      id: '961dc517-49a7-42af-9fbb-226a18138b6f',
-      username: 'test2',
-      email: 'efpyi@example.com',
-      password: '123456',
-      name: 'test',
-      refreshToken: '123456'
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  // actual database connection can go here
-  const mockUsersRepository = {
-    find: jest.fn().mockResolvedValue(mockUsers),
-    findOne: jest.fn().mockResolvedValue(mockUser),
-    create: jest.fn().mockResolvedValue(mockUser),
-    save: jest.fn().mockResolvedValue(mockUser),
-    update: jest.fn().mockResolvedValue(mockUser),
-    delete: jest.fn().mockResolvedValue(mockUser),
-    remove: jest.fn().mockResolvedValue(mockUser)
-  }
-
+  // Use AppModule so that we get all of the dependencies, and only need to focus on the tests, not all of the .overrides, etc. business
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UsersModule]
-    })
-      .overrideProvider(getRepositoryToken(User))
-      .useValue(mockUsersRepository)
-      .overrideGuard(AccessTokenGuard)
-      .useValue(mockToken)
-      .compile()
+      imports: [AppModule]
+    }).compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()
@@ -74,70 +33,103 @@ describe('UserController (e2e)', () => {
     await app.close()
   })
 
-  it('/users (GET)', () => {
+  it('/user (POST)', () => {
     return request(app.getHttpServer())
-      .get('/users')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(mockUsers)
-  })
-
-  it('/users (POST)', () => {
-    return request(app.getHttpServer())
-      .post('/users')
-      .send({ mockUser })
+      .post('/user')
+      .send(testUserData)
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body).toEqual({
-          ...mockUser
-        })
+        const user = res.body
+
+        expect(user).not.toBeNull()
       })
   })
 
   it('GET handles a bad id value', () => {
-    return request(app.getHttpServer()).get('/users/id/1').expect(400)
+    return request(app.getHttpServer()).get('/user/id/1').expect(400)
   })
-  it('/users/id/:id (GET)', () => {
+  it('/user/id/:id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .get(`/user/id/${testUserData.id}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
+      })
+  })
+  it('/user GETs all', () => {
+    return request(app.getHttpServer())
+      .get('/user')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        const users = res.body
+        expect(users.length).toEqual(4)
+
+        const user = users[3]
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
-  it('/users/username/:username (GET)', () => {
+  it('/user/username/:username (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users/username/test')
+      .get(`/user/username/${testUserData.username}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
   it('PATCH handles a bad id value', () => {
-    return request(app.getHttpServer()).patch('/users/id/1').expect(400)
+    return request(app.getHttpServer()).patch('/user/id/x').expect(400)
   })
-  it('/users/:id (PATCH', () => {
+  it('/user/:id (PATCH', () => {
+    const updatedUsername = 'updatedUsername'
+
     return request(app.getHttpServer())
-      .patch('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .patch(`/user/id/${testUserData.id}`)
       .set('Authorization', `Bearer ${mockToken}`)
+      .send({ ...testUserData, username: updatedUsername })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
-  it('PATCH handles a bad id value', () => {
-    return request(app.getHttpServer()).delete('/users/id/1').expect(400)
-  })
-  it('/users/id/:id (DELETE)', () => {
+  it('DELETE handles a bad id value', () => {
     return request(app.getHttpServer())
-      .delete('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .delete('/user/id/1')
+      .set('Authorization', `Bearer ${mockToken}`)
+      .expect(400)
+  })
+  it('/user/id/:id (DELETE)', () => {
+    return request(app.getHttpServer())
+      .delete(`/user/id/${testUserData.id}`)
       .expect(200)
   })
 })

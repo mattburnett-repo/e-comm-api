@@ -2,7 +2,7 @@
 
 - Clone, reset git and install the code.
 - Set up a database.
-- Seed the database.
+- Run database migrations and seeding.
 - Run tests.
 - Start the app.
 
@@ -19,21 +19,13 @@ Clone the repo (Don't forget the ' . ' at the end!)
 git clone https://github.com/mattburnett-repo/nestjs-api-template.git .
 ```
 
-Delete these files, if they are present. They are necesary for this template repo, but will just get in the way if you leave them in.
+Delete this file, if it is present.
 
 ```bash
-rm -rf .github
 rm -rf fly.toml
 ```
 
-`You should reset your project's git repository, to not use the template repo's git information.`
-
-```bash
-rm -rf .git
-git init
-```
-
-`Create a new repo on GitHub for your project and configure your new, local git repo to use the new GitHub repository as a remote.`
+Reset the project's git repository.
 
 Edit the project information in `package.json` header.
 
@@ -46,19 +38,27 @@ Edit the project information in `package.json` header.
   "license": the.project.license,
 ```
 
+```bash
+rm -rf .git
+git init
+```
+
+Copy the sample.env to the .env files
+
+```bash
+cp sample.env .env            # default .env
+cp sample.env .env.local      # connects local develpment to a localhost database
+cp sample.env .env.deployed   # connects local development to a remote / deployed database
+cp sample.env .env.test       # for running tests locally. Also useful as a secrets source for CI/CD, eg. GitHub Actions
+```
+
+Create a new repo on GitHub for your project and configure your new, local git repo to use the new GitHub repository as a remote.
+
 Install the node_modules
 
 ```bash
 yarn install
 ```
-
-Copy the sample.env to .env
-
-```bash
-cp sample.env .env
-```
-
-## You should also make a `.env.test` file.
 
 Create the database manually.
 
@@ -72,8 +72,9 @@ DB_TYPE=
 DB_HOST=
 DB_PORT=
 DB_USER_NAME=
-DB_PASSORD=
+DB_PASSWORD=
 DB_DATABASE_NAME=
+DB_SSL_MODE=    # Postgress specific. Usually 'false' (with single quotes) for localhost database, usually 'true' (with single quotes) for remote database
 
 API_PORT= # 4000
 
@@ -90,9 +91,13 @@ JWT_REFRESH_SECRET=
   node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
   ```
 
-  ## You should also make a `.env.test` file.
-
 If you are not using Postgres as a database, you will need to make some changes to the `dbConfig` and `cliConfig` files. More info is provided in the 'Database config' paragraph of the [Dev notes](./DevNotes.md) document.
+
+Run the migrations
+
+```bash
+yarn migration:run:local
+```
 
 Run the seeders using
 

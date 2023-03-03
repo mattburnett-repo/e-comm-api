@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { CreateUserDto } from 'src/users/dto/create-user.dto'
+import { CreateUserDto } from 'src/user/dto/create-user.dto'
 import { AuthService } from './auth.service'
 
 describe('AuthService', () => {
@@ -24,7 +24,8 @@ describe('AuthService', () => {
 
   const mockUser: CreateUserDto = {
     id: '1',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     username: 'test',
     password: 'test',
     email: 'test@test.com',

@@ -45,7 +45,6 @@ describe('ExampleController (e2e)', () => {
     }
   ]
 
-  // actual database connection can go here
   const mockExamplesRepository = {
     find: jest.fn().mockResolvedValue(mockExamples),
     findOneById: jest.fn().mockResolvedValue(mockExample),

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "324e2014-bafb-11ed-afa1-0242ac120002",
+    "firstName": "Test First name",
+    "lastName": "Test Last Name",
+    "address_1": "123 Street Ave.",
+    "address_2": "Suite 3",
+    "city": "Test City",
+    "stateProvince": "Test State",
+    "postalCode": "12345",
+    "country": "Deutschland",
+    "user": {
+      "id": "964275ed-f9da-49b6-8fde-9da1d472197b",
+      "username": "HappyCustomer"
+    }
+  }
+]
