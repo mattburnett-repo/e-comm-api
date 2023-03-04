@@ -7,19 +7,22 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  name: string
-
-  @IsString()
-  @IsNotEmpty()
   username: string
-
-  @IsEmail()
-  email: string
 
   @IsString()
   @IsNotEmpty()
   password: string
 
+  @IsEmail()
+  @IsNotEmpty()
+  email: string
+
   @IsString()
-  refreshToken: string
+  firstName: string | null
+
+  @IsString()
+  lastName: string | null
+
+  @IsString()
+  refreshToken: string | null
 }

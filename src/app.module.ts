@@ -15,10 +15,9 @@ import { CartModule } from './cart/cart.module'
 import { OrderModule } from './order/order.module'
 import { PaymentModule } from './payment/payment.module'
 import { PaymentTypeModule } from './payment-type/payment-type.module'
-import { ProductCategoryModule } from './product-category/product-category.module'
 import { ProductModule } from './product/product.module'
-import { UserAddressModule } from './user-address/user-address.module'
-import { UserPaymentModule } from './user-payment/user-payment.module'
+import { ProductCategoryModule } from './product-category/product-category.module'
+import { CartTypeModule } from './cart-type/cart-type.module'
 
 import dbConfig from './config/dbConfig'
 
@@ -45,8 +44,7 @@ const ENV = process.env.NODE_ENV
     PaymentTypeModule,
     ProductCategoryModule,
     ProductModule,
-    UserAddressModule,
-    UserPaymentModule
+    CartTypeModule
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -1,20 +1,28 @@
+import { IsUUID, IsNotEmpty } from 'class-validator'
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
-  PrimaryGeneratedColumn
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm'
-import { UserPayment } from '../../user-payment/entities/user-payment.entity'
+import { PaymentType } from '../../payment-type/entities/payment-type.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Index('payment_pkey', ['id'], { unique: true })
 @Entity('payment', { schema: 'public' })
 export class Payment {
-  @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
-  id: number
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
+  @IsNotEmpty()
+  id: string
 
-  @Column('integer', { name: 'user_id' })
-  userId: number
+  @Column('uuid', { name: 'user_id' })
+  userId: string
 
   @Column('character varying', {
     name: 'stripe_id',
@@ -48,8 +56,19 @@ export class Payment {
   transactionStatus: string | null
 
   @Column('numeric', { name: 'amount', precision: 6, scale: 2 })
-  amount: string
+  amount: number
 
-  @OneToMany(() => UserPayment, (userPayment) => userPayment.payment)
-  userPayment: UserPayment[]
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
+
+  @OneToOne(() => PaymentType)
+  @JoinColumn({ name: 'payment_type_id' })
+  paymentType: PaymentType
+
+  @ManyToOne(() => User, (user) => user.id, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'user_id' })
+  user: User[]
 }

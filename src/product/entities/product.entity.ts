@@ -1,23 +1,32 @@
+import { IsNotEmpty, IsUUID } from 'class-validator'
 import {
   Column,
-  Entity,
+  CreateDateColumn,
   Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  JoinTable,
+  ManyToMany
 } from 'typeorm'
-import { ProductCategory } from '../../product-category/entities/ProductCategory'
 
+import { ProductCategory } from '../../product-category/entities/product-category.entity'
 @Index('product_pkey', ['id'], { unique: true })
-@Entity('product', { schema: 'public' })
+@Entity()
 export class Product {
-  @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
-  id: number
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
+  @IsNotEmpty()
+  id: string
 
-  @Column('character varying', { name: 'name', length: 100 })
+  @Column('character varying', { name: 'name', nullable: false, length: 100 })
   name: string
 
-  @Column('character varying', { name: 'description', length: 1000 })
+  @Column('character varying', {
+    name: 'description',
+    nullable: false,
+    length: 1000
+  })
   description: string
 
   @Column('character varying', {
@@ -27,13 +36,26 @@ export class Product {
   })
   imageUrl: string | null
 
-  @Column('numeric', { name: 'price', nullable: true, precision: 6, scale: 2 })
-  price: string | null
+  @Column('numeric', { name: 'price', nullable: false, precision: 6, scale: 2 })
+  price: string
 
-  @ManyToOne(
-    () => ProductCategory,
-    (productCategory) => productCategory.product
-  )
-  @JoinColumn([{ name: 'category_id', referencedColumnName: 'categoryId' }])
-  category: ProductCategory
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
+
+  @ManyToMany(() => ProductCategory, (productCategory) => productCategory.id)
+  @JoinTable({
+    name: 'product_product_category',
+    joinColumn: {
+      name: 'product_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'product_category_id',
+      referencedColumnName: 'id'
+    }
+  })
+  category: ProductCategory[]
 }

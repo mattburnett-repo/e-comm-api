@@ -1,4 +1,5 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateCartDto } from './create-cart.dto';
+import { PartialType } from '@nestjs/swagger'
+import { CreateCartDto } from './create-cart.dto'
 
-export class UpdateCartDto extends PartialType(CreateCartDto) {}
+// eslint-disable-next-line prettier/prettier
+export class UpdateCartDto extends PartialType(CreateCartDto) { }

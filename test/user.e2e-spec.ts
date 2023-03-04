@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { UsersModule } from '../src/user/user.module'
+import { UserModule } from '../src/user/user.module'
 import { User } from '../src/user/entities/user.entity'
 import { CreateUserDto } from '../src/user/dto/create-user.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
@@ -58,7 +58,7 @@ describe('UserController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UsersModule]
+      imports: [UserModule]
     })
       .overrideProvider(getRepositoryToken(User))
       .useValue(mockUsersRepository)

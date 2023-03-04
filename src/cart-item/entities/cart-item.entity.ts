@@ -1,23 +1,47 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm'
+import { IsUUID, IsNotEmpty } from 'class-validator'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
 import { Cart } from '../../cart/entities/cart.entity'
 
-@Index('cart-item_pkey', ['cartId', 'productId'], { unique: true })
-@Entity('cart-item', { schema: 'public' })
+@Index('cart-item_pkey', ['cartId'], { unique: true })
+@Entity('cart_item', { schema: 'public' })
 export class CartItem {
-  @Column('integer', { primary: true, name: 'cart_id' })
-  cartId: number
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
+  @IsNotEmpty()
+  id: string
 
-  @Column('integer', { primary: true, name: 'product_id' })
-  productId: number
+  @Column('string', { primary: true, name: 'cart_id' })
+  cartId: string
+
+  @Column({ primary: true, name: 'product_id' })
+  productId: string
+
+  @Column({ name: 'product_name' })
+  productName: string
 
   @Column('integer', { name: 'product_quantity' })
   productQuantity: number
 
   @Column('numeric', { name: 'product_price', precision: 6, scale: 2 })
-  productPrice: string
+  productPrice: number
 
   @Column('numeric', { name: 'line_item_total_price', precision: 6, scale: 2 })
-  lineItemTotalPrice: string
+  lineItemTotalPrice: number
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 
   @ManyToOne(() => Cart, (cart) => cart.cartItem)
   @JoinColumn([{ name: 'cart_id', referencedColumnName: 'id' }])

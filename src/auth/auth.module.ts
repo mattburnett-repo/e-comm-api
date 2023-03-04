@@ -8,13 +8,13 @@ import { AuthController } from './auth.controller'
 import { AccessTokenStrategy } from './strategies/accessToken.strategy'
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy'
 
-import { UsersModule } from '../user/user.module'
+import { UserModule } from '../user/user.module'
 
 // https://www.elvisduru.com/blog/nestjs-jwt-authentication-refresh-token
 
 @Module({
   // TODO: JwtModule.register options?
-  imports: [UsersModule, JwtModule.register({})],
+  imports: [UserModule, JwtModule.register({})],
   controllers: [AuthController],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy]
 })

@@ -1,6 +1,6 @@
 import { IsUUID, IsNotEmpty, IsString } from 'class-validator'
 
-export class CreateProductCategoryDto {
+export class CreateCartTypeDto {
   @IsUUID()
   @IsNotEmpty()
   id: string

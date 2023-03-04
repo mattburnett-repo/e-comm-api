@@ -2,20 +2,21 @@ import {
   Entity,
   Column,
   Index,
-  OneToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BeforeUpdate
+  BeforeUpdate,
+  OneToMany
 } from 'typeorm'
 
 import { hash } from 'argon2'
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 import { Order } from '../../order/entities/order.entity'
-import { UserAddress } from '../../user-address/entities/user-address'
-import { UserPayment } from '../../user-payment/entities/user-payment.entity'
+import { Address } from '../../address/entities/address.entity'
+import { Cart } from '../../cart/entities/cart.entity'
+import { Payment } from '../../payment/entities/payment.entity'
 @Index('user_pkey', ['id'], { unique: true })
 @Index('user_user_name_key', ['username'], { unique: true })
 @Entity()
@@ -47,15 +48,13 @@ export class User {
   @IsString()
   password: string
 
-  @Column({ nullable: true })
-  // @IsNotEmpty()
+  @Column({ name: 'first_name', nullable: true })
   @IsString()
   firstName: string | null
 
-  @Column({ nullable: true })
-  // @IsNotEmpty()
+  @Column({ name: 'last_name', nullable: true })
   @IsString()
-  lastName: string
+  lastName: string | null
 
   @Column('character varying', {
     name: 'google_id',
@@ -101,12 +100,19 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date
 
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Cart, (cart) => cart.id, { onDelete: 'SET NULL' })
+  cart: Cart[]
+
+  @OneToMany(() => Order, (order) => order.id, { onDelete: 'SET NULL' })
   order: Order[]
 
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
-  userAddress: UserAddress[]
+  @OneToMany(() => Address, (address) => address.user, {
+    onDelete: 'SET NULL'
+  })
+  address: Address[]
 
-  @OneToMany(() => UserPayment, (userPayment) => userPayment.user)
-  userPayment: UserPayment[]
+  @OneToMany(() => Payment, (payment) => payment.userId, {
+    onDelete: 'SET NULL'
+  })
+  payment: Payment[]
 }
