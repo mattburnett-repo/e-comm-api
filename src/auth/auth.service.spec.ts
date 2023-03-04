@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { CreateUserDto } from 'src/users/dto/create-user.dto'
+import { CreateUserDto } from 'src/user/dto/create-user.dto'
 import { AuthService } from './auth.service'
 
 describe('AuthService', () => {

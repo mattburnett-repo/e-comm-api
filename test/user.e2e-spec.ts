@@ -4,9 +4,9 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { UsersModule } from '../src/users/users.module'
-import { User } from '../src/users/entities/user.entity'
-import { CreateUserDto } from '../src/users/dto/create-user.dto'
+import { UsersModule } from '../src/user/user.module'
+import { User } from '../src/user/entities/user.entity'
+import { CreateUserDto } from '../src/user/dto/create-user.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
