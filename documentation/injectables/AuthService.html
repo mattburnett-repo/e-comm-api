@@ -124,7 +124,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, jwtService: JwtService, configService: ConfigService)</code>
+<code>constructor(userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, jwtService: JwtService, configService: ConfigService)</code>
                     </td>
                 </tr>
                         <tr>
@@ -147,10 +147,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>usersService</td>
+                                                        <td>userService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -738,8 +738,8 @@
   ForbiddenException,
   Injectable
 } from &#x27;@nestjs/common&#x27;
-import { CreateUserDto } from &#x27;../users/dto/create-user.dto&#x27;
-import { UsersService } from &#x27;../users/users.service&#x27;
+import { CreateUserDto } from &#x27;../user/dto/create-user.dto&#x27;
+import { UserService } from &#x27;../user/user.service&#x27;
 import * as argon2 from &#x27;argon2&#x27;
 import { JwtService } from &#x27;@nestjs/jwt&#x27;
 import { ConfigService } from &#x27;@nestjs/config&#x27;
@@ -749,13 +749,13 @@ import { AuthDto } from &#x27;./dto/auth.dto&#x27;
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
     private configService: ConfigService
   ) { }
   async signUp(createUserDto: CreateUserDto): Promise&lt;any&gt; {
     // Check if user exists
-    const userExists &#x3D; await this.usersService.findByUsername(
+    const userExists &#x3D; await this.userService.findByUsername(
       createUserDto.username
     )
 
@@ -764,7 +764,7 @@ export class AuthService {
     }
 
     // Hash password in the user entity
-    const newUser &#x3D; await this.usersService.create(createUserDto)
+    const newUser &#x3D; await this.userService.create(createUserDto)
 
     const tokens &#x3D; await this.getTokens(newUser.id, newUser.username)
     await this.updateRefreshToken(newUser.id, tokens.refreshToken)
@@ -773,7 +773,7 @@ export class AuthService {
 
   async login(data: AuthDto) {
     // Check if user exists
-    const user &#x3D; await this.usersService.findByUsername(data.username)
+    const user &#x3D; await this.userService.findByUsername(data.username)
     if (!user) throw new BadRequestException(&#x27;User does not exist&#x27;)
 
     const passwordMatches &#x3D; await argon2.verify(user.password, data.password)
@@ -785,7 +785,7 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    return this.usersService.update(userId, { refreshToken: null })
+    return this.userService.update(userId, { refreshToken: null })
   }
 
   hashData(data: string) {
@@ -794,7 +794,7 @@ export class AuthService {
 
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken &#x3D; await this.hashData(refreshToken)
-    await this.usersService.update(userId, {
+    await this.userService.update(userId, {
       refreshToken: hashedRefreshToken
     })
   }
@@ -830,7 +830,7 @@ export class AuthService {
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
-    const user &#x3D; await this.usersService.findById(userId)
+    const user &#x3D; await this.userService.findById(userId)
     if (!user || !user.refreshToken)
       throw new ForbiddenException(&#x27;Access Denied&#x27;)
 

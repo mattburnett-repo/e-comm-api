@@ -6,12 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { Carts } from '../../cart/entities/cart.entity'
+import { Cart } from '../../cart/entities/cart.entity'
 import { User } from '../../user/entities/user.entity'
 
-@Index('orders_pkey', ['id'], { unique: true })
-@Entity('orders', { schema: 'public' })
-export class Orders {
+@Index('order_pkey', ['id'], { unique: true })
+@Entity('order', { schema: 'public' })
+export class Order {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number
 
@@ -33,11 +33,11 @@ export class Orders {
   @Column('integer', { name: 'payment_id', nullable: true })
   paymentId: number | null
 
-  @ManyToOne(() => Carts, (carts) => carts.orders)
+  @ManyToOne(() => Cart, (cart) => cart.order)
   @JoinColumn([{ name: 'cart_id', referencedColumnName: 'id' }])
-  cart: Carts
+  cart: Cart
 
-  @ManyToOne(() => User, (users) => users.orders)
+  @ManyToOne(() => User, (user) => user.order)
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   user: User
 }

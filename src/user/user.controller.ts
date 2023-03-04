@@ -9,7 +9,7 @@ import {
   UseGuards,
   ParseUUIDPipe
 } from '@nestjs/common'
-import { UsersService } from './user.service'
+import { UserService } from './user.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { AccessTokenGuard } from '../common/guards/accessToken.guard'
@@ -17,9 +17,9 @@ import { ApiBadRequestResponse, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('users')
 @Controller('users')
-export class UsersController {
+export class UserController {
   // eslint-disable-next-line prettier/prettier
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UserService) { }
 
   @ApiBadRequestResponse()
   @Post()

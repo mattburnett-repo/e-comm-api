@@ -13,11 +13,11 @@ import {
 import { hash } from 'argon2'
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
-import { Orders } from '../../order/entities/order.entity'
-import { UsersAddresses } from '../../user-addresses/entities/user-addresses'
-import { UsersPayments } from '../../user-payments/entities/user-payments.entity'
-@Index('users_pkey', ['id'], { unique: true })
-@Index('users_user_name_key', ['username'], { unique: true })
+import { Order } from '../../order/entities/order.entity'
+import { UserAddress } from '../../user-address/entities/user-address'
+import { UserPayment } from '../../user-payment/entities/user-payment.entity'
+@Index('user_pkey', ['id'], { unique: true })
+@Index('user_user_name_key', ['username'], { unique: true })
 @Entity()
 export class User {
   // hash the password before insert / update
@@ -101,12 +101,12 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date
 
-  @OneToMany(() => Orders, (orders) => orders.user)
-  orders: Orders[]
+  @OneToMany(() => Order, (order) => order.user)
+  order: Order[]
 
-  @OneToMany(() => UsersAddresses, (usersAddresses) => usersAddresses.user)
-  usersAddresses: UsersAddresses[]
+  @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
+  userAddress: UserAddress[]
 
-  @OneToMany(() => UsersPayments, (usersPayments) => usersPayments.user)
-  usersPayments: UsersPayments[]
+  @OneToMany(() => UserPayment, (userPayment) => userPayment.user)
+  userPayment: UserPayment[]
 }

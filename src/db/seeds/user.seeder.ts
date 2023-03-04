@@ -15,7 +15,8 @@ export default class UserSeeder implements Seeder {
     //  create test user
     const testUser = new User()
 
-    testUser.name = 'Test One'
+    testUser.firstName = 'Test'
+    testUser.lastName = 'One'
     testUser.username = 'testOne'
     testUser.password = 'testOne'
     testUser.email = 'test@one.com'

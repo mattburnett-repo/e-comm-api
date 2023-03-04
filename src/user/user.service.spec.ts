@@ -3,10 +3,10 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
-import { UsersService } from './user.service'
+import { UserService } from './user.service'
 
-describe('UsersService', () => {
-  let service: UsersService
+describe('UserService', () => {
+  let service: UserService
 
   const mockUser: CreateUserDto = {
     id: '1',
@@ -55,7 +55,7 @@ describe('UsersService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UsersService,
+        UserService,
         {
           provide: getRepositoryToken(User),
           useValue: mockUsersRepository
@@ -63,7 +63,7 @@ describe('UsersService', () => {
       ]
     }).compile()
 
-    service = module.get<UsersService>(UsersService)
+    service = module.get<UserService>(UserService)
   })
 
   it('should be defined', () => {

@@ -7,7 +7,7 @@ import { AppService } from './app.service'
 
 import { ExampleModule } from './example/example.module'
 
-import { UsersModule } from './user/user.module'
+import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { AddressModule } from './address/address.module'
 import { CartItemModule } from './cart-item/cart-item.module'
@@ -17,8 +17,8 @@ import { PaymentModule } from './payment/payment.module'
 import { PaymentTypeModule } from './payment-type/payment-type.module'
 import { ProductCategoryModule } from './product-category/product-category.module'
 import { ProductModule } from './product/product.module'
-import { UserAddressesModule } from './user-addresses/user-addresses.module'
-import { UserPaymentsModule } from './user-payments/user-payments.module'
+import { UserAddressModule } from './user-address/user-address.module'
+import { UserPaymentModule } from './user-payment/user-payment.module'
 
 import dbConfig from './config/dbConfig'
 
@@ -35,8 +35,7 @@ const ENV = process.env.NODE_ENV
       useFactory: (cfg: ConfigService) => cfg.get('database')
     }),
     ExampleModule,
-    UsersModule,
-    UsersModule,
+    UserModule,
     AuthModule,
     AddressModule,
     CartItemModule,
@@ -46,8 +45,8 @@ const ENV = process.env.NODE_ENV
     PaymentTypeModule,
     ProductCategoryModule,
     ProductModule,
-    UserAddressesModule,
-    UserPaymentsModule
+    UserAddressModule,
+    UserPaymentModule
   ],
   controllers: [AppController],
   providers: [AppService]

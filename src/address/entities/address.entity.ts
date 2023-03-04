@@ -5,11 +5,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { UsersAddresses } from '../../user-addresses/entities/user-addresses'
+import { UserAddress } from '../../user-address/entities/user-address'
 
-@Index('addresses_pkey', ['id'], { unique: true })
-@Entity('addresses', { schema: 'public' })
-export class Addresses {
+@Index('address_pkey', ['id'], { unique: true })
+@Entity('address', { schema: 'public' })
+export class Address {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number
 
@@ -49,6 +49,6 @@ export class Addresses {
   @Column('character varying', { name: 'country', length: 100 })
   country: string
 
-  @OneToMany(() => UsersAddresses, (usersAddresses) => usersAddresses.address)
-  usersAddresses: UsersAddresses[]
+  @OneToMany(() => UserAddress, (userAddress) => userAddress.address)
+  userAddress: UserAddress[]
 }

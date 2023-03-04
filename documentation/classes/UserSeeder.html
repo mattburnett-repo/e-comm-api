@@ -210,7 +210,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Seeder, SeederFactoryManager } from &#x27;typeorm-extension&#x27;
 import { DataSource } from &#x27;typeorm&#x27;
-import { User } from &#x27;../../users/entities/user.entity&#x27;
+import { User } from &#x27;../../user/entities/user.entity&#x27;
 
 export default class UserSeeder implements Seeder {
   public async run(
@@ -225,7 +225,8 @@ export default class UserSeeder implements Seeder {
     //  create test user
     const testUser &#x3D; new User()
 
-    testUser.name &#x3D; &#x27;Test One&#x27;
+    testUser.firstName &#x3D; &#x27;Test&#x27;
+    testUser.lastName &#x3D; &#x27;One&#x27;
     testUser.username &#x3D; &#x27;testOne&#x27;
     testUser.password &#x3D; &#x27;testOne&#x27;
     testUser.email &#x3D; &#x27;test@one.com&#x27;

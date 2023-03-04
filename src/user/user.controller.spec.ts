@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { CreateUserDto } from './dto/create-user.dto'
-import { UsersController } from './user.controller'
-import { UsersService } from './user.service'
+import { UserController } from './user.controller'
+import { UserService } from './user.service'
 
-describe('UsersController', () => {
-  let controller: UsersController
+describe('UserController', () => {
+  let controller: UserController
 
   const mockUser: CreateUserDto = {
     id: '1',
@@ -46,14 +46,14 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [UsersService]
+      controllers: [UserController],
+      providers: [UserService]
     })
-      .overrideProvider(UsersService)
+      .overrideProvider(UserService)
       .useValue(mockUsersService)
       .compile()
 
-    controller = module.get<UsersController>(UsersController)
+    controller = module.get<UserController>(UserController)
   })
 
   it('should be defined', () => {

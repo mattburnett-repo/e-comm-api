@@ -5,12 +5,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { CartItems } from '../../cart-item/entities/cart-item.entity'
-import { Orders } from '../../order/entities/order.entity'
+import { CartItem } from '../../cart-item/entities/cart-item.entity'
+import { Order } from '../../order/entities/order.entity'
 
-@Index('carts_pkey', ['id'], { unique: true })
-@Entity('carts', { schema: 'public' })
-export class Carts {
+@Index('cart_pkey', ['id'], { unique: true })
+@Entity('cart', { schema: 'public' })
+export class Cart {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number
 
@@ -27,9 +27,9 @@ export class Carts {
   })
   orderDate: string | null
 
-  @OneToMany(() => CartItems, (cartItems) => cartItems.cart)
-  cartItems: CartItems[]
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  cartItem: CartItem[]
 
-  @OneToMany(() => Orders, (orders) => orders.cart)
-  orders: Orders[]
+  @OneToMany(() => Order, (order) => order.cart)
+  order: Order[]
 }

@@ -1,9 +1,9 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm'
-import { Carts } from '../../cart/entities/cart.entity'
+import { Cart } from '../../cart/entities/cart.entity'
 
 @Index('cart-item_pkey', ['cartId', 'productId'], { unique: true })
 @Entity('cart-item', { schema: 'public' })
-export class CartItems {
+export class CartItem {
   @Column('integer', { primary: true, name: 'cart_id' })
   cartId: number
 
@@ -19,7 +19,7 @@ export class CartItems {
   @Column('numeric', { name: 'line_item_total_price', precision: 6, scale: 2 })
   lineItemTotalPrice: string
 
-  @ManyToOne(() => Carts, (carts) => carts.cartItems)
+  @ManyToOne(() => Cart, (cart) => cart.cartItem)
   @JoinColumn([{ name: 'cart_id', referencedColumnName: 'id' }])
-  cart: Carts
+  cart: Cart
 }

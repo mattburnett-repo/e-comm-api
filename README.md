@@ -2,7 +2,7 @@
 
 This project was built with the [NestJS Template](https://github.com/mattburnett-repo/nestjs-api-template).
 
-This is an API for a generic e-commerce application
+This is an API for a generic e-commerce application.
 
 ## More details
 

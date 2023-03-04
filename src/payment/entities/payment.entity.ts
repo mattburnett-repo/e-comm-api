@@ -5,11 +5,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { UsersPayments } from '../../user-payments/entities/user-payments.entity'
+import { UserPayment } from '../../user-payment/entities/user-payment.entity'
 
-@Index('payments_pkey', ['id'], { unique: true })
-@Entity('payments', { schema: 'public' })
-export class Payments {
+@Index('payment_pkey', ['id'], { unique: true })
+@Entity('payment', { schema: 'public' })
+export class Payment {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number
 
@@ -50,6 +50,6 @@ export class Payments {
   @Column('numeric', { name: 'amount', precision: 6, scale: 2 })
   amount: string
 
-  @OneToMany(() => UsersPayments, (usersPayments) => usersPayments.payment)
-  usersPayments: UsersPayments[]
+  @OneToMany(() => UserPayment, (userPayment) => userPayment.payment)
+  userPayment: UserPayment[]
 }

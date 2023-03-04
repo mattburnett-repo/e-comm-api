@@ -6,11 +6,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
-import { ProductCategories } from '../../product-category/entities/ProductCategories'
+import { ProductCategory } from '../../product-category/entities/ProductCategory'
 
-@Index('products_pkey', ['id'], { unique: true })
-@Entity('products', { schema: 'public' })
-export class Products {
+@Index('product_pkey', ['id'], { unique: true })
+@Entity('product', { schema: 'public' })
+export class Product {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number
 
@@ -31,9 +31,9 @@ export class Products {
   price: string | null
 
   @ManyToOne(
-    () => ProductCategories,
-    (productCategories) => productCategories.products
+    () => ProductCategory,
+    (productCategory) => productCategory.product
   )
   @JoinColumn([{ name: 'category_id', referencedColumnName: 'categoryId' }])
-  category: ProductCategories
+  category: ProductCategory
 }
