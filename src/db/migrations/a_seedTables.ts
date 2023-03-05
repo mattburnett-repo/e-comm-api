@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
+// 'product' table-related seeding happens in b_seedProductTable.ts
+
 export class seedTables implements MigrationInterface {
   name = 'seedTables1677987896844'
 
@@ -57,7 +59,7 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO product_category VALUES(1,'Solar Energy','Solar energy is a renewable energy source that can be harnessed to power a variety of devices and systems, from small handheld gadgets to large-scale buildings.')`
     )
     await queryRunner.query(
-      `INSERT INTO product_category VALUES(2, 'Electric Vehicles', 'Electric cars are powered by electricity rather than gasoline or diesel, which makes them much more sustainable and eco-friendly. They also have lower emissions and are more energy-efficient than traditional vehicles.')`
+      `INSERT INTO product_category VALUES(2, 'Electric Vehicles', 'Electric vehicles are powered by electricity rather than gasoline or diesel, which makes them much more sustainable and eco-friendly. They also have lower emissions and are more energy-efficient than traditional vehicles.')`
     )
     await queryRunner.query(
       `INSERT INTO product_category VALUES(3, 'Bamboo', 'Bamboo is a highly sustainable and renewable resource that grows quickly and doesn''t require as much water as other plants. It can be used to create a wide range of products, including furniture, flooring, and textiles.')`
@@ -68,9 +70,6 @@ export class seedTables implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO product_category VALUES(5, 'Organic and natural personal care products','Organic and natural personal care products are made with ingredients that are sustainably sourced and don''t contain harmful chemicals or synthetic fragrances. They are better for both the environment and your health.')`
     )
-    await queryRunner.query(
-      `INSERT INTO product VALUES('6c480ae2-bb04-11ed-afa1-0242ac120002', 'Test Product One', 'Test Product One Description', 'https://image.com', 123)`
-    )
 
     // Association / Join tables
     await queryRunner.query(
@@ -79,9 +78,7 @@ export class seedTables implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO order_cart VALUES('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     )
-    await queryRunner.query(
-      `INSERT INTO product_product_category VALUES('6c480ae2-bb04-11ed-afa1-0242ac120002', 2)`
-    )
+
     await queryRunner.query(
       `INSERT INTO user_address VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', '324e2014-bafb-11ed-afa1-0242ac120002')`
     )
@@ -93,26 +90,6 @@ export class seedTables implements MigrationInterface {
     )
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    //  Data tables
-    await queryRunner.query(`DROP TABLE address CASCADE`)
-    await queryRunner.query(`DROP TABLE cart CASCADE`)
-    await queryRunner.query(`DROP TABLE cart_item CASCADE`)
-    await queryRunner.query(`DROP TABLE cart_type CASCADE`)
-    await queryRunner.query(`DROP TABLE example CASCADE`)
-    await queryRunner.query(`DROP TABLE "order" CASCADE`)
-    await queryRunner.query(`DROP TABLE payment_type CASCADE`)
-    await queryRunner.query(`DROP TABLE payment CASCADE`)
-    await queryRunner.query(`DROP TABLE product_category CASCADE`)
-    await queryRunner.query(`DROP TABLE product CASCADE`)
-    await queryRunner.query(`DROP TABLE "user" CASCADE`)
-
-    // Association / Join tables
-    await queryRunner.query(`DROP TABLE cart_cart_type`)
-    await queryRunner.query(`DROP TABLE order_cart`)
-    await queryRunner.query(`DROP TABLE product_product_category`)
-    await queryRunner.query(`DROP TABLE user_address`)
-    await queryRunner.query(`DROP TABLE user_cart`)
-    await queryRunner.query(`DROP TABLE user_order`)
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier, @typescript-eslint/no-empty-function
+  public async down(queryRunner: QueryRunner): Promise<void> { }
 }
