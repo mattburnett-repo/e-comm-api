@@ -21,7 +21,7 @@ export class AuthService {
   ) { }
   async signUp(createUserDto: CreateUserDto): Promise<any> {
     // Check if user exists
-    const userExists = await this.userService.findByUsername(
+    const userExists = await this.userService.findOneByUsername(
       createUserDto.username
     )
 
@@ -39,7 +39,7 @@ export class AuthService {
 
   async login(data: AuthDto) {
     // Check if user exists
-    const user = await this.userService.findByUsername(data.username)
+    const user = await this.userService.findOneByUsername(data.username)
     if (!user) throw new BadRequestException('User does not exist')
 
     const passwordMatches = await argon2.verify(user.password, data.password)
@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.userService.findById(userId)
+    const user = await this.userService.findOneById(userId)
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied')
 

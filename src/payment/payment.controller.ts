@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  UseGuards
+} from '@nestjs/common'
+import { PaymentService } from './payment.service'
+import { CreatePaymentDto } from './dto/create-payment.dto'
+import { UpdatePaymentDto } from './dto/update-payment.dto'
 
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { AccessTokenGuard } from '../common/guards/accessToken.guard'
+
+@ApiTags('payment')
 @Controller('payment')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly paymentService: PaymentService) { }
 
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paymentService.create(createPaymentDto);
+    return this.paymentService.create(createPaymentDto)
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('protected')
+  @ApiBearerAuth('bearerAuth')
+  getProtected(): string {
+    return this.paymentService.getProtected()
   }
 
   @Get()
   findAll() {
-    return this.paymentService.findAll();
+    return this.paymentService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.paymentService.findOne(+id);
+  @Get('/id/:id')
+  findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.paymentService.findOneById(id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
-    return this.paymentService.update(+id, updatePaymentDto);
+  @Patch('/id/:id')
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateTestDto: UpdatePaymentDto
+  ) {
+    return this.paymentService.update(id, updateTestDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.paymentService.remove(+id);
+  @Delete('/id/:id')
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.paymentService.remove(id)
   }
 }

@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
@@ -7,9 +8,10 @@ import { UserService } from './user.service'
 
 describe('UserService', () => {
   let service: UserService
+  let repo: Repository<User>
 
   const mockUser: CreateUserDto = {
-    id: '1',
+    id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
     firstName: 'test',
     lastName: 'test',
     username: 'test',
@@ -19,7 +21,7 @@ describe('UserService', () => {
   }
   const mockUsers: CreateUserDto[] = [
     {
-      id: '1',
+      id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
       firstName: 'test',
       lastName: 'test',
       username: 'test',
@@ -28,7 +30,7 @@ describe('UserService', () => {
       refreshToken: 'test'
     },
     {
-      id: '2',
+      id: 'b9113c68-bba9-11ed-afa1-0242ac120002',
       firstName: 'test',
       lastName: 'test',
       username: 'test',
@@ -48,10 +50,10 @@ describe('UserService', () => {
     findOne: jest
       .fn()
       .mockImplementation(() => Promise.resolve({ ...mockUser })),
-    findById: jest
+    findOneById: jest
       .fn()
       .mockImplementation(() => Promise.resolve({ ...mockUser })),
-    findByUsername: jest.fn().mockResolvedValue(mockUser),
+    findOneByUsername: jest.fn().mockResolvedValue(mockUser),
     update: jest.fn().mockImplementation(() => Promise.resolve({ ...mockUser }))
   }
 
@@ -67,16 +69,25 @@ describe('UserService', () => {
     }).compile()
 
     service = module.get<UserService>(UserService)
+    repo = module.get<Repository<User>>(getRepositoryToken(User))
   })
 
   it('should be defined', () => {
     expect(service).toBeDefined()
+  })
+  it('should have a protected resource', () => {
+    expect(service.getProtected()).toEqual(
+      'This is a protected resource. If you see this, authentication was successful.'
+    )
   })
 
   it('should create a user', async () => {
     expect(await service.create(mockUser)).toEqual({
       ...mockUser
     })
+    expect(repo.create).toBeCalledTimes(1)
+    expect(repo.create).toBeCalledWith({ ...mockUser })
+    expect(repo.save).toBeCalledTimes(1)
   })
 
   it('should find all users', async () => {
@@ -84,16 +95,20 @@ describe('UserService', () => {
   })
 
   it('should find a user by id', async () => {
-    expect(await service.findById('1')).toEqual(mockUser)
+    expect(
+      await service.findOneById('ab5b2304-bba9-11ed-afa1-0242ac120002')
+    ).toEqual({
+      ...mockUser
+    })
   })
   it('should find a user by username', async () => {
-    expect(await service.findByUsername('test')).toEqual({
+    expect(await service.findOneByUsername('test')).toEqual({
       ...mockUser
     })
   })
   it('should update a user', async () => {
     expect(service.update('1', mockUser)).resolves.toEqual({
-      id: '1',
+      id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
       ...mockUser
     })
   })

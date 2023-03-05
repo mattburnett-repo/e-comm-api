@@ -37,9 +37,12 @@ describe('UserController', () => {
   ]
   const mockUsersService = {
     create: jest.fn().mockResolvedValue(mockUser),
+    getProtected: jest
+      .fn()
+      .mockImplementation(() => 'This is a protected resource'),
     findAll: jest.fn().mockResolvedValue(mockUsers),
-    findById: jest.fn().mockResolvedValue(mockUser),
-    findByUsername: jest.fn().mockResolvedValue(mockUser),
+    findOneById: jest.fn().mockResolvedValue(mockUser),
+    findOneByUsername: jest.fn().mockResolvedValue(mockUser),
     update: jest.fn((id, mockUser) => ({
       id,
       ...mockUser
@@ -62,6 +65,9 @@ describe('UserController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined()
   })
+  it('should have a protected resource', () => {
+    expect(controller.getProtected()).toBe('This is a protected resource')
+  })
 
   it('should create a user', () => {
     expect(controller.create(mockUser)).resolves.toEqual({
@@ -74,11 +80,13 @@ describe('UserController', () => {
   })
 
   it('should find a user by id', () => {
-    expect(controller.findById('1')).resolves.toEqual(mockUser)
+    expect(controller.findOneById('1')).resolves.toEqual(mockUser)
   })
 
   it('should find a user by username', () => {
-    expect(controller.findByUsername('test')).resolves.toEqual({ ...mockUser })
+    expect(controller.findOneByUsername('test')).resolves.toEqual({
+      ...mockUser
+    })
   })
 
   it('should update a user', () => {

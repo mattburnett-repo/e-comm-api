@@ -1,4 +1,4 @@
-# E-Comm API
+# E-Commerce API
 
 This project was built with the [NestJS Template](https://github.com/mattburnett-repo/nestjs-api-template).
 

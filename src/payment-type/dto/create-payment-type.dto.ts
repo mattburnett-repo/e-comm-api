@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator'
 
 export class CreatePaymentTypeDto {
-  @IsUUID()
+  @IsNumber()
   @IsNotEmpty()
-  id: string
+  id: number
 
   @IsString()
   @IsNotEmpty()

@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CartTypeService } from './cart-type.service';
-import { CreateCartTypeDto } from './dto/create-cart-type.dto';
-import { UpdateCartTypeDto } from './dto/update-cart-type.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards
+} from '@nestjs/common'
+import { CartTypeService } from './cart-type.service'
+import { CreateCartTypeDto } from './dto/create-cart-type.dto'
+import { UpdateCartTypeDto } from './dto/update-cart-type.dto'
 
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { AccessTokenGuard } from '../common/guards/accessToken.guard'
+
+@ApiTags('cart-type')
 @Controller('cart-type')
 export class CartTypeController {
-  constructor(private readonly cartTypeService: CartTypeService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly cartTypeService: CartTypeService) { }
 
   @Post()
   create(@Body() createCartTypeDto: CreateCartTypeDto) {
-    return this.cartTypeService.create(createCartTypeDto);
+    return this.cartTypeService.create(createCartTypeDto)
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('protected')
+  @ApiBearerAuth('bearerAuth')
+  getProtected(): string {
+    return this.cartTypeService.getProtected()
   }
 
   @Get()
   findAll() {
-    return this.cartTypeService.findAll();
+    return this.cartTypeService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartTypeService.findOne(+id);
+  @Get('/id/:id')
+  // @ApiBadRequestResponse()
+  findOneById(@Param('id') id: number) {
+    return this.cartTypeService.findOneById(id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartTypeDto: UpdateCartTypeDto) {
-    return this.cartTypeService.update(+id, updateCartTypeDto);
+  @Patch('/id/:id')
+  update(
+    @Param('id') id: number,
+    @Body() updateCartTypeDto: UpdateCartTypeDto
+  ) {
+    return this.cartTypeService.update(id, updateCartTypeDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartTypeService.remove(+id);
+  @Delete('/id/:id')
+  remove(@Param('id') id: number) {
+    return this.cartTypeService.remove(id)
   }
 }

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class createEcomTables1677987896844 implements MigrationInterface {
-  name = 'createEcomTables1677987896844'
+export class createEcomTables1678040718350 implements MigrationInterface {
+  name = 'createEcomTables1678040718350'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -17,7 +17,7 @@ export class createEcomTables1677987896844 implements MigrationInterface {
       `CREATE UNIQUE INDEX "order_pkey" ON "order" ("id") `
     )
     await queryRunner.query(
-      `CREATE TABLE "cart" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(150), "description" character varying(150), "order_date" date DEFAULT ('now'::text)::date, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_c524ec48751b9b5bcfbf6e59be7" PRIMARY KEY ("id"))`
+      `CREATE TABLE "cart" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(150), "description" character varying(150), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_c524ec48751b9b5bcfbf6e59be7" PRIMARY KEY ("id"))`
     )
     await queryRunner.query(`CREATE UNIQUE INDEX "cart_pkey" ON "cart" ("id") `)
     await queryRunner.query(
@@ -30,16 +30,16 @@ export class createEcomTables1677987896844 implements MigrationInterface {
       `CREATE TABLE "example" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "testString" character varying, "testNumber" integer NOT NULL, "isActive" boolean NOT NULL DEFAULT true, "description" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_608dd5fd6f0783062b07346ed1c" PRIMARY KEY ("id"))`
     )
     await queryRunner.query(
-      `CREATE TABLE "payment_type" ("id" SERIAL NOT NULL, "name" character varying(100) NOT NULL, "description" character varying(100) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_4f301e328eaf2127773c889ab94" PRIMARY KEY ("id"))`
-    )
-    await queryRunner.query(
-      `CREATE UNIQUE INDEX "payment_type_pkey" ON "payment_type" ("id") `
-    )
-    await queryRunner.query(
       `CREATE TABLE "address" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "first_name" character varying(100), "last_name" character varying(100), "address_1" character varying(100) NOT NULL, "address_2" character varying(100), "city" character varying(100) NOT NULL, "state_province" character varying(100) NOT NULL, "postal_code" character varying(20) NOT NULL, "country" character varying(100) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_d92de1f82754668b5f5f5dd4fd5" PRIMARY KEY ("id"))`
     )
     await queryRunner.query(
       `CREATE UNIQUE INDEX "address_pkey" ON "address" ("id") `
+    )
+    await queryRunner.query(
+      `CREATE TABLE "payment_type" ("id" SERIAL NOT NULL, "name" character varying(100) NOT NULL, "description" character varying(100) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_4f301e328eaf2127773c889ab94" PRIMARY KEY ("id"))`
+    )
+    await queryRunner.query(
+      `CREATE UNIQUE INDEX "payment_type_pkey" ON "payment_type" ("id") `
     )
     await queryRunner.query(
       `CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "username" character varying NOT NULL, "email" character varying, "password" character varying NOT NULL, "first_name" character varying, "last_name" character varying, "google_id" character varying(100), "google_display_name" character varying(100), "google_first_name" character varying(100), "google_last_name" character varying(100), "google_image" character varying(250), "refreshToken" character varying, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE ("username"), CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`
@@ -264,10 +264,10 @@ export class createEcomTables1677987896844 implements MigrationInterface {
     await queryRunner.query(`DROP INDEX "public"."user_pkey"`)
     await queryRunner.query(`DROP INDEX "public"."user_user_name_key"`)
     await queryRunner.query(`DROP TABLE "user"`)
-    await queryRunner.query(`DROP INDEX "public"."address_pkey"`)
-    await queryRunner.query(`DROP TABLE "address"`)
     await queryRunner.query(`DROP INDEX "public"."payment_type_pkey"`)
     await queryRunner.query(`DROP TABLE "payment_type"`)
+    await queryRunner.query(`DROP INDEX "public"."address_pkey"`)
+    await queryRunner.query(`DROP TABLE "address"`)
     await queryRunner.query(`DROP TABLE "example"`)
     await queryRunner.query(`DROP INDEX "public"."cart-type_pkey"`)
     await queryRunner.query(`DROP TABLE "cart_type"`)

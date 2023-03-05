@@ -17,30 +17,34 @@ export class UserService {
     this.logger = new Logger()
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  getProtected(): string {
+    return 'This is a protected resource. If you see this, authentication was successful.'
+  }
+
+  create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create(createUserDto)
 
     this.logger.log(`UserService created new user: ${newUser.id}`)
     return this.userRepository.save(newUser)
   }
 
-  async findAll(): Promise<User[]> {
+  findAll(): Promise<User[]> {
     this.logger.log(`UserService findAll`)
     return this.userRepository.find()
   }
 
-  async findById(id: string): Promise<User> {
+  findOneById(id: string): Promise<User> {
     this.logger.log(`UserService findById: ${id}`)
     return this.userRepository.findOne({ where: { id } })
   }
 
-  async findByUsername(username: string): Promise<User> {
+  findOneByUsername(username: string): Promise<User> {
     this.logger.log(`UserService findByUsername: ${username}`)
     return this.userRepository.findOne({ where: { username } })
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const theUser = await this.findById(id)
+    const theUser = await this.findOneById(id)
 
     this.logger.log(`UserService updates User: ${id}`)
 
@@ -52,7 +56,7 @@ export class UserService {
   }
 
   async remove(id: string) {
-    const toDelete = await this.findById(id)
+    const toDelete = await this.findOneById(id)
 
     this.logger.log(`ExampleService deletes a User: ${id}`)
 

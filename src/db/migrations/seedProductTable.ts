@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class seedProductTable implements MigrationInterface {
-  name = 'seedProductTable1677987896844'
+  name = 'seedProductTable1678040718352'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // product_category 1: solar

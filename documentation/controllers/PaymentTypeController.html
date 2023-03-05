@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NestJS API Template</title>
+        <title>E-Commerce API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">NestJS API Template</a>
+            <a href="../" class="navbar-brand">E-Commerce API</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -91,7 +91,10 @@
                                 <a href="#findAll" >findAll</a>
                             </li>
                             <li>
-                                <a href="#findOne" >findOne</a>
+                                <a href="#findOneById" >findOneById</a>
+                            </li>
+                            <li>
+                                <a href="#getProtected" >getProtected</a>
                             </li>
                             <li>
                                 <a href="#remove" >remove</a>
@@ -143,8 +146,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:25</a></div>
                 </td>
             </tr>
 
@@ -219,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:37</a></div>
                 </td>
             </tr>
 
@@ -240,16 +243,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findOne"></a>
+                    <a name="findOneById"></a>
                     <span class="name">
-                        <span ><b>findOne</b></span>
-                        <a href="#findOne"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findOneById</b></span>
+                        <a href="#findOneById"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>findOneById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -257,14 +260,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;:id&#x27;)<br /></code>
+                    <code>@Get(&#x27;/id/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:43</a></div>
                 </td>
             </tr>
 
@@ -287,7 +290,7 @@
                                 <tr>
                                     <td>id</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -316,6 +319,50 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getProtected"></a>
+                    <span class="name">
+                        <span ><b>getProtected</b></span>
+                        <a href="#getProtected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProtected()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@UseGuards(AccessTokenGuard)<br />@Get(&#x27;protected&#x27;)<br />@ApiBearerAuth(&#x27;bearerAuth&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="remove"></a>
                     <span class="name">
                         <span ><b>remove</b></span>
@@ -325,7 +372,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>remove(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>remove(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -333,14 +380,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;:id&#x27;)<br /></code>
+                    <code>@Delete(&#x27;/id/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:56</a></div>
                 </td>
             </tr>
 
@@ -363,7 +410,7 @@
                                 <tr>
                                     <td>id</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -401,7 +448,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>update(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updatePaymentTypeDto: <a href="../classes/UpdatePaymentTypeDto.html" target="_self">UpdatePaymentTypeDto</a>)</code>
+<code>update(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, updatePaymentTypeDto: <a href="../classes/UpdatePaymentTypeDto.html" target="_self">UpdatePaymentTypeDto</a>)</code>
                 </td>
             </tr>
 
@@ -409,14 +456,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Patch(&#x27;:id&#x27;)<br /></code>
+                    <code>@Patch(&#x27;/id/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:48</a></div>
                 </td>
             </tr>
 
@@ -439,7 +486,7 @@
                                 <tr>
                                     <td>id</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -480,38 +527,63 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Patch, Param, Delete } from &#x27;@nestjs/common&#x27;;
-import { PaymentTypeService } from &#x27;./payment-type.service&#x27;;
-import { CreatePaymentTypeDto } from &#x27;./dto/create-payment-type.dto&#x27;;
-import { UpdatePaymentTypeDto } from &#x27;./dto/update-payment-type.dto&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards
+} from &#x27;@nestjs/common&#x27;
+import { PaymentTypeService } from &#x27;./payment-type.service&#x27;
+import { CreatePaymentTypeDto } from &#x27;./dto/create-payment-type.dto&#x27;
+import { UpdatePaymentTypeDto } from &#x27;./dto/update-payment-type.dto&#x27;
 
+import { ApiBearerAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;
+import { AccessTokenGuard } from &#x27;../common/guards/accessToken.guard&#x27;
+
+@ApiTags(&#x27;payment-typeorman&#x27;)
 @Controller(&#x27;payment-type&#x27;)
 export class PaymentTypeController {
-  constructor(private readonly paymentTypeService: PaymentTypeService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly paymentTypeService: PaymentTypeService) { }
 
   @Post()
   create(@Body() createPaymentTypeDto: CreatePaymentTypeDto) {
-    return this.paymentTypeService.create(createPaymentTypeDto);
+    return this.paymentTypeService.create(createPaymentTypeDto)
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get(&#x27;protected&#x27;)
+  @ApiBearerAuth(&#x27;bearerAuth&#x27;)
+  getProtected(): string {
+    return this.paymentTypeService.getProtected()
   }
 
   @Get()
   findAll() {
-    return this.paymentTypeService.findAll();
+    return this.paymentTypeService.findAll()
   }
 
-  @Get(&#x27;:id&#x27;)
-  findOne(@Param(&#x27;id&#x27;) id: string) {
-    return this.paymentTypeService.findOne(+id);
+  @Get(&#x27;/id/:id&#x27;)
+  // @ApiBadRequestResponse()
+  findOneById(@Param(&#x27;id&#x27;) id: number) {
+    return this.paymentTypeService.findOneById(id)
   }
 
-  @Patch(&#x27;:id&#x27;)
-  update(@Param(&#x27;id&#x27;) id: string, @Body() updatePaymentTypeDto: UpdatePaymentTypeDto) {
-    return this.paymentTypeService.update(+id, updatePaymentTypeDto);
+  @Patch(&#x27;/id/:id&#x27;)
+  update(
+    @Param(&#x27;id&#x27;) id: number,
+    @Body() updatePaymentTypeDto: UpdatePaymentTypeDto
+  ) {
+    return this.paymentTypeService.update(id, updatePaymentTypeDto)
   }
 
-  @Delete(&#x27;:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: string) {
-    return this.paymentTypeService.remove(+id);
+  @Delete(&#x27;/id/:id&#x27;)
+  remove(@Param(&#x27;id&#x27;) id: number) {
+    return this.paymentTypeService.remove(id)
   }
 }
 </code></pre>

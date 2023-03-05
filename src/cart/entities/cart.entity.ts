@@ -46,9 +46,6 @@ export class Cart {
     nullable: true,
     default: () => 'CURRENT_DATE'
   })
-  @IsDate()
-  orderDate: Date | null
-
   @CreateDateColumn()
   created_at: Date
 

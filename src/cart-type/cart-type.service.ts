@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCartTypeDto } from './dto/create-cart-type.dto';
-import { UpdateCartTypeDto } from './dto/update-cart-type.dto';
+import { Injectable, Logger } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+
+import { CreateCartTypeDto } from './dto/create-cart-type.dto'
+import { UpdateCartTypeDto } from './dto/update-cart-type.dto'
+
+import { CartType } from './entities/cart-type.entity'
 
 @Injectable()
 export class CartTypeService {
+  logger: Logger
+
+  constructor(
+    @InjectRepository(CartType) private cartTypeRepository: Repository<CartType>
+  ) {
+    this.logger = new Logger()
+  }
+
+  getProtected(): string {
+    return 'This is a protected resource. If you see this, authentication was successful.'
+  }
+
   create(createCartTypeDto: CreateCartTypeDto) {
-    return 'This action adds a new cartType';
+    const retVal = this.cartTypeRepository.create(createCartTypeDto)
+
+    this.logger.log(`ExampleService created a new Example: ${retVal.id}`)
+    return this.cartTypeRepository.save(retVal)
   }
 
   findAll() {
-    return `This action returns all cartType`;
+    return this.cartTypeRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cartType`;
+  findOneById(id: number) {
+    return this.cartTypeRepository.findOneById(id)
   }
 
-  update(id: number, updateCartTypeDto: UpdateCartTypeDto) {
-    return `This action updates a #${id} cartType`;
+  async update(id: number, updateCartTypeDto: UpdateCartTypeDto) {
+    const cartType = await this.findOneById(id)
+
+    cartType.id = updateCartTypeDto.id
+    cartType.name = updateCartTypeDto.name
+    cartType.description = updateCartTypeDto.description
+
+    this.logger.log(`CartTypeService updates a CartType: ${id}`)
+
+    return this.cartTypeRepository.save(cartType)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cartType`;
+  async remove(id: number) {
+    const toDelete = await this.findOneById(id)
+
+    this.logger.log(`CartTypeService deletes a CartType: ${id}`)
+
+    return this.cartTypeRepository.remove(toDelete)
   }
 }

@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm'
 // 'product' table-related seeding happens in b_seedProductTable.ts
 
 export class seedTables implements MigrationInterface {
-  name = 'seedTables1677987896844'
+  name = 'seedTables1678040718351'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     //  Data tables

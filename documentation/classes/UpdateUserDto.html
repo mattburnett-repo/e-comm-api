@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NestJS API Template</title>
+        <title>E-Commerce API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">NestJS API Template</a>
+            <a href="../" class="navbar-brand">E-Commerce API</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -87,7 +87,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PartialType } from &#x27;@nestjs/swagger&#x27;
 import { CreateUserDto } from &#x27;./create-user.dto&#x27;
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+// eslint-disable-next-line prettier/prettier
+export class UpdateUserDto extends PartialType(CreateUserDto) { }
 </code></pre>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsDate, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 export class CreateCartDto {
   @IsUUID()
@@ -7,9 +7,7 @@ export class CreateCartDto {
 
   @IsString()
   name: string
+
   @IsString()
   description: string
-
-  @IsDate()
-  orderDate: Date
 }

@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  UseGuards
+} from '@nestjs/common'
+import { ProductService } from './product.service'
+import { CreateProductDto } from './dto/create-product.dto'
+import { UpdateProductDto } from './dto/update-product.dto'
 
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { AccessTokenGuard } from '../common/guards/accessToken.guard'
+
+@ApiTags('example')
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly productService: ProductService) { }
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+    return this.productService.create(createProductDto)
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('protected')
+  @ApiBearerAuth('bearerAuth')
+  getProtected(): string {
+    return this.productService.getProtected()
   }
 
   @Get()
   findAll() {
-    return this.productService.findAll();
+    return this.productService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  @Get('/id/:id')
+  findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productService.findOneById(id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @Patch('/id/:id')
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateTestDto: UpdateProductDto
+  ) {
+    return this.productService.update(id, updateTestDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+  @Delete('/id/:id')
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productService.remove(id)
   }
 }

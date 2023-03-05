@@ -1,9 +1,9 @@
-import { IsUUID, IsNotEmpty, IsString } from 'class-validator'
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator'
 
 export class CreateProductCategoryDto {
-  @IsUUID()
+  @IsNumber()
   @IsNotEmpty()
-  id: string
+  id: number
 
   @IsString()
   @IsNotEmpty()

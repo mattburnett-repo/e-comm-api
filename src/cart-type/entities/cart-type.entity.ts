@@ -34,4 +34,5 @@ export class CartType {
 
   @ManyToMany(() => Cart, (cart) => cart.id)
   cart: Cart[]
+  // cart: Cart
 }

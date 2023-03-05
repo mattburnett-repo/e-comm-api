@@ -7,7 +7,7 @@ export class CreateOrderDto {
 
   @IsDate()
   @IsNotEmpty()
-  orderDae: Date
+  orderDate: Date
 
   @IsNumber()
   tax: number

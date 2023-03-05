@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NestJS API Template</title>
+        <title>E-Commerce API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">NestJS API Template</a>
+            <a href="../" class="navbar-brand">E-Commerce API</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -94,20 +94,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#create" >create</a>
                             </li>
                             <li>
-                                    <span class="modifier">Async</span>
                                 <a href="#findAll" >findAll</a>
                             </li>
                             <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#findById" >findById</a>
+                                <a href="#findOneById" >findOneById</a>
                             </li>
                             <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#findByUsername" >findByUsername</a>
+                                <a href="#findOneByUsername" >findOneByUsername</a>
+                            </li>
+                            <li>
+                                <a href="#getProtected" >getProtected</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -189,7 +188,6 @@
                 <td class="col-md-4">
                     <a name="create"></a>
                     <span class="name">
-                        <span class="modifier">Async</span>
                         <span ><b>create</b></span>
                         <a href="#create"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -197,16 +195,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>create(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+<code>create(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/user/user.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/user/user.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -260,7 +257,6 @@
                 <td class="col-md-4">
                     <a name="findAll"></a>
                     <span class="name">
-                        <span class="modifier">Async</span>
                         <span ><b>findAll</b></span>
                         <a href="#findAll"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -268,16 +264,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findAll()</code>
+<code>findAll()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/user/user.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/user/user.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -297,26 +292,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findById"></a>
+                    <a name="findOneById"></a>
                     <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>findById</b></span>
-                        <a href="#findById"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findOneById</b></span>
+                        <a href="#findOneById"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>findOneById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/user/user.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/user/user.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -368,26 +361,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findByUsername"></a>
+                    <a name="findOneByUsername"></a>
                     <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>findByUsername</b></span>
-                        <a href="#findByUsername"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findOneByUsername</b></span>
+                        <a href="#findOneByUsername"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findByUsername(username: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>findOneByUsername(username: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/user/user.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/user/user.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -439,6 +430,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getProtected"></a>
+                    <span class="name">
+                        <span ><b>getProtected</b></span>
+                        <a href="#getProtected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProtected()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/user/user.service.ts:20</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="remove"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
@@ -457,8 +485,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/user/user.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/user/user.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -528,8 +556,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/user/user.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/user/user.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -646,30 +674,34 @@ export class UserService {
     this.logger &#x3D; new Logger()
   }
 
-  async create(createUserDto: CreateUserDto): Promise&lt;User&gt; {
+  getProtected(): string {
+    return &#x27;This is a protected resource. If you see this, authentication was successful.&#x27;
+  }
+
+  create(createUserDto: CreateUserDto): Promise&lt;User&gt; {
     const newUser &#x3D; this.userRepository.create(createUserDto)
 
     this.logger.log(&#x60;UserService created new user: ${newUser.id}&#x60;)
     return this.userRepository.save(newUser)
   }
 
-  async findAll(): Promise&lt;User[]&gt; {
+  findAll(): Promise&lt;User[]&gt; {
     this.logger.log(&#x60;UserService findAll&#x60;)
     return this.userRepository.find()
   }
 
-  async findById(id: string): Promise&lt;User&gt; {
+  findOneById(id: string): Promise&lt;User&gt; {
     this.logger.log(&#x60;UserService findById: ${id}&#x60;)
     return this.userRepository.findOne({ where: { id } })
   }
 
-  async findByUsername(username: string): Promise&lt;User&gt; {
+  findOneByUsername(username: string): Promise&lt;User&gt; {
     this.logger.log(&#x60;UserService findByUsername: ${username}&#x60;)
     return this.userRepository.findOne({ where: { username } })
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const theUser &#x3D; await this.findById(id)
+    const theUser &#x3D; await this.findOneById(id)
 
     this.logger.log(&#x60;UserService updates User: ${id}&#x60;)
 
@@ -681,7 +713,7 @@ export class UserService {
   }
 
   async remove(id: string) {
-    const toDelete &#x3D; await this.findById(id)
+    const toDelete &#x3D; await this.findOneById(id)
 
     this.logger.log(&#x60;ExampleService deletes a User: ${id}&#x60;)
 

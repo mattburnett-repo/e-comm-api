@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NestJS API Template</title>
+        <title>E-Commerce API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">NestJS API Template</a>
+            <a href="../" class="navbar-brand">E-Commerce API</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -76,6 +76,12 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#address" >address</a>
+                            </li>
+                            <li>
+                                <a href="#cart" >cart</a>
+                            </li>
+                            <li>
                                 <a href="#created_at" >created_at</a>
                             </li>
                             <li>
@@ -112,19 +118,16 @@
                                 <a href="#password" >password</a>
                             </li>
                             <li>
+                                <a href="#payment" >payment</a>
+                            </li>
+                            <li>
                                 <a href="#refreshToken" >refreshToken</a>
                             </li>
                             <li>
                                 <a href="#updated_at" >updated_at</a>
                             </li>
                             <li>
-                                <a href="#userAddress" >userAddress</a>
-                            </li>
-                            <li>
                                 <a href="#username" >username</a>
-                            </li>
-                            <li>
-                                <a href="#userPayment" >userPayment</a>
                             </li>
                         </ul>
                     </td>
@@ -144,6 +147,76 @@
     <h3 id="inputs">
         Properties
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="address"></a>
+                    <span class="name">
+                        <span ><b>address</b></span>
+                        <a href="#address"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Address.html" target="_self" >Address[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ManyToMany(undefined, address &#x3D;&gt; address.id, {onDelete: &#x27;SET NULL&#x27;})<br />@JoinTable({name: &#x27;user_address&#x27;, joinColumn: undefined, inverseJoinColumn: undefined})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/user/entities/user.entity.ts:147</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cart"></a>
+                    <span class="name">
+                        <span ><b>cart</b></span>
+                        <a href="#cart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Cart.html" target="_self" >Cart[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ManyToMany(undefined, cart &#x3D;&gt; cart.id, {onDelete: &#x27;SET NULL&#x27;})<br />@JoinTable({name: &#x27;user_cart&#x27;, joinColumn: undefined, inverseJoinColumn: undefined})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/user/entities/user.entity.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -172,7 +245,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/user/entities/user.entity.ts:99</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/user/entities/user.entity.ts:100</a></div>
                         </td>
                     </tr>
 
@@ -207,7 +280,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/user/entities/user.entity.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/user/entities/user.entity.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -236,13 +309,13 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @Column({nullable: true})<br />@IsString()<br />
+                            @Column({name: &#x27;first_name&#x27;, nullable: true})<br />@IsString()<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/user/entities/user.entity.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/user/entities/user.entity.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -277,7 +350,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/user/entities/user.entity.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/user/entities/user.entity.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -312,7 +385,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/user/entities/user.entity.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/user/entities/user.entity.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -347,7 +420,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/user/entities/user.entity.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/user/entities/user.entity.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -382,7 +455,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/user/entities/user.entity.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/user/entities/user.entity.ts:94</a></div>
                         </td>
                     </tr>
 
@@ -417,7 +490,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/user/entities/user.entity.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/user/entities/user.entity.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -452,7 +525,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/user/entities/user.entity.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/user/entities/user.entity.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -472,7 +545,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <i>Type : </i>    <code>string | null</code>
 
                     </td>
                 </tr>
@@ -481,13 +554,13 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @Column({nullable: true})<br />@IsString()<br />
+                            @Column({name: &#x27;last_name&#x27;, nullable: true})<br />@IsString()<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/user/entities/user.entity.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/user/entities/user.entity.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -516,13 +589,13 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @OneToMany(undefined, order &#x3D;&gt; order.user)<br />
+                            @ManyToMany(undefined, order &#x3D;&gt; order.id, {onDelete: &#x27;SET NULL&#x27;})<br />@JoinTable({name: &#x27;user_order&#x27;, joinColumn: undefined, inverseJoinColumn: undefined})<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/user/entities/user.entity.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/user/entities/user.entity.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -557,7 +630,42 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/user/entities/user.entity.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/user/entities/user.entity.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payment"></a>
+                    <span class="name">
+                        <span ><b>payment</b></span>
+                        <a href="#payment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Payment.html" target="_self" >Payment[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @OneToMany(undefined, payment &#x3D;&gt; payment.userId, {onDelete: &#x27;SET NULL&#x27;})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">src/user/entities/user.entity.ts:152</a></div>
                         </td>
                     </tr>
 
@@ -592,7 +700,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/user/entities/user.entity.ts:96</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/user/entities/user.entity.ts:97</a></div>
                         </td>
                     </tr>
 
@@ -627,42 +735,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/user/entities/user.entity.ts:102</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="userAddress"></a>
-                    <span class="name">
-                        <span ><b>userAddress</b></span>
-                        <a href="#userAddress"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>UserAddress[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @OneToMany(undefined, userAddress &#x3D;&gt; userAddress.user)<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/user/entities/user.entity.ts:108</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/user/entities/user.entity.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -697,42 +770,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/user/entities/user.entity.ts:39</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="userPayment"></a>
-                    <span class="name">
-                        <span ><b>userPayment</b></span>
-                        <a href="#userPayment"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>UserPayment[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @OneToMany(undefined, userPayment &#x3D;&gt; userPayment.user)<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">src/user/entities/user.entity.ts:111</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/user/entities/user.entity.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -748,20 +786,23 @@
   Entity,
   Column,
   Index,
-  OneToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BeforeUpdate
+  BeforeUpdate,
+  OneToMany,
+  ManyToMany,
+  JoinTable
 } from &#x27;typeorm&#x27;
 
 import { hash } from &#x27;argon2&#x27;
 import { IsNotEmpty, IsString, IsUUID } from &#x27;class-validator&#x27;
 
 import { Order } from &#x27;../../order/entities/order.entity&#x27;
-import { UserAddress } from &#x27;../../user-address/entities/user-address&#x27;
-import { UserPayment } from &#x27;../../user-payment/entities/user-payment.entity&#x27;
+import { Address } from &#x27;../../address/entities/address.entity&#x27;
+import { Cart } from &#x27;../../cart/entities/cart.entity&#x27;
+import { Payment } from &#x27;../../payment/entities/payment.entity&#x27;
 @Index(&#x27;user_pkey&#x27;, [&#x27;id&#x27;], { unique: true })
 @Index(&#x27;user_user_name_key&#x27;, [&#x27;username&#x27;], { unique: true })
 @Entity()
@@ -793,15 +834,13 @@ export class User {
   @IsString()
   password: string
 
-  @Column({ nullable: true })
-  // @IsNotEmpty()
+  @Column({ name: &#x27;first_name&#x27;, nullable: true })
   @IsString()
   firstName: string | null
 
-  @Column({ nullable: true })
-  // @IsNotEmpty()
+  @Column({ name: &#x27;last_name&#x27;, nullable: true })
   @IsString()
-  lastName: string
+  lastName: string | null
 
   @Column(&#x27;character varying&#x27;, {
     name: &#x27;google_id&#x27;,
@@ -847,14 +886,54 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date
 
-  @OneToMany(() &#x3D;&gt; Order, (order) &#x3D;&gt; order.user)
+  @ManyToMany(() &#x3D;&gt; Cart, (cart) &#x3D;&gt; cart.id, { onDelete: &#x27;SET NULL&#x27; })
+  @JoinTable({
+    name: &#x27;user_cart&#x27;,
+    joinColumn: {
+      name: &#x27;user_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    },
+    inverseJoinColumn: {
+      name: &#x27;cart_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    }
+  })
+  cart: Cart[]
+
+  @ManyToMany(() &#x3D;&gt; Order, (order) &#x3D;&gt; order.id, { onDelete: &#x27;SET NULL&#x27; })
+  @JoinTable({
+    name: &#x27;user_order&#x27;,
+    joinColumn: {
+      name: &#x27;user_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    },
+    inverseJoinColumn: {
+      name: &#x27;order_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    }
+  })
   order: Order[]
 
-  @OneToMany(() &#x3D;&gt; UserAddress, (userAddress) &#x3D;&gt; userAddress.user)
-  userAddress: UserAddress[]
+  @ManyToMany(() &#x3D;&gt; Address, (address) &#x3D;&gt; address.id, {
+    onDelete: &#x27;SET NULL&#x27;
+  })
+  @JoinTable({
+    name: &#x27;user_address&#x27;,
+    joinColumn: {
+      name: &#x27;user_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    },
+    inverseJoinColumn: {
+      name: &#x27;address_id&#x27;,
+      referencedColumnName: &#x27;id&#x27;
+    }
+  })
+  address: Address[]
 
-  @OneToMany(() &#x3D;&gt; UserPayment, (userPayment) &#x3D;&gt; userPayment.user)
-  userPayment: UserPayment[]
+  @OneToMany(() &#x3D;&gt; Payment, (payment) &#x3D;&gt; payment.userId, {
+    onDelete: &#x27;SET NULL&#x27;
+  })
+  payment: Payment[]
 }
 </code></pre>
     </div>
