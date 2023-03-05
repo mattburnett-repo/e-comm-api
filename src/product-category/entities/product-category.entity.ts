@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
 import {
   Column,
   CreateDateColumn,
@@ -14,10 +14,10 @@ import { Product } from '../../product/entities/product.entity'
 @Index('product-category_pkey', ['id'], { unique: true })
 @Entity()
 export class ProductCategory {
-  @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
+  @PrimaryGeneratedColumn()
+  @IsNumber()
   @IsNotEmpty()
-  id: string
+  id: number
 
   @Column()
   @IsString()

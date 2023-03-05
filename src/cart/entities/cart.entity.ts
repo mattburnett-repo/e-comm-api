@@ -55,10 +55,6 @@ export class Cart {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToOne(() => User, (user) => user.id, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'user_id' })
-  user: User
-
   @OneToMany(() => CartItem, (cartItem) => cartItem.cartId, {
     onDelete: 'SET NULL'
   })

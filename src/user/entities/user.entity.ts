@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  OneToMany
+  OneToMany,
+  ManyToMany,
+  JoinTable
 } from 'typeorm'
 
 import { hash } from 'argon2'
@@ -100,14 +102,47 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date
 
-  @OneToMany(() => Cart, (cart) => cart.id, { onDelete: 'SET NULL' })
+  @ManyToMany(() => Cart, (cart) => cart.id, { onDelete: 'SET NULL' })
+  @JoinTable({
+    name: 'user_cart',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'cart_id',
+      referencedColumnName: 'id'
+    }
+  })
   cart: Cart[]
 
-  @OneToMany(() => Order, (order) => order.id, { onDelete: 'SET NULL' })
+  @ManyToMany(() => Order, (order) => order.id, { onDelete: 'SET NULL' })
+  @JoinTable({
+    name: 'user_order',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'order_id',
+      referencedColumnName: 'id'
+    }
+  })
   order: Order[]
 
-  @OneToMany(() => Address, (address) => address.user, {
+  @ManyToMany(() => Address, (address) => address.id, {
     onDelete: 'SET NULL'
+  })
+  @JoinTable({
+    name: 'user_address',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'address_id',
+      referencedColumnName: 'id'
+    }
   })
   address: Address[]
 

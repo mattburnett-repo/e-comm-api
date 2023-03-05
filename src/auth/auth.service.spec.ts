@@ -24,7 +24,8 @@ describe('AuthService', () => {
 
   const mockUser: CreateUserDto = {
     id: '1',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     username: 'test',
     password: 'test',
     email: 'test@test.com',

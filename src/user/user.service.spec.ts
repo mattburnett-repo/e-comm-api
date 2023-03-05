@@ -10,7 +10,8 @@ describe('UserService', () => {
 
   const mockUser: CreateUserDto = {
     id: '1',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     username: 'test',
     password: 'test',
     email: 'test@test.com',
@@ -19,7 +20,8 @@ describe('UserService', () => {
   const mockUsers: CreateUserDto[] = [
     {
       id: '1',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       username: 'test',
       password: 'test',
       email: 'test@test.com',
@@ -27,7 +29,8 @@ describe('UserService', () => {
     },
     {
       id: '2',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       username: 'test',
       password: 'test',
       email: 'test@test.com',

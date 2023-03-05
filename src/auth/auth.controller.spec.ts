@@ -16,7 +16,8 @@ describe('AuthController', () => {
     id: '1',
     username: 'test',
     password: 'test',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     email: 'kenaa@example.com',
     refreshToken: 'test'
   }

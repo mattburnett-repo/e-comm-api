@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 import {
   Entity,
   Column,
@@ -13,10 +13,8 @@ import { Cart } from '../../cart/entities/cart.entity'
 @Index('cart-type_pkey', ['id'], { unique: true })
 @Entity()
 export class CartType {
-  @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
-  @IsNotEmpty()
-  id: string
+  @PrimaryGeneratedColumn()
+  id: number
 
   @Column({ nullable: false })
   @IsString()

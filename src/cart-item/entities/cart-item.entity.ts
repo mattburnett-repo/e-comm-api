@@ -19,10 +19,10 @@ export class CartItem {
   @IsNotEmpty()
   id: string
 
-  @Column('string', { primary: true, name: 'cart_id' })
+  @Column('uuid', { primary: true, name: 'cart_id' })
   cartId: string
 
-  @Column({ primary: true, name: 'product_id' })
+  @Column('uuid', { primary: true, name: 'product_id' })
   productId: string
 
   @Column({ name: 'product_name' })

@@ -37,7 +37,7 @@ export class Product {
   imageUrl: string | null
 
   @Column('numeric', { name: 'price', nullable: false, precision: 6, scale: 2 })
-  price: string
+  price: number
 
   @CreateDateColumn()
   created_at: Date

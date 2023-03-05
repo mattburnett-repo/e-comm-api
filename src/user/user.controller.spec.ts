@@ -8,7 +8,8 @@ describe('UserController', () => {
 
   const mockUser: CreateUserDto = {
     id: '1',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     username: 'test',
     password: 'test',
     email: 'test@test.com',
@@ -17,7 +18,8 @@ describe('UserController', () => {
   const mockUsers: CreateUserDto[] = [
     {
       id: '1',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       username: 'test',
       password: 'test',
       email: 'test@test.com',
@@ -25,7 +27,8 @@ describe('UserController', () => {
     },
     {
       id: '2',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       username: 'test',
       password: 'test',
       email: 'test@test.com',

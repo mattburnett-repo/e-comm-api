@@ -4,12 +4,9 @@ import {
   Index,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn
+  UpdateDateColumn
 } from 'typeorm'
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
-import { User } from '../../user/entities/user.entity'
 
 @Index('address_pkey', ['id'], { unique: true })
 @Entity('address', { schema: 'public' })
@@ -73,8 +70,4 @@ export class Address {
 
   @UpdateDateColumn()
   updated_at: Date
-
-  @ManyToOne(() => User, (user) => user.id, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'user_id' })
-  user: User[]
 }

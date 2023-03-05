@@ -1,4 +1,4 @@
-import { IsUUID, IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 import {
   Column,
   CreateDateColumn,
@@ -11,16 +11,16 @@ import {
 @Index('payment_type_pkey', ['id'], { unique: true })
 @Entity('payment_type', { schema: 'public' })
 export class PaymentType {
-  @PrimaryGeneratedColumn('uuid')
-  @IsUUID()
-  @IsNotEmpty()
-  id: string
+  @PrimaryGeneratedColumn()
+  id: number
 
   @Column('character varying', {
     name: 'name',
     nullable: false,
     length: 100
   })
+  @IsString()
+  @IsNotEmpty()
   name: string
 
   @Column('character varying', {
@@ -28,6 +28,8 @@ export class PaymentType {
     nullable: false,
     length: 100
   })
+  @IsString()
+  @IsNotEmpty()
   description: string
 
   @CreateDateColumn()
