@@ -6,7 +6,7 @@ version: '3'
 services:
   api:
     build: ./
-    container_name: nestjs-api-template
+    container_name: e-comm-api
     environment:
       - DB_TYPE=postgres
       - DB_HOST=
