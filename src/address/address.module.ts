@@ -1,9 +1,15 @@
-import { Module } from '@nestjs/common';
-import { AddressService } from './address.service';
-import { AddressController } from './address.controller';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+
+import { Address } from './entities/address.entity'
+import { AddressService } from './address.service'
+import { AddressController } from './address.controller'
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Address])],
   controllers: [AddressController],
-  providers: [AddressService]
+  providers: [AddressService],
+  exports: [AddressService]
 })
-export class AddressModule {}
+// eslint-disable-next-line prettier/prettier
+export class AddressModule { }

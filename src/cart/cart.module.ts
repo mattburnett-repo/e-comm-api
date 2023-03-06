@@ -1,9 +1,15 @@
-import { Module } from '@nestjs/common';
-import { CartService } from './cart.service';
-import { CartController } from './cart.controller';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+
+import { Cart } from './entities/cart.entity'
+import { CartService } from './cart.service'
+import { CartController } from './cart.controller'
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Cart])],
   controllers: [CartController],
-  providers: [CartService]
+  providers: [CartService],
+  exports: [CartService]
 })
-export class CartModule {}
+// eslint-disable-next-line prettier/prettier
+export class CartModule { }

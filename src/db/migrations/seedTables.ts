@@ -32,7 +32,7 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', Now(), 1.23, 3.45, 12345)`
     )
     await queryRunner.query(
-      `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'Test', 'One', 'testOne', 'testOne', 'test@one.com')`
+      `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'HappyCustomer', 'happy@customer.com', 'happyCustomer', 'Happy', 'Customer')`
     )
     await queryRunner.query(
       `INSERT INTO payment_type VALUES (1, 'paypal', 'PayPal')`
