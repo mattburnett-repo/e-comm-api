@@ -26,6 +26,7 @@
     "test:e2e:watch": "jest --config ./test/jest-e2e.json --watch",
     "schema:drop": "typeorm-ts-node-commonjs schema:drop -d src/config/cliConfig",
     "schema:drop:local": "NODE_ENV=local typeorm-ts-node-commonjs schema:drop -d src/config/cliConfig",
+    "schema:drop:deployed": "NODE_ENV=deployed typeorm-ts-node-commonjs schema:drop -d src/config/cliConfig",
     "type-ext:db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create -d src/config/seedConfig",
     "type-ext:db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js  db:drop -d src/config/seedConfig",
     "type-ext:db:seed": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d src/config/seedConfig",
