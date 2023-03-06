@@ -41,3 +41,4 @@ coverage
 **/*.code-workspace
 **/docker-compose.yaml
 fly.toml
+erd-test.vuerd

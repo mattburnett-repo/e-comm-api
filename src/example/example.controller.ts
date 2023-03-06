@@ -12,6 +12,7 @@ import {
 import { ExampleService } from './example.service'
 import { CreateExampleDto } from './dto/create-example.dto'
 import { UpdateExampleDto } from './dto/update-example.dto'
+
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AccessTokenGuard } from '../common/guards/accessToken.guard'
 

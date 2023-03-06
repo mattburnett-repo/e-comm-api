@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getMockReq } from '@jest-mock/express'
 
-import { CreateUserDto } from '../users/dto/create-user.dto'
+import { CreateUserDto } from '../user/dto/create-user.dto'
 
 import { AuthDto } from './dto/auth.dto'
 import { AuthController } from './auth.controller'
@@ -16,7 +16,8 @@ describe('AuthController', () => {
     id: '1',
     username: 'test',
     password: 'test',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     email: 'kenaa@example.com',
     refreshToken: 'test'
   }

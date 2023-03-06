@@ -4,9 +4,9 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { UsersModule } from '../src/users/users.module'
-import { User } from '../src/users/entities/user.entity'
-import { CreateUserDto } from '../src/users/dto/create-user.dto'
+import { UserModule } from '../src/user/user.module'
+import { User } from '../src/user/entities/user.entity'
+import { CreateUserDto } from '../src/user/dto/create-user.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
@@ -19,7 +19,8 @@ describe('UserController (e2e)', () => {
     username: 'test',
     email: 'efpyi@example.com',
     password: '123456',
-    name: 'test',
+    firstName: 'test',
+    lastName: 'test',
     refreshToken: '123456'
   }
 
@@ -29,7 +30,8 @@ describe('UserController (e2e)', () => {
       username: 'test1',
       email: 'efpyi@example.com',
       password: '123456',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       refreshToken: '123456'
     },
     {
@@ -37,7 +39,8 @@ describe('UserController (e2e)', () => {
       username: 'test2',
       email: 'efpyi@example.com',
       password: '123456',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       refreshToken: '123456'
     }
   ]
@@ -45,7 +48,6 @@ describe('UserController (e2e)', () => {
   const mockToken =
     'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
 
-  // actual database connection can go here
   const mockUsersRepository = {
     find: jest.fn().mockResolvedValue(mockUsers),
     findOne: jest.fn().mockResolvedValue(mockUser),
@@ -58,7 +60,7 @@ describe('UserController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UsersModule]
+      imports: [UserModule]
     })
       .overrideProvider(getRepositoryToken(User))
       .useValue(mockUsersRepository)
@@ -76,7 +78,7 @@ describe('UserController (e2e)', () => {
 
   it('/users (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users')
+      .get('/user')
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(mockUsers)
@@ -84,7 +86,7 @@ describe('UserController (e2e)', () => {
 
   it('/users (POST)', () => {
     return request(app.getHttpServer())
-      .post('/users')
+      .post('/user')
       .send({ mockUser })
       .expect('Content-Type', /json/)
       .expect(201)
@@ -96,11 +98,11 @@ describe('UserController (e2e)', () => {
   })
 
   it('GET handles a bad id value', () => {
-    return request(app.getHttpServer()).get('/users/id/1').expect(400)
+    return request(app.getHttpServer()).get('/user/id/1').expect(400)
   })
-  it('/users/id/:id (GET)', () => {
+  it('/user/id/:id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .get('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -108,9 +110,9 @@ describe('UserController (e2e)', () => {
       })
   })
 
-  it('/users/username/:username (GET)', () => {
+  it('/user/username/:username (GET)', () => {
     return request(app.getHttpServer())
-      .get('/users/username/test')
+      .get('/user/username/test')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -119,11 +121,11 @@ describe('UserController (e2e)', () => {
   })
 
   it('PATCH handles a bad id value', () => {
-    return request(app.getHttpServer()).patch('/users/id/1').expect(400)
+    return request(app.getHttpServer()).patch('/user/id/1').expect(400)
   })
-  it('/users/:id (PATCH', () => {
+  it('/user/:id (PATCH', () => {
     return request(app.getHttpServer())
-      .patch('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .patch('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
       .set('Authorization', `Bearer ${mockToken}`)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -132,12 +134,12 @@ describe('UserController (e2e)', () => {
       })
   })
 
-  it('PATCH handles a bad id value', () => {
-    return request(app.getHttpServer()).delete('/users/id/1').expect(400)
+  it('DELETE handles a bad id value', () => {
+    return request(app.getHttpServer()).delete('/user/id/1').expect(400)
   })
-  it('/users/id/:id (DELETE)', () => {
+  it('/user/id/:id (DELETE)', () => {
     return request(app.getHttpServer())
-      .delete('/users/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .delete('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
       .expect(200)
   })
 })

@@ -4,8 +4,8 @@ import {
   ForbiddenException,
   Injectable
 } from '@nestjs/common'
-import { CreateUserDto } from '../users/dto/create-user.dto'
-import { UsersService } from '../users/users.service'
+import { CreateUserDto } from '../user/dto/create-user.dto'
+import { UserService } from '../user/user.service'
 import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
@@ -15,13 +15,13 @@ import { AuthDto } from './dto/auth.dto'
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
     private configService: ConfigService
   ) { }
   async signUp(createUserDto: CreateUserDto): Promise<any> {
     // Check if user exists
-    const userExists = await this.usersService.findByUsername(
+    const userExists = await this.userService.findOneByUsername(
       createUserDto.username
     )
 
@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     // Hash password in the user entity
-    const newUser = await this.usersService.create(createUserDto)
+    const newUser = await this.userService.create(createUserDto)
 
     const tokens = await this.getTokens(newUser.id, newUser.username)
     await this.updateRefreshToken(newUser.id, tokens.refreshToken)
@@ -39,7 +39,7 @@ export class AuthService {
 
   async login(data: AuthDto) {
     // Check if user exists
-    const user = await this.usersService.findByUsername(data.username)
+    const user = await this.userService.findOneByUsername(data.username)
     if (!user) throw new BadRequestException('User does not exist')
 
     const passwordMatches = await argon2.verify(user.password, data.password)
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   async logout(userId: string) {
-    return this.usersService.update(userId, { refreshToken: null })
+    return this.userService.update(userId, { refreshToken: null })
   }
 
   hashData(data: string) {
@@ -60,7 +60,7 @@ export class AuthService {
 
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken)
-    await this.usersService.update(userId, {
+    await this.userService.update(userId, {
       refreshToken: hashedRefreshToken
     })
   }
@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.usersService.findById(userId)
+    const user = await this.userService.findOneById(userId)
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied')
 
