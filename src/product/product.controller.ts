@@ -16,7 +16,7 @@ import { UpdateProductDto } from './dto/update-product.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AccessTokenGuard } from '../common/guards/accessToken.guard'
 
-@ApiTags('example')
+@ApiTags('product')
 @Controller('product')
 export class ProductController {
   // eslint-disable-next-line prettier/prettier
