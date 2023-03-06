@@ -6,7 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from '@nestjs/common'
 import { PaymentTypeService } from './payment-type.service'
 import { CreatePaymentTypeDto } from './dto/create-payment-type.dto'
@@ -15,7 +16,7 @@ import { UpdatePaymentTypeDto } from './dto/update-payment-type.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AccessTokenGuard } from '../common/guards/accessToken.guard'
 
-@ApiTags('payment-typeorman')
+@ApiTags('payment-type')
 @Controller('payment-type')
 export class PaymentTypeController {
   // eslint-disable-next-line prettier/prettier
@@ -39,21 +40,20 @@ export class PaymentTypeController {
   }
 
   @Get('/id/:id')
-  // @ApiBadRequestResponse()
-  findOneById(@Param('id') id: number) {
+  findOneById(@Param('id', new ParseIntPipe()) id: number) {
     return this.paymentTypeService.findOneById(id)
   }
 
   @Patch('/id/:id')
   update(
-    @Param('id') id: number,
+    @Param('id', new ParseIntPipe()) id: number,
     @Body() updatePaymentTypeDto: UpdatePaymentTypeDto
   ) {
     return this.paymentTypeService.update(id, updatePaymentTypeDto)
   }
 
   @Delete('/id/:id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id', new ParseIntPipe()) id: number) {
     return this.paymentTypeService.remove(id)
   }
 }

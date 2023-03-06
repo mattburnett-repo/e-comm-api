@@ -48,7 +48,6 @@ describe('UserController (e2e)', () => {
   const mockToken =
     'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
 
-  // actual database connection can go here
   const mockUsersRepository = {
     find: jest.fn().mockResolvedValue(mockUsers),
     findOne: jest.fn().mockResolvedValue(mockUser),
@@ -135,7 +134,7 @@ describe('UserController (e2e)', () => {
       })
   })
 
-  it('PATCH handles a bad id value', () => {
+  it('DELETE handles a bad id value', () => {
     return request(app.getHttpServer()).delete('/user/id/1').expect(400)
   })
   it('/user/id/:id (DELETE)', () => {

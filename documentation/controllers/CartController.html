@@ -380,7 +380,7 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;:id&#x27;)<br /></code>
+                    <code>@Delete(&#x27;/id/:id&#x27;)<br /></code>
                 </td>
             </tr>
 
@@ -581,8 +581,8 @@ export class CartController {
     return this.cartService.update(id, updateCartDto)
   }
 
-  @Delete(&#x27;:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: string) {
+  @Delete(&#x27;/id/:id&#x27;)
+  remove(@Param(&#x27;id&#x27;, new ParseUUIDPipe()) id: string) {
     return this.cartService.remove(id)
   }
 }

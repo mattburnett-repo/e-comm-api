@@ -146,8 +146,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -222,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:38</a></div>
                 </td>
             </tr>
 
@@ -266,8 +266,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:43</a></div>
                 </td>
             </tr>
 
@@ -342,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:33</a></div>
                 </td>
             </tr>
 
@@ -386,8 +386,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:56</a></div>
                 </td>
             </tr>
 
@@ -462,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/product-category/product-category.controller.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/product-category/product-category.controller.ts:48</a></div>
                 </td>
             </tr>
 
@@ -535,7 +535,8 @@
   Patch,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from &#x27;@nestjs/common&#x27;
 import { ProductCategoryService } from &#x27;./product-category.service&#x27;
 import { CreateProductCategoryDto } from &#x27;./dto/create-product-category.dto&#x27;
@@ -568,20 +569,20 @@ export class ProductCategoryController {
   }
 
   @Get(&#x27;/id/:id&#x27;)
-  findOneById(@Param(&#x27;id&#x27;) id: number) {
+  findOneById(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.productCategoryService.findOneById(id)
   }
 
   @Patch(&#x27;/id/:id&#x27;)
   update(
-    @Param(&#x27;id&#x27;) id: number,
+    @Param(&#x27;id&#x27;, new ParseIntPipe()) id: number,
     @Body() updateProductCategorytDto: UpdateProductCategoryDto
   ) {
     return this.productCategoryService.update(id, updateProductCategorytDto)
   }
 
   @Delete(&#x27;/id/:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: number) {
+  remove(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.productCategoryService.remove(id)
   }
 }

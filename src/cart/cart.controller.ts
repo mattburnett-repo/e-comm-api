@@ -52,8 +52,8 @@ export class CartController {
     return this.cartService.update(id, updateCartDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete('/id/:id')
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.cartService.remove(id)
   }
 }

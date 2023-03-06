@@ -58,4 +58,38 @@ describe('AppController (e2e)', () => {
         .expect(200)
     )
   })
+
+  it('can see /address', () => {
+    return request(app.getHttpServer()).get('/address').expect(200)
+  })
+  it('can see /cart', () => {
+    return request(app.getHttpServer()).get('/cart').expect(200)
+  })
+  it('can see /cart-item', () => {
+    return request(app.getHttpServer()).get('/cart-item').expect(200)
+  })
+  it('can see /cart-type', () => {
+    return request(app.getHttpServer()).get('/cart-type').expect(200)
+  })
+  it('can see /example', () => {
+    return request(app.getHttpServer()).get('/example').expect(200)
+  })
+  it('can see /order', () => {
+    return request(app.getHttpServer()).get('/order').expect(200)
+  })
+  it('can see /payment', () => {
+    return request(app.getHttpServer()).get('/payment').expect(200)
+  })
+  it('can see /payment-type', () => {
+    return request(app.getHttpServer()).get('/payment-type').expect(200)
+  })
+  it('can see /product', () => {
+    return request(app.getHttpServer()).get('/product').expect(200)
+  })
+  it('can see /product-category', () => {
+    return request(app.getHttpServer()).get('/product-category').expect(200)
+  })
+  it('can see /user', () => {
+    return request(app.getHttpServer()).get('/user').expect(200)
+  })
 })

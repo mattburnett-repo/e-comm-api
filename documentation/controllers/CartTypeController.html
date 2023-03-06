@@ -146,8 +146,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -222,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:38</a></div>
                 </td>
             </tr>
 
@@ -260,14 +260,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;/id/:id&#x27;)<br /></code>
+                    <code>@Get(&#x27;/id/:id&#x27;)<br />@ApiBadRequestResponse()<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:44</a></div>
                 </td>
             </tr>
 
@@ -342,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:33</a></div>
                 </td>
             </tr>
 
@@ -386,8 +386,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:57</a></div>
                 </td>
             </tr>
 
@@ -462,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/cart-type/cart-type.controller.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/cart-type/cart-type.controller.ts:49</a></div>
                 </td>
             </tr>
 
@@ -535,13 +535,14 @@
   Patch,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from &#x27;@nestjs/common&#x27;
 import { CartTypeService } from &#x27;./cart-type.service&#x27;
 import { CreateCartTypeDto } from &#x27;./dto/create-cart-type.dto&#x27;
 import { UpdateCartTypeDto } from &#x27;./dto/update-cart-type.dto&#x27;
 
-import { ApiBearerAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;
+import { ApiBadRequestResponse, ApiBearerAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;
 import { AccessTokenGuard } from &#x27;../common/guards/accessToken.guard&#x27;
 
 @ApiTags(&#x27;cart-type&#x27;)
@@ -568,21 +569,21 @@ export class CartTypeController {
   }
 
   @Get(&#x27;/id/:id&#x27;)
-  // @ApiBadRequestResponse()
-  findOneById(@Param(&#x27;id&#x27;) id: number) {
+  @ApiBadRequestResponse()
+  findOneById(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.cartTypeService.findOneById(id)
   }
 
   @Patch(&#x27;/id/:id&#x27;)
   update(
-    @Param(&#x27;id&#x27;) id: number,
+    @Param(&#x27;id&#x27;, new ParseIntPipe()) id: number,
     @Body() updateCartTypeDto: UpdateCartTypeDto
   ) {
     return this.cartTypeService.update(id, updateCartTypeDto)
   }
 
   @Delete(&#x27;/id/:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: number) {
+  remove(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.cartTypeService.remove(id)
   }
 }

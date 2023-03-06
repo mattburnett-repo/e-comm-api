@@ -358,7 +358,7 @@ export class seedTables implements MigrationInterface {
       &#x60;INSERT INTO &quot;order&quot; VALUES (&#x27;1882376c-bafe-11ed-afa1-0242ac120002&#x27;, Now(), 1.23, 3.45, 12345)&#x60;
     )
     await queryRunner.query(
-      &#x60;INSERT INTO &quot;user&quot; VALUES (&#x27;964275ed-f9da-49b6-8fde-9da1d472197b&#x27;, &#x27;Test&#x27;, &#x27;One&#x27;, &#x27;testOne&#x27;, &#x27;testOne&#x27;, &#x27;test@one.com&#x27;)&#x60;
+      &#x60;INSERT INTO &quot;user&quot; VALUES (&#x27;964275ed-f9da-49b6-8fde-9da1d472197b&#x27;, &#x27;HappyCustomer&#x27;, &#x27;happy@customer.com&#x27;, &#x27;happyCustomer&#x27;, &#x27;Happy&#x27;, &#x27;Customer&#x27;)&#x60;
     )
     await queryRunner.query(
       &#x60;INSERT INTO payment_type VALUES (1, &#x27;paypal&#x27;, &#x27;PayPal&#x27;)&#x60;

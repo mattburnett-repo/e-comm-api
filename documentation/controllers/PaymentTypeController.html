@@ -146,8 +146,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:26</a></div>
                 </td>
             </tr>
 
@@ -222,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:38</a></div>
                 </td>
             </tr>
 
@@ -342,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/payment-type/payment-type.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/payment-type/payment-type.controller.ts:33</a></div>
                 </td>
             </tr>
 
@@ -535,7 +535,8 @@
   Patch,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from &#x27;@nestjs/common&#x27;
 import { PaymentTypeService } from &#x27;./payment-type.service&#x27;
 import { CreatePaymentTypeDto } from &#x27;./dto/create-payment-type.dto&#x27;
@@ -544,7 +545,7 @@ import { UpdatePaymentTypeDto } from &#x27;./dto/update-payment-type.dto&#x27;
 import { ApiBearerAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;
 import { AccessTokenGuard } from &#x27;../common/guards/accessToken.guard&#x27;
 
-@ApiTags(&#x27;payment-typeorman&#x27;)
+@ApiTags(&#x27;payment-type&#x27;)
 @Controller(&#x27;payment-type&#x27;)
 export class PaymentTypeController {
   // eslint-disable-next-line prettier/prettier
@@ -568,21 +569,20 @@ export class PaymentTypeController {
   }
 
   @Get(&#x27;/id/:id&#x27;)
-  // @ApiBadRequestResponse()
-  findOneById(@Param(&#x27;id&#x27;) id: number) {
+  findOneById(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.paymentTypeService.findOneById(id)
   }
 
   @Patch(&#x27;/id/:id&#x27;)
   update(
-    @Param(&#x27;id&#x27;) id: number,
+    @Param(&#x27;id&#x27;, new ParseIntPipe()) id: number,
     @Body() updatePaymentTypeDto: UpdatePaymentTypeDto
   ) {
     return this.paymentTypeService.update(id, updatePaymentTypeDto)
   }
 
   @Delete(&#x27;/id/:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: number) {
+  remove(@Param(&#x27;id&#x27;, new ParseIntPipe()) id: number) {
     return this.paymentTypeService.remove(id)
   }
 }

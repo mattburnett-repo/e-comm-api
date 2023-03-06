@@ -6,13 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from '@nestjs/common'
 import { CartTypeService } from './cart-type.service'
 import { CreateCartTypeDto } from './dto/create-cart-type.dto'
 import { UpdateCartTypeDto } from './dto/update-cart-type.dto'
 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiBadRequestResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AccessTokenGuard } from '../common/guards/accessToken.guard'
 
 @ApiTags('cart-type')
@@ -39,21 +40,21 @@ export class CartTypeController {
   }
 
   @Get('/id/:id')
-  // @ApiBadRequestResponse()
-  findOneById(@Param('id') id: number) {
+  @ApiBadRequestResponse()
+  findOneById(@Param('id', new ParseIntPipe()) id: number) {
     return this.cartTypeService.findOneById(id)
   }
 
   @Patch('/id/:id')
   update(
-    @Param('id') id: number,
+    @Param('id', new ParseIntPipe()) id: number,
     @Body() updateCartTypeDto: UpdateCartTypeDto
   ) {
     return this.cartTypeService.update(id, updateCartTypeDto)
   }
 
   @Delete('/id/:id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id', new ParseIntPipe()) id: number) {
     return this.cartTypeService.remove(id)
   }
 }
