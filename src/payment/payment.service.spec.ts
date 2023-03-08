@@ -2,55 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreatePaymentDto } from './dto/create-payment.dto'
 import { Payment } from './entities/payment.entity'
 import { PaymentService } from './payment.service'
+
+import { mockPayment, mockPayments, mockPaymentRepository } from './mockData'
 
 describe('PaymentService', () => {
   let service: PaymentService
   let repo: Repository<Payment>
-
-  const mockPayment: CreatePaymentDto = {
-    id: 'cfdd4196-bb02-11ed-afa1-0242ac120002',
-    userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-    stripeId: 'stripeId-test-value',
-    created: 12345,
-    paymentMethod: 'test payment method',
-    transactionState: 'test transaction state',
-    amount: 123.45
-  }
-
-  const mockPayments: CreatePaymentDto[] = [
-    {
-      id: 'cfdd4196-bb02-11ed-afa1-0242ac120002',
-      userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-      stripeId: 'stripeId-test-value',
-      created: 12345,
-      paymentMethod: 'test payment method',
-      transactionState: 'test transaction state',
-      amount: 123.45
-    },
-    {
-      id: '6e9968e2-bb98-11ed-afa1-0242ac120002',
-      userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-      stripeId: 'stripeId-test-value',
-      created: 12345,
-      paymentMethod: 'test payment method',
-      transactionState: 'test transaction state',
-      amount: 123.45
-    }
-  ]
-
-  const mockPaymentRepository = {
-    create: jest.fn().mockResolvedValue(mockPayment),
-    save: jest.fn().mockResolvedValue(mockPayment),
-    find: jest.fn().mockResolvedValue(mockPayments),
-    findAll: jest.fn().mockResolvedValue(mockPayments),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockPayment),
-    update: jest.fn().mockResolvedValue({ ...mockPayment }),
-    remove: jest.fn().mockResolvedValue(mockPayment)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

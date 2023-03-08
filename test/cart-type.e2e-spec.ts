@@ -6,45 +6,19 @@ import * as request from 'supertest'
 
 import { CartTypeModule } from '../src/cart-type/cart-type.module'
 import { CartType } from '../src/cart-type/entities/cart-type.entity'
-import { CreateCartTypeDto } from '../src/cart-type/dto/create-cart-type.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockCartType,
+  mockCartTypes,
+  mockCartTypeRepository
+} from '../src/cart-type/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('CartTypeController (e2e)', () => {
   let app: INestApplication
-
-  const mockCartType: CreateCartTypeDto = {
-    id: 1,
-    name: 'User',
-    description: 'Typical user cart'
-  }
-
-  const mockCartTypes: CreateCartTypeDto[] = [
-    {
-      id: 1,
-      name: 'User',
-      description: 'Typical user cart'
-    },
-    {
-      id: 2,
-      name: 'Gift',
-      description: 'Gift cart'
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockCartTypeRepository = {
-    find: jest.fn().mockResolvedValue(mockCartTypes),
-    findOneById: jest.fn().mockResolvedValue(mockCartType),
-    create: jest.fn().mockResolvedValue(mockCartType),
-    save: jest.fn().mockResolvedValue(mockCartType),
-    update: jest.fn().mockResolvedValue(mockCartType),
-    delete: jest.fn().mockResolvedValue(mockCartType),
-    remove: jest.fn().mockResolvedValue(mockCartType)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

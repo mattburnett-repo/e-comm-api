@@ -6,45 +6,19 @@ import * as request from 'supertest'
 
 import { PaymentTypeModule } from '../src/payment-type/payment-type.module'
 import { PaymentType } from '../src/payment-type/entities/payment-type.entity'
-import { CreatePaymentTypeDto } from '../src/payment-type/dto/create-payment-type.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockPaymentType,
+  mockPaymentTypes,
+  mockPaymentTypeRepository
+} from '../src/payment-type/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('PaymentTypeController (e2e)', () => {
   let app: INestApplication
-
-  const mockPaymentType: CreatePaymentTypeDto = {
-    id: 1,
-    name: 'paypal',
-    description: 'PayPal'
-  }
-
-  const mockPaymentTypes: CreatePaymentTypeDto[] = [
-    {
-      id: 1,
-      name: 'paypal',
-      description: 'PayPal'
-    },
-    {
-      id: 2,
-      name: 'masterCard',
-      description: 'MasterCard'
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockPaymentTypeRepository = {
-    find: jest.fn().mockResolvedValue(mockPaymentTypes),
-    findOneById: jest.fn().mockResolvedValue(mockPaymentType),
-    create: jest.fn().mockResolvedValue(mockPaymentType),
-    save: jest.fn().mockResolvedValue(mockPaymentType),
-    update: jest.fn().mockResolvedValue(mockPaymentType),
-    delete: jest.fn().mockResolvedValue(mockPaymentType),
-    remove: jest.fn().mockResolvedValue(mockPaymentType)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

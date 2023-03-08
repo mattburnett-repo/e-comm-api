@@ -2,43 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreatePaymentTypeDto } from './dto/create-payment-type.dto'
 import { PaymentType } from './entities/payment-type.entity'
 import { PaymentTypeService } from './payment-type.service'
+
+import {
+  mockPaymentType,
+  mockPaymentTypes,
+  mockPaymentTypeRepository
+} from './mockData'
 
 describe('PaymentTypeService', () => {
   let service: PaymentTypeService
   let repo: Repository<PaymentType>
-
-  const mockPaymentType: CreatePaymentTypeDto = {
-    id: 1,
-    name: 'paypal',
-    description: 'PayPal'
-  }
-
-  const mockPaymentTypes: CreatePaymentTypeDto[] = [
-    {
-      id: 1,
-      name: 'paypal',
-      description: 'PayPal'
-    },
-    {
-      id: 2,
-      name: 'masterCard',
-      description: 'MasterCard'
-    }
-  ]
-
-  const mockPaymentTypeRepository = {
-    create: jest.fn().mockResolvedValue(mockPaymentType),
-    save: jest.fn().mockResolvedValue(mockPaymentType),
-    find: jest.fn().mockResolvedValue(mockPaymentTypes),
-    findAll: jest.fn().mockResolvedValue(mockPaymentTypes),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockPaymentType),
-    update: jest.fn().mockResolvedValue({ ...mockPaymentType }),
-    remove: jest.fn().mockResolvedValue(mockPaymentType)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

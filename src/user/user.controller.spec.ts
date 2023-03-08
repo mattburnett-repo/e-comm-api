@@ -1,54 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { CreateUserDto } from './dto/create-user.dto'
+
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 
+import { mockUser, mockUsers, mockUserService } from './mockData'
+
 describe('UserController', () => {
   let controller: UserController
-
-  const mockUser: CreateUserDto = {
-    id: '1',
-    firstName: 'test',
-    lastName: 'test',
-    username: 'test',
-    password: 'test',
-    email: 'test@test.com',
-    refreshToken: 'test'
-  }
-  const mockUsers: CreateUserDto[] = [
-    {
-      id: '1',
-      firstName: 'test',
-      lastName: 'test',
-      username: 'test',
-      password: 'test',
-      email: 'test@test.com',
-      refreshToken: 'test'
-    },
-    {
-      id: '2',
-      firstName: 'test',
-      lastName: 'test',
-      username: 'test',
-      password: 'test',
-      email: 'test@test.com',
-      refreshToken: 'test'
-    }
-  ]
-  const mockUsersService = {
-    create: jest.fn().mockResolvedValue(mockUser),
-    getProtected: jest
-      .fn()
-      .mockImplementation(() => 'This is a protected resource'),
-    findAll: jest.fn().mockResolvedValue(mockUsers),
-    findOneById: jest.fn().mockResolvedValue(mockUser),
-    findOneByUsername: jest.fn().mockResolvedValue(mockUser),
-    update: jest.fn((id, mockUser) => ({
-      id,
-      ...mockUser
-    })),
-    delete: jest.fn().mockResolvedValue(mockUser)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -56,7 +14,7 @@ describe('UserController', () => {
       providers: [UserService]
     })
       .overrideProvider(UserService)
-      .useValue(mockUsersService)
+      .useValue(mockUserService)
       .compile()
 
     controller = module.get<UserController>(UserController)

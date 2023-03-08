@@ -6,45 +6,19 @@ import * as request from 'supertest'
 
 import { ProductCategoryModule } from '../src/product-category/product-category.module'
 import { ProductCategory } from '../src/product-category/entities/product-category.entity'
-import { CreateProductCategoryDto } from '../src/product-category/dto/create-product-category.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockProductCategory,
+  mockProductCategories,
+  mockProductCategoryRepository
+} from '../src/product-category/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('ProductCategoryController (e2e)', () => {
   let app: INestApplication
-
-  const mockProductCategory: CreateProductCategoryDto = {
-    id: 1,
-    name: 'Test Product Category One Name',
-    description: 'Test Product Category One Description'
-  }
-
-  const mockProductCategories: CreateProductCategoryDto[] = [
-    {
-      id: 1,
-      name: 'Test Product Category One Name',
-      description: 'Test Product Category One Description'
-    },
-    {
-      id: 2,
-      name: 'Test Product Category Two Name',
-      description: 'Test Product Category Two Description'
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockProductCategoryRepository = {
-    find: jest.fn().mockResolvedValue(mockProductCategories),
-    findOneById: jest.fn().mockResolvedValue(mockProductCategory),
-    create: jest.fn().mockResolvedValue(mockProductCategory),
-    save: jest.fn().mockResolvedValue(mockProductCategory),
-    update: jest.fn().mockResolvedValue(mockProductCategory),
-    delete: jest.fn().mockResolvedValue(mockProductCategory),
-    remove: jest.fn().mockResolvedValue(mockProductCategory)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

@@ -6,50 +6,19 @@ import * as request from 'supertest'
 
 import { OrderModule } from '../src/order/order.module'
 import { Order } from '../src/order/entities/order.entity'
-import { CreateOrderDto } from '../src/order/dto/create-order.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockOrder,
+  // mockOrders,
+  mockOrderRepository
+} from '../src/order/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('OrderController (e2e)', () => {
   let app: INestApplication
-
-  const mockOrder: CreateOrderDto = {
-    id: '1882376c-bafe-11ed-afa1-0242ac120002',
-    orderDate: new Date(),
-    tax: 1.23,
-    totalPrice: 3.45,
-    paymentId: 12345
-  }
-  const mockOrders: CreateOrderDto[] = [
-    {
-      id: '1882376c-bafe-11ed-afa1-0242ac120002',
-      orderDate: new Date(),
-      tax: 1.23,
-      totalPrice: 3.45,
-      paymentId: 12345
-    },
-    {
-      id: '5a1513a6-bb95-11ed-afa1-0242ac120002',
-      orderDate: new Date(),
-      tax: 4.56,
-      totalPrice: 5.67,
-      paymentId: 67891
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockOrderRepository = {
-    find: jest.fn().mockResolvedValue(mockOrders),
-    findOneById: jest.fn().mockResolvedValue(mockOrder),
-    create: jest.fn().mockResolvedValue(mockOrder),
-    save: jest.fn().mockResolvedValue(mockOrder),
-    update: jest.fn().mockResolvedValue(mockOrder),
-    delete: jest.fn().mockResolvedValue(mockOrder),
-    remove: jest.fn().mockResolvedValue(mockOrder)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

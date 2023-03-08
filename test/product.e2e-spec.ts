@@ -6,51 +6,19 @@ import * as request from 'supertest'
 
 import { ProductModule } from '../src/product/product.module'
 import { Product } from '../src/product/entities/product.entity'
-import { CreateProductDto } from '../src/product/dto/create-product.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockProduct,
+  mockProducts,
+  mockProductRepository
+} from '../src/product/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('ProductController (e2e)', () => {
   let app: INestApplication
-
-  const mockProduct: CreateProductDto = {
-    id: 'c1d20780-bba2-11ed-afa1-0242ac120002',
-    name: 'Test Product One',
-    description: 'Test Product One Description',
-    imageUrl: 'https://example.com/image.png',
-    price: 123.45
-  }
-
-  const mockProducts: CreateProductDto[] = [
-    {
-      id: 'c1d20780-bba2-11ed-afa1-0242ac120002',
-      name: 'Test Product One',
-      description: 'Test Product One Description',
-      imageUrl: 'https://example.com/image.png',
-      price: 123.45
-    },
-    {
-      id: 'd4b0b63a-bba2-11ed-afa1-0242ac120002',
-      name: 'Test Product Two',
-      description: 'Test Product Two Description',
-      imageUrl: 'https://example.com/image.png',
-      price: 678.91
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockProductRepository = {
-    find: jest.fn().mockResolvedValue(mockProducts),
-    findOneById: jest.fn().mockResolvedValue(mockProduct),
-    create: jest.fn().mockResolvedValue(mockProduct),
-    save: jest.fn().mockResolvedValue(mockProduct),
-    update: jest.fn().mockResolvedValue(mockProduct),
-    delete: jest.fn().mockResolvedValue(mockProduct),
-    remove: jest.fn().mockResolvedValue(mockProduct)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
