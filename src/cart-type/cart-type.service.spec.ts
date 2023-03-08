@@ -2,43 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateCartTypeDto } from './dto/create-cart-type.dto'
 import { CartType } from './entities/cart-type.entity'
 import { CartTypeService } from './cart-type.service'
+
+import { mockCartType, mockCartTypes, mockCartTypeRepository } from './mockData'
 
 describe('CartTypeService', () => {
   let service: CartTypeService
   let repo: Repository<CartType>
-
-  const mockCartType: CreateCartTypeDto = {
-    id: 1,
-    name: 'User',
-    description: 'Typical user cart'
-  }
-
-  const mockCartTypes: CreateCartTypeDto[] = [
-    {
-      id: 1,
-      name: 'User',
-      description: 'Typical user cart'
-    },
-    {
-      id: 2,
-      name: 'Gift',
-      description: 'Gift cart'
-    }
-  ]
-
-  const mockCartTypeRepository = {
-    create: jest.fn().mockResolvedValue(mockCartType),
-    save: jest.fn().mockResolvedValue(mockCartType),
-    find: jest.fn().mockResolvedValue(mockCartTypes),
-    findAll: jest.fn().mockResolvedValue(mockCartTypes),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockCartType),
-    update: jest.fn().mockResolvedValue(mockCartType),
-    remove: jest.fn().mockResolvedValue(mockCartType)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

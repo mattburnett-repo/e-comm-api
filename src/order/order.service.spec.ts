@@ -2,48 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateOrderDto } from './dto/create-order.dto'
 import { Order } from './entities/order.entity'
 import { OrderService } from './order.service'
+
+import { mockOrder, mockOrders, mockOrderRepository } from './mockData'
 
 describe('OrderService', () => {
   let service: OrderService
   let repo: Repository<Order>
-
-  const mockOrder: CreateOrderDto = {
-    id: '1882376c-bafe-11ed-afa1-0242ac120002',
-    orderDate: new Date(),
-    tax: 1.23,
-    totalPrice: 3.45,
-    paymentId: 12345
-  }
-  const mockOrders: CreateOrderDto[] = [
-    {
-      id: '1882376c-bafe-11ed-afa1-0242ac120002',
-      orderDate: new Date(),
-      tax: 1.23,
-      totalPrice: 3.45,
-      paymentId: 12345
-    },
-    {
-      id: '5a1513a6-bb95-11ed-afa1-0242ac120002',
-      orderDate: new Date(),
-      tax: 4.56,
-      totalPrice: 5.67,
-      paymentId: 67891
-    }
-  ]
-
-  const mockOrderRepository = {
-    create: jest.fn().mockResolvedValue(mockOrder),
-    save: jest.fn().mockResolvedValue(mockOrder),
-    find: jest.fn().mockResolvedValue(mockOrders),
-    findAll: jest.fn().mockResolvedValue(mockOrders),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockOrder),
-    update: jest.fn().mockResolvedValue({ ...mockOrder }),
-    remove: jest.fn().mockResolvedValue(mockOrder)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

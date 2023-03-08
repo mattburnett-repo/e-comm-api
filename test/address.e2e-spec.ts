@@ -6,63 +6,20 @@ import * as request from 'supertest'
 
 import { AddressModule } from '../src/address/address.module'
 import { Address } from '../src/address/entities/address.entity'
-import { CreateAddressDto } from '../src/address/dto/create-address.dto'
+
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockAddress,
+  mockAddresses,
+  mockAddressRepository
+} from '../src/address/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('AddressController (e2e)', () => {
   let app: INestApplication
-
-  const mockAddress: CreateAddressDto = {
-    id: '1c027e94-d9dc-45f6-8661-7e26891aacd5',
-    firstName: 'Jon',
-    lastName: 'Snow',
-    address_1: '123 Main Street',
-    address_2: 'Apartment 9',
-    city: 'New York',
-    stateProvince: 'NY',
-    postalCode: '10001',
-    country: 'US'
-  }
-
-  const mockAddresses: CreateAddressDto[] = [
-    {
-      id: '1c027e94-d9dc-45f6-8661-7e26891aacd5',
-      firstName: 'Jon',
-      lastName: 'Snow',
-      address_1: '123 Main Street',
-      address_2: 'Apartment 9',
-      city: 'New York',
-      stateProvince: 'NY',
-      postalCode: '10001',
-      country: 'US'
-    },
-    {
-      id: '961dc517-49a7-42af-9fbb-226a18138b6f',
-      firstName: 'Jon 2',
-      lastName: 'Snow 2',
-      address_1: '123 Main Street 2',
-      address_2: 'Apartment 9 2',
-      city: 'New York 2',
-      stateProvince: 'NY 2',
-      postalCode: '10001 2',
-      country: 'US 2 '
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockAddressRepository = {
-    find: jest.fn().mockResolvedValue(mockAddresses),
-    findOneById: jest.fn().mockResolvedValue(mockAddress),
-    create: jest.fn().mockResolvedValue(mockAddress),
-    save: jest.fn().mockResolvedValue(mockAddress),
-    update: jest.fn().mockResolvedValue(mockAddress),
-    delete: jest.fn().mockResolvedValue(mockAddress),
-    remove: jest.fn().mockResolvedValue(mockAddress)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

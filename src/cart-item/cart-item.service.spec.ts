@@ -2,55 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateCartItemDto } from './dto/create-cart-item.dto'
 import { CartItem } from './entities/cart-item.entity'
 import { CartItemService } from './cart-item.service'
+
+import { mockCartItem, mockCartItems, mockCartItemRepository } from './mockData'
 
 describe('CartItemService', () => {
   let service: CartItemService
   let repo: Repository<CartItem>
-
-  const mockCartItem: CreateCartItemDto = {
-    id: 'fa482164- bb05 - 11ed-afa1 - 0242ac120002',
-    cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-    productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
-    productName: 'Test Product One',
-    productQuantity: 5,
-    productPrice: 10,
-    lineItemTotalPrice: 50
-  }
-
-  const mockCartItems: CreateCartItemDto[] = [
-    {
-      id: 'fa482164- bb05 - 11ed-afa1 - 0242ac120002',
-      cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-      productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
-      productName: 'Test Product One',
-      productQuantity: 5,
-      productPrice: 10,
-      lineItemTotalPrice: 50
-    },
-    {
-      id: '84f165ac-bb86-11ed-afa1-0242ac120002',
-      cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-      productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
-      productName: 'Test Product Two',
-      productQuantity: 10,
-      productPrice: 20,
-      lineItemTotalPrice: 100
-    }
-  ]
-
-  const mockCartItemRepository = {
-    create: jest.fn().mockResolvedValue(mockCartItem),
-    save: jest.fn().mockResolvedValue(mockCartItem),
-    find: jest.fn().mockResolvedValue(mockCartItems),
-    findAll: jest.fn().mockResolvedValue(mockCartItems),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockCartItem),
-    update: jest.fn().mockResolvedValue({ ...mockCartItem }),
-    remove: jest.fn().mockResolvedValue(mockCartItem)
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

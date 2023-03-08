@@ -2,43 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateProductCategoryDto } from './dto/create-product-category.dto'
 import { ProductCategory } from './entities/product-category.entity'
 import { ProductCategoryService } from './product-category.service'
+
+import {
+  mockProductCategory,
+  mockProductCategories,
+  mockProductCategoryRepository
+} from './mockData'
 
 describe('ProductCategoryService', () => {
   let service: ProductCategoryService
   let repo: Repository<ProductCategory>
 
-  const mockProductCategory: CreateProductCategoryDto = {
-    id: 1,
-    name: 'Test Product Category One Name',
-    description: 'Test Product Category One Description'
-  }
-
-  const mockProductCategories: CreateProductCategoryDto[] = [
-    {
-      id: 1,
-      name: 'Test Product Category One Name',
-      description: 'Test Product Category One Description'
-    },
-    {
-      id: 2,
-      name: 'Test Product Category Two Name',
-      description: 'Test Product Category Two Description'
-    }
-  ]
-
-  const mockProductCategoryRepository = {
-    create: jest.fn().mockResolvedValue(mockProductCategory),
-    save: jest.fn().mockResolvedValue(mockProductCategory),
-    find: jest.fn().mockResolvedValue(mockProductCategories),
-    findAll: jest.fn().mockResolvedValue(mockProductCategories),
-    getProtected: jest.fn().mockImplementation(),
-    findOneById: jest.fn().mockResolvedValue(mockProductCategory),
-    update: jest.fn().mockResolvedValue({ ...mockProductCategory }),
-    remove: jest.fn().mockResolvedValue(mockProductCategory)
-  }
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

@@ -6,57 +6,19 @@ import * as request from 'supertest'
 
 import { PaymentModule } from '../src/payment/payment.module'
 import { Payment } from '../src/payment/entities/payment.entity'
-import { CreatePaymentDto } from '../src/payment/dto/create-payment.dto'
 import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+
+import {
+  mockPayment,
+  mockPayments,
+  mockPaymentRepository
+} from '../src/payment/mockData'
+import { mockToken } from './mockData'
 
 // https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('PaymentController (e2e)', () => {
   let app: INestApplication
-
-  const mockPayment: CreatePaymentDto = {
-    id: 'cfdd4196-bb02-11ed-afa1-0242ac120002',
-    userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-    stripeId: 'stripeId-test-value',
-    created: 12345,
-    paymentMethod: 'test payment method',
-    transactionState: 'test transaction state',
-    amount: 123.45
-  }
-
-  const mockPayments: CreatePaymentDto[] = [
-    {
-      id: 'cfdd4196-bb02-11ed-afa1-0242ac120002',
-      userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-      stripeId: 'stripeId-test-value',
-      created: 12345,
-      paymentMethod: 'test payment method',
-      transactionState: 'test transaction state',
-      amount: 123.45
-    },
-    {
-      id: '6e9968e2-bb98-11ed-afa1-0242ac120002',
-      userId: '964275ed-f9da-49b6-8fde-9da1d472197b',
-      stripeId: 'stripeId-test-value',
-      created: 12345,
-      paymentMethod: 'test payment method',
-      transactionState: 'test transaction state',
-      amount: 123.45
-    }
-  ]
-
-  const mockToken =
-    'kkVMx5bUz7c4xcQe4yUid+nzcJmuhQYJcAuZrsjG1uvr+aN0Y1kL5nSs+jiYtQXIEpJs5WAlMUZW+xxj8QMVwQ=='
-
-  const mockPaymentRepository = {
-    find: jest.fn().mockResolvedValue(mockPayments),
-    findOneById: jest.fn().mockResolvedValue(mockPayment),
-    create: jest.fn().mockResolvedValue(mockPayment),
-    save: jest.fn().mockResolvedValue(mockPayment),
-    update: jest.fn().mockResolvedValue(mockPayment),
-    delete: jest.fn().mockResolvedValue(mockPayment),
-    remove: jest.fn().mockResolvedValue(mockPayment)
-  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

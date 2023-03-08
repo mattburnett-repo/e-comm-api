@@ -2,60 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './entities/user.entity'
 import { UserService } from './user.service'
+
+import { mockUser, mockUsers, mockUserRepository } from './mockData'
 
 describe('UserService', () => {
   let service: UserService
   let repo: Repository<User>
-
-  const mockUser: CreateUserDto = {
-    id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
-    firstName: 'test',
-    lastName: 'test',
-    username: 'test',
-    password: 'test',
-    email: 'test@test.com',
-    refreshToken: 'test'
-  }
-  const mockUsers: CreateUserDto[] = [
-    {
-      id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
-      firstName: 'test',
-      lastName: 'test',
-      username: 'test',
-      password: 'test',
-      email: 'test@test.com',
-      refreshToken: 'test'
-    },
-    {
-      id: 'b9113c68-bba9-11ed-afa1-0242ac120002',
-      firstName: 'test',
-      lastName: 'test',
-      username: 'test',
-      password: 'test',
-      email: 'test@test.com',
-      refreshToken: 'test'
-    }
-  ]
-
-  const mockUsersRepository = {
-    create: jest.fn().mockImplementation((dto) => dto),
-    save: jest
-      .fn()
-      .mockImplementation((mockUser) => Promise.resolve({ ...mockUser })),
-    find: jest.fn().mockImplementation(() => Promise.resolve({ ...mockUsers })),
-    findAll: jest.fn().mockResolvedValue(mockUsers),
-    findOne: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ...mockUser })),
-    findOneById: jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ...mockUser })),
-    findOneByUsername: jest.fn().mockResolvedValue(mockUser),
-    update: jest.fn().mockImplementation(() => Promise.resolve({ ...mockUser }))
-  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -63,7 +17,7 @@ describe('UserService', () => {
         UserService,
         {
           provide: getRepositoryToken(User),
-          useValue: mockUsersRepository
+          useValue: mockUserRepository
         }
       ]
     }).compile()
@@ -91,7 +45,7 @@ describe('UserService', () => {
   })
 
   it('should find all users', async () => {
-    expect(await service.findAll()).toEqual({ ...mockUsers })
+    expect(await service.findAll()).toEqual(mockUsers)
   })
 
   it('should find a user by id', async () => {
