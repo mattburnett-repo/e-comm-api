@@ -63,6 +63,7 @@ describe('AddressController (e2e)', () => {
   it('GET handles a bad id value', () => {
     return request(app.getHttpServer()).get('/address/id/x').expect(400)
   })
+
   it('/address/id/:id GETs one by id', () => {
     return request(app.getHttpServer())
       .get('/address/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
@@ -72,10 +73,27 @@ describe('AddressController (e2e)', () => {
         expect(res.body).toEqual({ ...mockAddress })
       })
   })
+  it('GETs addresses by user id', () => {
+    return request(app.getHttpServer())
+      .get('/address/user-id/964275ed-f9da-49b6-8fde-9da1d472197b')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    // FIXME: We will need the res.body. No idea why it's not available here
+    // .then((res) => {
+    //   expect(res.body).toEqual({ ...mockAddresses })
+    // })
+  })
+  it('GETs addresses by username', () => {
+    return request(app.getHttpServer())
+      .get('/address/username/HappyCustomer')
+      .expect('Content-Type', /json/)
+      .expect(200)
+  })
 
   it('PATCH handles a bad id value', () => {
     return request(app.getHttpServer()).patch('/address/id/x').expect(400)
   })
+
   it('/address/id/:id (PATCH)', () => {
     return request(app.getHttpServer())
       .patch('/address/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')

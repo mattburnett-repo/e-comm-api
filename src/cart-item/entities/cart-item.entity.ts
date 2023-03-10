@@ -11,7 +11,7 @@ import {
 } from 'typeorm'
 import { Cart } from '../../cart/entities/cart.entity'
 
-@Index('cart-item_pkey', ['cartId'], { unique: true })
+@Index('cart-item_pkey', ['id'], { unique: true })
 @Entity('cart_item', { schema: 'public' })
 export class CartItem {
   @PrimaryGeneratedColumn('uuid')
@@ -19,8 +19,8 @@ export class CartItem {
   @IsNotEmpty()
   id: string
 
-  @Column('uuid', { primary: true, name: 'cart_id' })
-  cartId: string
+  // @Column('uuid', { primary: true, name: 'cart_id' })
+  // cartId: string
 
   @Column('uuid', { primary: true, name: 'product_id' })
   productId: string
@@ -44,6 +44,6 @@ export class CartItem {
   updated_at: Date
 
   @ManyToOne(() => Cart, (cart) => cart.cartItem)
-  @JoinColumn([{ name: 'cart_id', referencedColumnName: 'id' }])
+  @JoinColumn({ name: 'cart_id' })
   cart: Cart
 }

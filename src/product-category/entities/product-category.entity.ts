@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -35,6 +36,7 @@ export class ProductCategory {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToMany(() => Product, (product) => product.id)
+  @ManyToMany(() => Product, (product) => product.category)
+  @JoinTable()
   product: Product[]
 }

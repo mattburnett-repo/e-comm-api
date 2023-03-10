@@ -3,20 +3,16 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { IsNotEmpty, IsString, IsDate, IsUUID } from 'class-validator'
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 import { CartItem } from '../../cart-item/entities/cart-item.entity'
 import { Order } from '../../order/entities/order.entity'
 import { CartType } from '../../cart-type/entities/cart-type.entity'
-import { User } from '../../user/entities/user.entity'
 @Index('cart_pkey', ['id'], { unique: true })
 @Entity('cart', { schema: 'public' })
 export class Cart {
@@ -52,27 +48,16 @@ export class Cart {
   @UpdateDateColumn()
   updated_at: Date
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cartId, {
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
     onDelete: 'SET NULL'
   })
   cartItem: CartItem[]
 
-  @ManyToMany(() => CartType, (cartType) => cartType.id, {
+  @ManyToMany(() => CartType, (cartType) => cartType.cart, {
     onDelete: 'SET NULL'
-  })
-  @JoinTable({
-    name: 'cart_cart_type',
-    joinColumn: {
-      name: 'cart_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'cart_type_id',
-      referencedColumnName: 'id'
-    }
   })
   cartType: CartType[]
 
-  @OneToMany(() => Order, (order) => order.id, { onDelete: 'SET NULL' })
+  @ManyToMany(() => Order, (order) => order.cart, { onDelete: 'SET NULL' })
   order: Order[]
 }

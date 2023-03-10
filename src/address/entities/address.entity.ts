@@ -4,9 +4,11 @@ import {
   Index,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  ManyToOne
 } from 'typeorm'
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { User } from '../../user/entities/user.entity'
 
 @Index('address_pkey', ['id'], { unique: true })
 @Entity('address', { schema: 'public' })
@@ -64,6 +66,9 @@ export class Address {
   @IsString()
   @IsNotEmpty()
   country: string
+
+  @ManyToOne(() => User, (user) => user.address, { onDelete: 'SET NULL' })
+  user: User
 
   @CreateDateColumn()
   created_at: Date

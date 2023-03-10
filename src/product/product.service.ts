@@ -10,9 +10,7 @@ import { Product } from './entities/product.entity'
 export class ProductService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(Product) private exampleRepository: Repository<Product>
-  ) {
+  constructor(@InjectRepository(Product) private repo: Repository<Product>) {
     this.logger = new Logger()
   }
 
@@ -20,19 +18,35 @@ export class ProductService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createProductDto: CreateProductDto) {
-    const retVal = this.exampleRepository.create(createProductDto)
+  create(createProductDto: CreateProductDto): Promise<Product> {
+    const retVal = this.repo.create(createProductDto)
 
     this.logger.log(`ProductService created a new Product: ${retVal.id}`)
-    return this.exampleRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
-  findAll() {
-    return this.exampleRepository.find()
+  findAll(): Promise<Product[]> {
+    return this.repo.find()
   }
 
-  findOneById(id: string) {
-    return this.exampleRepository.findOneById(id)
+  findOneById(id: string): Promise<Product> {
+    return this.repo.findOneById(id)
+  }
+
+  findAllByCategoryId(id: number): Promise<Product[]> {
+    return this.repo
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.category', 'category')
+      .select([
+        'product.id',
+        'product.name',
+        'product.description',
+        'product.imageUrl',
+        'product.price',
+        'category.id'
+      ])
+      .where('category.id = :id', { id })
+      .getMany()
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
@@ -42,7 +56,7 @@ export class ProductService {
 
     this.logger.log(`ExampleService updates a Product: ${id}`)
 
-    return this.exampleRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
   async remove(id: string) {
@@ -50,6 +64,6 @@ export class ProductService {
 
     this.logger.log(`ProductService deletes a Product: ${id}`)
 
-    return this.exampleRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

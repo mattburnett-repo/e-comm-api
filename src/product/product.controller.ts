@@ -7,7 +7,8 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UseGuards
+  UseGuards,
+  ParseIntPipe
 } from '@nestjs/common'
 import { ProductService } from './product.service'
 import { CreateProductDto } from './dto/create-product.dto'
@@ -42,6 +43,10 @@ export class ProductController {
   @Get('/id/:id')
   findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.productService.findOneById(id)
+  }
+  @Get('/category/:id')
+  findAllByCategoryId(@Param('id', new ParseIntPipe()) id: number) {
+    return this.productService.findAllByCategoryId(id)
   }
 
   @Patch('/id/:id')

@@ -11,28 +11,50 @@ import { Cart } from './entities/cart.entity'
 export class CartService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(Cart) private cartRepository: Repository<Cart>
-  ) {
+  constructor(@InjectRepository(Cart) private repo: Repository<Cart>) {
     this.logger = new Logger()
   }
 
   getProtected(): string {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
-  create(createCartDto: CreateCartDto) {
-    const retVal = this.cartRepository.create(createCartDto)
+  create(createCartDto: CreateCartDto): Promise<Cart> {
+    const retVal = this.repo.create(createCartDto)
 
     this.logger.log(`ExampleService created a new Example: ${retVal.id}`)
-    return this.cartRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
-  findAll() {
-    return this.cartRepository.find()
+  findAll(): Promise<Cart[]> {
+    return this.repo.find({
+      relations: {
+        cartItem: true
+      }
+    })
   }
 
-  findOneById(id: string) {
-    return this.cartRepository.findOneById(id)
+  findOneById(id: string): Promise<Cart> {
+    return this.repo.findOne({
+      where: {
+        id: id
+      },
+      relations: {
+        cartItem: true
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        cartItem: {
+          id: true,
+          productId: true,
+          productName: true,
+          productQuantity: true,
+          productPrice: true,
+          lineItemTotalPrice: true
+        }
+      }
+    })
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {
@@ -44,7 +66,7 @@ export class CartService {
 
     this.logger.log(`CartService updates a cart: ${id}`)
 
-    return this.cartRepository.save(cart)
+    return this.repo.save(cart)
   }
 
   async remove(id: string) {
@@ -52,6 +74,6 @@ export class CartService {
 
     this.logger.log(`CartService deletes a cart: ${id}`)
 
-    return this.cartRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

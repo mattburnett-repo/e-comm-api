@@ -24,7 +24,7 @@ export const mockCartRepository = {
   find: jest.fn().mockResolvedValue(mockCarts),
   findAll: jest.fn().mockResolvedValue(mockCarts),
   getProtected: jest.fn().mockImplementation(),
-  findOneById: jest.fn().mockResolvedValue(mockCart),
+  findOne: jest.fn().mockResolvedValue(mockCart),
   update: jest.fn().mockResolvedValue({ ...mockCart }),
   remove: jest.fn().mockResolvedValue(mockCart)
 }

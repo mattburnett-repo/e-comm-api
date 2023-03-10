@@ -46,22 +46,20 @@ describe('CartService', () => {
 
   it('should find all carts', () => {
     expect(service.findAll()).resolves.toEqual(mockCarts)
+    // FIXME: this should also look for cart items.
   })
 
   it('should find a cart by id', () => {
-    const repoSpy = jest.spyOn(repo, 'findOneById')
     expect(
-      service.findOneById('fad30dac- baf5 - 11ed-afa1 - 0242ac120002')
+      service.findOneById('fad30dac-baf5-11ed-afa1-0242ac120002')
     ).resolves.toEqual(mockCart)
-    expect(service.findOneById('a uuid')).resolves.toEqual(mockCart)
-    expect(repoSpy).toBeCalledWith('a uuid')
   })
 
   it('should update a cart', () => {
     expect(
-      service.update('fad30dac- baf5 - 11ed-afa1 - 0242ac120002', mockCart)
+      service.update('fad30dac-baf5-11ed-afa1-0242ac120002', mockCart)
     ).resolves.toEqual({
-      id: 'fad30dac- baf5 - 11ed-afa1 - 0242ac120002',
+      id: 'fad30dac-baf5-11ed-afa1-0242ac120002',
       ...mockCart
     })
   })

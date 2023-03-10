@@ -22,7 +22,9 @@ export class ProductCategoryService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createProductCategoryDto: CreateProductCategoryDto) {
+  create(
+    createProductCategoryDto: CreateProductCategoryDto
+  ): Promise<ProductCategory> {
     const retVal = this.productCategoryRepository.create(
       createProductCategoryDto
     )
@@ -33,11 +35,11 @@ export class ProductCategoryService {
     return this.productCategoryRepository.save(retVal)
   }
 
-  findAll() {
+  findAll(): Promise<ProductCategory[]> {
     return this.productCategoryRepository.find()
   }
 
-  findOneById(id: number) {
+  findOneById(id: number): Promise<ProductCategory> {
     return this.productCategoryRepository.findOneById(id)
   }
 

@@ -10,9 +10,7 @@ import { Address } from './entities/address.entity'
 export class AddressService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(Address) private addressRepository: Repository<Address>
-  ) {
+  constructor(@InjectRepository(Address) private repo: Repository<Address>) {
     this.logger = new Logger()
   }
 
@@ -20,19 +18,60 @@ export class AddressService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createAddressDto: CreateAddressDto) {
-    const newAddress = this.addressRepository.create(createAddressDto)
+  create(createAddressDto: CreateAddressDto): Promise<Address> {
+    const newAddress = this.repo.create(createAddressDto)
 
     this.logger.log(`AddressService created a new Address: ${newAddress.id}`)
-    return this.addressRepository.save(newAddress)
+    return this.repo.save(newAddress)
   }
 
-  findAll() {
-    return this.addressRepository.find()
+  findAll(): Promise<Address[]> {
+    return this.repo.find()
   }
 
-  findOneById(id: string) {
-    return this.addressRepository.findOneById(id)
+  findOneById(id: string): Promise<Address> {
+    return this.repo.findOneById(id)
+  }
+
+  findByUserId(id: string): Promise<Address[]> {
+    return this.repo
+      .createQueryBuilder('address')
+      .leftJoinAndSelect('address.user', 'user')
+      .select([
+        'address.id',
+        'address.firstName',
+        'address.lastName',
+        'address.address_1',
+        'address.address_2',
+        'address.city',
+        'address.stateProvince',
+        'address.postalCode',
+        'address.country',
+        'user.id',
+        'user.username'
+      ])
+      .where('user.id = :id', { id })
+      .getMany()
+  }
+  findByUsername(username: string): Promise<Address[]> {
+    return this.repo
+      .createQueryBuilder('address')
+      .leftJoinAndSelect('address.user', 'user')
+      .select([
+        'address.id',
+        'address.firstName',
+        'address.lastName',
+        'address.address_1',
+        'address.address_2',
+        'address.city',
+        'address.stateProvince',
+        'address.postalCode',
+        'address.country',
+        'user.id',
+        'user.username'
+      ])
+      .where('user.username = :username', { username })
+      .getMany()
   }
 
   async update(id: string, updateAddressDto: UpdateAddressDto) {
@@ -50,7 +89,7 @@ export class AddressService {
 
     this.logger.log(`ExampleService updates an Example: ${id}`)
 
-    return this.addressRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
   async remove(id: string) {
@@ -58,6 +97,6 @@ export class AddressService {
 
     this.logger.log(`AddressService deletes an Example: ${id}`)
 
-    return this.addressRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

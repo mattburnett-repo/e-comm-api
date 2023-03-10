@@ -1,0 +1,15 @@
+{
+  "id": "fad30dac-baf5-11ed-afa1-0242ac120002",
+  "name": "Test Cart Name",
+  "description": "Test Cart Description",
+  "cartItem": [
+    {
+      "id": "fa482164-bb05-11ed-afa1-0242ac120002",
+      "productId": "6c480ae2-bb04-11ed-afa1-0242ac120002",
+      "productName": "Test Product One",
+      "productQuantity": 5,
+      "productPrice": "10.00",
+      "lineItemTotalPrice": "50.00"
+    }
+  ]
+}

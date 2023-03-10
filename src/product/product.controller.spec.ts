@@ -35,6 +35,9 @@ describe('ProductController', () => {
   it('should find all', () => {
     expect(controller.findAll()).resolves.toEqual(mockProducts)
   })
+  it('should find all by category id', () => {
+    expect(controller.findAllByCategoryId(2)).resolves.toEqual(mockProducts)
+  })
   it('should get one by id', async () => {
     expect(controller.findOneById(mockProduct.id)).resolves.toEqual(mockProduct)
   })

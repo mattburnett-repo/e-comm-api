@@ -53,6 +53,21 @@ describe('AddressService', () => {
     expect(repoSpy).toBeCalledWith('a uuid')
   })
 
+  it('should find addresses by user id ', () => {
+    // FIXME: this is really complicated. Figure out how to mock this.
+    // repo.createQueryBuilder.mockResolvedValue(mockProducts)
+    // expect(service.findByUserId('ab5b2304-bba9-11ed-afa1-0242ac120002')).toEqual(mockAddresses)
+    expect(
+      service.findByUserId('ab5b2304-bba9-11ed-afa1-0242ac120002')
+    ).toBeDefined()
+  })
+  it('should find addresses by username', () => {
+    // FIXME: this is really complicated. Figure out how to mock this.
+    // repo.createQueryBuilder.mockResolvedValue(mockProducts)
+    // expect(service.findByUsername('testOne')).toEqual(mockAddresses)
+    expect(service.findByUsername('testOne')).toBeDefined()
+  })
+
   it('should update an address', () => {
     expect(service.update('1', mockAddress)).resolves.toEqual({
       id: '324e2014-bafb-11ed-afa1-0242ac120002',

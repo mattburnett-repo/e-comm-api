@@ -21,18 +21,18 @@ export class OrderService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createOrderDto: CreateOrderDto) {
+  create(createOrderDto: CreateOrderDto): Promise<Order> {
     const retVal = this.orderRepository.create(createOrderDto)
 
     this.logger.log(`OrderService created a new Order: ${retVal.id}`)
     return this.orderRepository.save(retVal)
   }
 
-  findAll() {
+  findAll(): Promise<Order[]> {
     return this.orderRepository.find()
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): Promise<Order> {
     return this.orderRepository.findOneById(id)
   }
 

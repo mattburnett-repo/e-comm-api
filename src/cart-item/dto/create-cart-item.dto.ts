@@ -7,10 +7,6 @@ export class CreateCartItemDto {
 
   @IsString()
   @IsNotEmpty()
-  cartId: string
-
-  @IsString()
-  @IsNotEmpty()
   productId: string
 
   @IsString()

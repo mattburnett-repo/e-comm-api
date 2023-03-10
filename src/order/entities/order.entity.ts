@@ -6,11 +6,13 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
 
 import { Cart } from '../../cart/entities/cart.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Index('order_pkey', ['id'], { unique: true })
 @Entity('order', { schema: 'public' })
@@ -52,17 +54,10 @@ export class Order {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToMany(() => Cart, (cart) => cart.id, { onDelete: 'SET NULL' })
-  @JoinTable({
-    name: 'order_cart',
-    joinColumn: {
-      name: 'order_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'cart_id',
-      referencedColumnName: 'id'
-    }
-  })
-  cart: Cart
+  @ManyToMany(() => Cart, (cart) => cart, { onDelete: 'SET NULL' })
+  @JoinTable()
+  cart: Cart[]
+
+  @ManyToOne(() => User, (user) => user.order, { onDelete: 'SET NULL' })
+  user: User
 }

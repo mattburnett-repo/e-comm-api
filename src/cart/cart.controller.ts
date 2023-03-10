@@ -39,7 +39,6 @@ export class CartController {
   }
 
   @Get('/id/:id')
-  // @ApiBadRequestResponse()
   findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.cartService.findOneById(id)
   }

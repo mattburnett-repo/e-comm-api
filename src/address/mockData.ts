@@ -44,8 +44,19 @@ export const mockAddressRepository = {
   findAll: jest.fn().mockResolvedValue(mockAddresses),
   getProtected: jest.fn().mockImplementation(),
   findOneById: jest.fn().mockResolvedValue(mockAddress),
+  findByUserId: jest.fn().mockResolvedValue(mockAddress),
+  findByUsername: jest.fn().mockResolvedValue(mockAddress),
   update: jest.fn().mockResolvedValue({ ...mockAddress }),
-  remove: jest.fn().mockResolvedValue(mockAddress)
+  remove: jest.fn().mockResolvedValue(mockAddress),
+
+  createQueryBuilder: jest.fn(() => ({
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    // setParameter: jest.fn().mockReturnThis(),
+    getMany: jest.fn().mockReturnThis()
+    // getMany: jest.fn().mockResolvedValue(mockProducts)
+  }))
 }
 
 export const mockAddressService = {
@@ -55,6 +66,8 @@ export const mockAddressService = {
     .mockImplementation(() => 'This is a protected resource'),
   findAll: jest.fn().mockResolvedValue(mockAddresses),
   findOneById: jest.fn().mockResolvedValue(mockAddress),
+  findByUserId: jest.fn().mockResolvedValue(mockAddresses),
+  findByUsername: jest.fn().mockResolvedValue(mockAddresses),
   update: jest.fn().mockResolvedValue(mockAddress),
   delete: jest.fn().mockResolvedValue(mockAddress),
   remove: jest.fn().mockResolvedValue(mockAddress)
