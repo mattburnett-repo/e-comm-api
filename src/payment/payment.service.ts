@@ -21,18 +21,18 @@ export class PaymentService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createPaymentDto: CreatePaymentDto) {
+  create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
     const retVal = this.paymentRepository.create(createPaymentDto)
 
     this.logger.log(`PaymentService created a new Payment: ${retVal.id}`)
     return this.paymentRepository.save(retVal)
   }
 
-  findAll() {
+  findAll(): Promise<Payment[]> {
     return this.paymentRepository.find()
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): Promise<Payment> {
     return this.paymentRepository.findOneById(id)
   }
 

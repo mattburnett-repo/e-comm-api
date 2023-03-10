@@ -68,7 +68,6 @@ export class Payment {
   @JoinColumn({ name: 'payment_type_id' })
   paymentType: PaymentType
 
-  @ManyToOne(() => User, (user) => user.id, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'user_id' })
-  user: User[]
+  @ManyToOne(() => User, (user) => user.payment, { onDelete: 'SET NULL' })
+  user: User
 }

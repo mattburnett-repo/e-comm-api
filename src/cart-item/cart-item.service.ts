@@ -21,18 +21,18 @@ export class CartItemService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createCartItemDto: CreateCartItemDto) {
+  create(createCartItemDto: CreateCartItemDto): Promise<CartItem> {
     const retVal = this.cartItemRepository.create(createCartItemDto)
 
     this.logger.log(`CartService created a new CartItem: ${retVal.id}`)
     return this.cartItemRepository.save(retVal)
   }
 
-  findAll() {
+  findAll(): Promise<CartItem[]> {
     return this.cartItemRepository.find()
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): Promise<CartItem> {
     return this.cartItemRepository.findOneById(id)
   }
 
@@ -40,7 +40,6 @@ export class CartItemService {
     const retVal = await this.findOneById(id)
 
     retVal.id = updateCartItemDto.id
-    retVal.cartId = updateCartItemDto.cartId
     retVal.productId = updateCartItemDto.productId
     retVal.productName = updateCartItemDto.productName
     retVal.productQuantity = updateCartItemDto.productQuantity

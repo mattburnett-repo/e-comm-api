@@ -33,7 +33,17 @@ export const mockProductRepository = {
   getProtected: jest.fn().mockImplementation(),
   findOneById: jest.fn().mockResolvedValue(mockProduct),
   update: jest.fn().mockResolvedValue({ ...mockProduct }),
-  remove: jest.fn().mockResolvedValue(mockProduct)
+  remove: jest.fn().mockResolvedValue(mockProduct),
+
+  // mock junction table query functions
+  createQueryBuilder: jest.fn(() => ({
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    // setParameter: jest.fn().mockReturnThis(),
+    getMany: jest.fn().mockReturnThis()
+    // getMany: jest.fn().mockResolvedValue(mockProducts)
+  }))
 }
 
 export const mockProductService = {
@@ -42,6 +52,7 @@ export const mockProductService = {
     .fn()
     .mockImplementation(() => 'This is a protected resource'),
   findAll: jest.fn().mockResolvedValue(mockProducts),
+  findAllByCategoryId: jest.fn().mockResolvedValue(mockProducts),
   findOneById: jest.fn().mockResolvedValue(mockProduct),
   update: jest.fn().mockResolvedValue(mockProduct),
   delete: jest.fn().mockResolvedValue(mockProduct),

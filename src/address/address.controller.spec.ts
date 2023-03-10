@@ -38,6 +38,14 @@ describe('AddressController', () => {
   it('should get one by id', async () => {
     expect(controller.findOneById(mockAddress.id)).resolves.toEqual(mockAddress)
   })
+  it('should find addresses by user id', async () => {
+    expect(
+      controller.findByUserId('ab5b2304-bba9-11ed-afa1-0242ac120002')
+    ).resolves.toEqual(mockAddresses)
+  })
+  it('should find addresses by username', async () => {
+    expect(controller.findByUsername('testOne')).resolves.toEqual(mockAddresses)
+  })
   it('should update one', async () => {
     expect(controller.update('1', mockAddress)).resolves.toEqual({
       ...mockAddress

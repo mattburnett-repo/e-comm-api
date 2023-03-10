@@ -65,6 +65,7 @@ describe('CartController (e2e)', () => {
       .expect(200)
       .then((res) => {
         expect(res.body).toEqual({ ...mockCart })
+        // FIXME: validate all cart / cart item fields
       })
   })
 

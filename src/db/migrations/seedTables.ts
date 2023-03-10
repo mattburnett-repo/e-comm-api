@@ -1,14 +1,15 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-// 'product' table-related seeding happens in b_seedProductTable.ts
-
 export class seedTables implements MigrationInterface {
   name = 'seedTables1678040718351'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     //  Data tables
     await queryRunner.query(
-      `INSERT INTO address VALUES ('324e2014-bafb-11ed-afa1-0242ac120002', 'Test First name', 'Test Last Name', '123 Street Ave.', 'Suite 3', 'Test City', 'Test State', '12345', 'Deutschland')`
+      `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'HappyCustomer', 'happy@customer.com', 'happyCustomer', 'Happy', 'Customer')`
+    )
+    await queryRunner.query(
+      `INSERT INTO address VALUES ('324e2014-bafb-11ed-afa1-0242ac120002', 'Test First name', 'Test Last Name', '123 Street Ave.', 'Suite 3', 'Test City', 'Test State', '12345', 'Deutschland', Now(), Now(), '964275ed-f9da-49b6-8fde-9da1d472197b')`
     )
     await queryRunner.query(
       `INSERT INTO cart VALUES ('fad30dac-baf5-11ed-afa1-0242ac120002', 'Test Cart Name', 'Test Cart Description', Now())`
@@ -26,13 +27,10 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO cart_type VALUES (4, 'Popular', 'Popular cart')`
     )
     await queryRunner.query(
-      `INSERT INTO cart_item VALUES ('fa482164-bb05-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002', '6c480ae2-bb04-11ed-afa1-0242ac120002', 'Test Product One', 5, 10, 50)`
+      `INSERT INTO cart_item VALUES ('fa482164-bb05-11ed-afa1-0242ac120002', '6c480ae2-bb04-11ed-afa1-0242ac120002', 'Test Product One', 5, 10, 50, Now(), Now(), 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     )
     await queryRunner.query(
-      `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', Now(), 1.23, 3.45, 12345)`
-    )
-    await queryRunner.query(
-      `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'HappyCustomer', 'happy@customer.com', 'happyCustomer', 'Happy', 'Customer')`
+      `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', Now(), 1.23, 3.45, 12345, Now(), Now(), '964275ed-f9da-49b6-8fde-9da1d472197b')`
     )
     await queryRunner.query(
       `INSERT INTO payment_type VALUES (1, 'paypal', 'PayPal')`
@@ -71,22 +69,16 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO product_category VALUES(5, 'Organic and natural personal care products','Organic and natural personal care products are made with ingredients that are sustainably sourced and don''t contain harmful chemicals or synthetic fragrances. They are better for both the environment and your health.')`
     )
 
-    // Association / Join tables
+    // Many-to-many / Association / Join tables
     await queryRunner.query(
-      `INSERT INTO cart_cart_type VALUES('fad30dac-baf5-11ed-afa1-0242ac120002', 3)`
+      `INSERT INTO cart_type_cart_cart VALUES(3, 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     )
     await queryRunner.query(
-      `INSERT INTO order_cart VALUES('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
+      `INSERT INTO order_cart_cart VALUES('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     )
 
     await queryRunner.query(
-      `INSERT INTO user_address VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', '324e2014-bafb-11ed-afa1-0242ac120002')`
-    )
-    await queryRunner.query(
       `INSERT INTO user_cart VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
-    )
-    await queryRunner.query(
-      `INSERT INTO user_order VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', '1882376c-bafe-11ed-afa1-0242ac120002')`
     )
   }
 

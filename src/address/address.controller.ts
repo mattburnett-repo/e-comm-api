@@ -43,6 +43,14 @@ export class AddressController {
   findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.addressService.findOneById(id)
   }
+  @Get('/user-id/:id')
+  findByUserId(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.addressService.findByUserId(id)
+  }
+  @Get('/username/:username')
+  findByUsername(@Param('username') username: string) {
+    return this.addressService.findByUsername(username)
+  }
 
   @Patch('/id/:id')
   update(

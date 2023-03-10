@@ -116,37 +116,15 @@ export class User {
   })
   cart: Cart[]
 
-  @ManyToMany(() => Order, (order) => order.id, { onDelete: 'SET NULL' })
-  @JoinTable({
-    name: 'user_order',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'order_id',
-      referencedColumnName: 'id'
-    }
-  })
+  @OneToMany(() => Order, (order) => order.user, { onDelete: 'SET NULL' })
   order: Order[]
 
-  @ManyToMany(() => Address, (address) => address.id, {
+  @OneToMany(() => Address, (address) => address.user, {
     onDelete: 'SET NULL'
-  })
-  @JoinTable({
-    name: 'user_address',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'address_id',
-      referencedColumnName: 'id'
-    }
   })
   address: Address[]
 
-  @OneToMany(() => Payment, (payment) => payment.userId, {
+  @OneToMany(() => Payment, (payment) => payment.user, {
     onDelete: 'SET NULL'
   })
   payment: Payment[]

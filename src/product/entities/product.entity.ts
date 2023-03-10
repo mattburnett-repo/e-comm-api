@@ -6,7 +6,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinTable,
   ManyToMany
 } from 'typeorm'
 
@@ -45,17 +44,9 @@ export class Product {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToMany(() => ProductCategory, (productCategory) => productCategory.id)
-  @JoinTable({
-    name: 'product_product_category',
-    joinColumn: {
-      name: 'product_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'product_category_id',
-      referencedColumnName: 'id'
-    }
-  })
+  @ManyToMany(
+    () => ProductCategory,
+    (productCategory) => productCategory.product
+  )
   category: ProductCategory[]
 }

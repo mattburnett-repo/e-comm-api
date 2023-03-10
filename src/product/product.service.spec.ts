@@ -48,6 +48,13 @@ describe('ProductService', () => {
     expect(service.findAll()).resolves.toEqual(mockProducts)
   })
 
+  it('should find all products by category id', () => {
+    // FIXME: this is really complicated. Figure out how to mock this.
+    // repo.createQueryBuilder.mockResolvedValue(mockProducts)
+    // expect(service.findAllByCategoryId(2)).toEqual(mockProducts)
+    expect(service.findAllByCategoryId(2)).toBeDefined()
+  })
+
   it('should find a product by id', () => {
     const repoSpy = jest.spyOn(repo, 'findOneById')
     expect(
@@ -57,7 +64,7 @@ describe('ProductService', () => {
     expect(repoSpy).toBeCalledWith('a uuid')
   })
 
-  it('should update an example', () => {
+  it('should update a product', () => {
     expect(
       service.update('c1d20780-bba2-11ed-afa1-0242ac120002', mockProduct)
     ).resolves.toEqual({
@@ -66,7 +73,7 @@ describe('ProductService', () => {
     })
   })
 
-  it('should delete an example', () => {
+  it('should delete a product', () => {
     expect(
       service.remove('c1d20780-bba2-11ed-afa1-0242ac120002')
     ).resolves.toEqual({

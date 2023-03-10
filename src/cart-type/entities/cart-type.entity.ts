@@ -6,7 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany,
-  Index
+  Index,
+  JoinTable
 } from 'typeorm'
 import { Cart } from '../../cart/entities/cart.entity'
 
@@ -32,7 +33,7 @@ export class CartType {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToMany(() => Cart, (cart) => cart.id)
+  @ManyToMany(() => Cart, (cart) => cart.cartType)
+  @JoinTable()
   cart: Cart[]
-  // cart: Cart
 }

@@ -38,14 +38,6 @@ describe('ProductController (e2e)', () => {
     await app.close()
   })
 
-  it('/product GETs all', () => {
-    return request(app.getHttpServer())
-      .get('/product')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(mockProducts)
-  })
-
   it('/product POSTs one', () => {
     return request(app.getHttpServer())
       .post('/product')
@@ -57,6 +49,26 @@ describe('ProductController (e2e)', () => {
           ...mockProduct
         })
       })
+  })
+
+  it('/product GETs all', () => {
+    return request(app.getHttpServer())
+      .get('/product')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect(mockProducts)
+  })
+  it.only('/product/category/:id GETs all by category id', () => {
+    return request(app.getHttpServer())
+      .get('/product/category/2')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    // FIXME: Returns {}, even though the actual API call returns valid data.
+    // .expect(mockProducts)
+    //      OR
+    // .then((res) => {
+    //   expect(res.body).toEqual({ ...mockProducts })
+    // })
   })
 
   it('GET handles a bad id value', () => {

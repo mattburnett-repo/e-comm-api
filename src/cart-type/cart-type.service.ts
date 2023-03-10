@@ -21,18 +21,18 @@ export class CartTypeService {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
 
-  create(createCartTypeDto: CreateCartTypeDto) {
+  create(createCartTypeDto: CreateCartTypeDto): Promise<CartType> {
     const retVal = this.cartTypeRepository.create(createCartTypeDto)
 
     this.logger.log(`ExampleService created a new Example: ${retVal.id}`)
     return this.cartTypeRepository.save(retVal)
   }
 
-  findAll() {
+  findAll(): Promise<CartType[]> {
     return this.cartTypeRepository.find()
   }
 
-  findOneById(id: number) {
+  findOneById(id: number): Promise<CartType> {
     return this.cartTypeRepository.findOneById(id)
   }
 
