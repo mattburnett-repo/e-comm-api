@@ -5,7 +5,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne
+  ManyToOne,
+  JoinColumn
 } from 'typeorm'
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 import { User } from '../../user/entities/user.entity'
@@ -17,6 +18,9 @@ export class Address {
   @IsUUID()
   @IsNotEmpty()
   id: string
+
+  @Column()
+  user_id: string
 
   @Column('character varying', {
     name: 'first_name',
@@ -67,7 +71,10 @@ export class Address {
   @IsNotEmpty()
   country: string
 
-  @ManyToOne(() => User, (user) => user.address, { onDelete: 'SET NULL' })
+  @ManyToOne(() => User, (user) => user.address, {
+    onDelete: 'SET NULL'
+  })
+  @JoinColumn({ name: 'user_id' })
   user: User
 
   @CreateDateColumn()

@@ -55,9 +55,9 @@ export class AddressController {
   @Patch('/id/:id')
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() updateTestDto: UpdateAddressDto
+    @Body() updateAddressDto: UpdateAddressDto
   ) {
-    return this.addressService.update(id, updateTestDto)
+    return this.addressService.update(id, updateAddressDto)
   }
 
   @Delete('/id/:id')

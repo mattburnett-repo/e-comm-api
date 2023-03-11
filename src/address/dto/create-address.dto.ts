@@ -1,5 +1,7 @@
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { PrimaryGeneratedColumn } from 'typeorm'
 export class CreateAddressDto {
+  @PrimaryGeneratedColumn('uuid')
   @IsUUID()
   @IsNotEmpty()
   id: string
@@ -32,4 +34,7 @@ export class CreateAddressDto {
   @IsString()
   @IsNotEmpty()
   country: string
+
+  @IsUUID()
+  user_id: string
 }

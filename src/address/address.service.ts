@@ -19,18 +19,50 @@ export class AddressService {
   }
 
   create(createAddressDto: CreateAddressDto): Promise<Address> {
-    const newAddress = this.repo.create(createAddressDto)
-
-    this.logger.log(`AddressService created a new Address: ${newAddress.id}`)
-    return this.repo.save(newAddress)
+    return this.repo.save(createAddressDto)
   }
 
   findAll(): Promise<Address[]> {
-    return this.repo.find()
+    // return this.repo.find()
+    return this.repo
+      .createQueryBuilder('address')
+      .leftJoinAndSelect('address.user', 'user')
+      .select([
+        'address.id',
+        'address.firstName',
+        'address.lastName',
+        'address.address_1',
+        'address.address_2',
+        'address.city',
+        'address.stateProvince',
+        'address.postalCode',
+        'address.country',
+        'user.id',
+        'user.username'
+      ])
+      .getMany()
   }
 
   findOneById(id: string): Promise<Address> {
-    return this.repo.findOneById(id)
+    // return this.repo.findOneById(id)
+    return this.repo
+      .createQueryBuilder('address')
+      .leftJoinAndSelect('address.user', 'user')
+      .select([
+        'address.id',
+        'address.firstName',
+        'address.lastName',
+        'address.address_1',
+        'address.address_2',
+        'address.city',
+        'address.stateProvince',
+        'address.postalCode',
+        'address.country',
+        'user.id',
+        'user.username'
+      ])
+      .where('address.id = :id', { id })
+      .getOne()
   }
 
   findByUserId(id: string): Promise<Address[]> {
@@ -74,28 +106,17 @@ export class AddressService {
       .getMany()
   }
 
-  async update(id: string, updateAddressDto: UpdateAddressDto) {
-    const retVal = await this.findOneById(id)
+  update(id: string, updateAddressDto: UpdateAddressDto) {
+    this.logger.log(`AddressService updates an Address: ${id}`)
 
-    retVal.id = updateAddressDto.id
-    retVal.firstName = updateAddressDto.firstName
-    retVal.lastName = updateAddressDto.lastName
-    retVal.address_1 = updateAddressDto.address_1
-    retVal.address_2 = updateAddressDto.address_2
-    retVal.city = updateAddressDto.city
-    retVal.stateProvince = updateAddressDto.stateProvince
-    retVal.postalCode = updateAddressDto.postalCode
-    retVal.country = updateAddressDto.country
-
-    this.logger.log(`ExampleService updates an Example: ${id}`)
-
-    return this.repo.save(retVal)
+    // return this.repo.update(id, updateAddressDto)
+    return this.repo.save(updateAddressDto)
   }
 
   async remove(id: string) {
     const toDelete = await this.findOneById(id)
 
-    this.logger.log(`AddressService deletes an Example: ${id}`)
+    this.logger.log(`AddressService deletes an Address: ${id}`)
 
     return this.repo.remove(toDelete)
   }

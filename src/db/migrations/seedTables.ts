@@ -9,7 +9,10 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'HappyCustomer', 'happy@customer.com', 'happyCustomer', 'Happy', 'Customer')`
     )
     await queryRunner.query(
-      `INSERT INTO address VALUES ('324e2014-bafb-11ed-afa1-0242ac120002', 'Test First name', 'Test Last Name', '123 Street Ave.', 'Suite 3', 'Test City', 'Test State', '12345', 'Deutschland', Now(), Now(), '964275ed-f9da-49b6-8fde-9da1d472197b')`
+      `INSERT INTO "user" VALUES ('cfad3828-bfdc-11ed-afa1-0242ac120002', 'AddressTestUser', 'address@test.user.com', 'password', 'Address', 'TestUser')`
+    )
+    await queryRunner.query(
+      `INSERT INTO address VALUES ('324e2014-bafb-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 'Test First name', 'Test Last Name', '123 Street Ave.', 'Suite 3', 'Test City', 'Test State', '12345', 'Deutschland', Now(), Now())`
     )
     await queryRunner.query(
       `INSERT INTO cart VALUES ('fad30dac-baf5-11ed-afa1-0242ac120002', 'Test Cart Name', 'Test Cart Description', Now())`

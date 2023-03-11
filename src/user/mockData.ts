@@ -1,33 +1,34 @@
 import { CreateUserDto } from './dto/create-user.dto'
 
 export const mockUser: CreateUserDto = {
-  id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
-  firstName: 'test',
-  lastName: 'test',
-  username: 'test',
-  password: 'test',
-  email: 'test@test.com',
-  refreshToken: 'test'
+  id: '964275ed-f9da-49b6-8fde-9da1d472197b',
+  firstName: 'Happy',
+  lastName: 'Customer',
+  username: 'HappyCustomer',
+  password: 'happyCustomer',
+  email: 'happy@customer.com',
+  refreshToken: null
 }
 
 export const mockUsers: CreateUserDto[] = [
   {
-    id: 'ab5b2304-bba9-11ed-afa1-0242ac120002',
-    firstName: 'test',
-    lastName: 'test',
-    username: 'test',
-    password: 'test',
-    email: 'test@test.com',
-    refreshToken: 'test'
+    id: '964275ed-f9da-49b6-8fde-9da1d472197b',
+    firstName: 'Happy',
+    lastName: 'Customer',
+    username: 'HappyCustomer',
+    password: 'hapyyCustomer',
+    email: 'happy@customer.com',
+    refreshToken: null
   },
   {
-    id: 'b9113c68-bba9-11ed-afa1-0242ac120002',
-    firstName: 'test',
-    lastName: 'test',
-    username: 'test',
-    password: 'test',
-    email: 'test@test.com',
-    refreshToken: 'test'
+    id: '3cdc6e10-a53f-40c2-9449-1beff9dbc5f4',
+    firstName: 'Test',
+    lastName: 'One',
+    username: 'testOne',
+    password: 'testOne',
+    email: 'test@one.com',
+    refreshToken:
+      '$argon2id$v=19$m=65536,t=3,p=4$3X3VtwuOhovbHQUUYR6Pdw$YNk1IEF8XfSHr06XzRWGoVVeBj1EPw+6jScQdzCFjjI'
   }
 ]
 

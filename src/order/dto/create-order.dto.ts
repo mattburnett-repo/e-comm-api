@@ -1,6 +1,8 @@
 import { IsUUID, IsNotEmpty, IsDate, IsNumber } from 'class-validator'
+import { PrimaryGeneratedColumn } from 'typeorm'
 
 export class CreateOrderDto {
+  @PrimaryGeneratedColumn('uuid')
   @IsUUID()
   @IsNotEmpty()
   id: string

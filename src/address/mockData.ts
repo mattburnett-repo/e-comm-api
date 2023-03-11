@@ -9,7 +9,8 @@ export const mockAddress: CreateAddressDto = {
   city: 'Test City',
   stateProvince: 'Test State',
   postalCode: '12345',
-  country: 'Deutschland'
+  country: 'Deutschland',
+  user_id: '964275ed-f9da-49b6-8fde-9da1d472197b'
 }
 
 export const mockAddresses: CreateAddressDto[] = [
@@ -22,7 +23,8 @@ export const mockAddresses: CreateAddressDto[] = [
     city: 'Test City',
     stateProvince: 'Test State',
     postalCode: '12345',
-    country: 'Deutschland'
+    country: 'Deutschland',
+    user_id: '964275ed-f9da-49b6-8fde-9da1d472197b'
   },
   {
     id: '6baa2042-bb78-11ed-afa1-0242ac120002',
@@ -33,7 +35,8 @@ export const mockAddresses: CreateAddressDto[] = [
     city: 'Test City 2',
     stateProvince: 'Test State 2',
     postalCode: '12345 2',
-    country: 'Deutschland 2'
+    country: 'Deutschland 2',
+    user_id: 'a4750ec8-b7d6-4188-995e-172335bc4cc5'
   }
 ]
 

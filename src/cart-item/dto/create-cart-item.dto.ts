@@ -1,6 +1,8 @@
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator'
+import { PrimaryGeneratedColumn } from 'typeorm'
 
 export class CreateCartItemDto {
+  @PrimaryGeneratedColumn('uuid')
   @IsUUID()
   @IsNotEmpty()
   id: string

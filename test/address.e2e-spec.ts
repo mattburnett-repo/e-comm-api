@@ -1,35 +1,42 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { AddressModule } from '../src/address/address.module'
-import { Address } from '../src/address/entities/address.entity'
+import { AppModule } from '../src/app.module'
 
-import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
+const testData = {
+  id: '2e828168-bfd9-11ed-afa1-0242ac120002',
+  firstName: 'Address',
+  lastName: 'TestUser',
+  address_1: 'testData address_1',
+  address_2: 'testData address_2',
+  city: 'testData city',
+  stateProvince: 'testData stateProvince',
+  postalCode: 'testData postalCode',
+  country: 'testData country',
+  user_id: 'cfad3828-bfdc-11ed-afa1-0242ac120002'
+}
 
-import {
-  mockAddress,
-  mockAddresses,
-  mockAddressRepository
-} from '../src/address/mockData'
+// from the test record we create in seedTables.ts
+//    need this bc FK restraint when adding test address record
+const mockUser = {
+  id: 'cfad3828-bfdc-11ed-afa1-0242ac120002',
+  username: 'AddressTestUser'
+}
+
+const updatePostalCode = '54321'
+
 import { mockToken } from './mockData'
-
-// https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
 
 describe('AddressController (e2e)', () => {
   let app: INestApplication
 
+  // Use AppModule so that we get all of the dependencies, and only need to focus on the tests, not all of the .overrides, etc. business
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AddressModule]
-    })
-      .overrideProvider(getRepositoryToken(Address))
-      .useValue(mockAddressRepository)
-      .overrideGuard(AccessTokenGuard)
-      .useValue(mockToken)
-      .compile()
+      imports: [AppModule]
+    }).compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()
@@ -39,24 +46,23 @@ describe('AddressController (e2e)', () => {
     await app.close()
   })
 
-  it('/address GETs all', () => {
-    return request(app.getHttpServer())
-      .get('/address')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(mockAddresses)
-  })
-
   it('/address POSTs one', () => {
     return request(app.getHttpServer())
       .post('/address')
-      .send({ mockAddress })
+      .send(testData)
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body).toEqual({
-          ...mockAddress
-        })
+        const response = res.body
+
+        expect(response.user_id).toEqual(testData.user_id)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(testData.postalCode)
+        expect(response.country).toEqual(testData.country)
       })
   })
 
@@ -66,42 +72,113 @@ describe('AddressController (e2e)', () => {
 
   it('/address/id/:id GETs one by id', () => {
     return request(app.getHttpServer())
-      .get('/address/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .get(`/address/id/${testData.id}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockAddress })
+        const response = res.body
+
+        expect(response.id).toEqual(testData.id)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(testData.postalCode)
+        expect(response.country).toEqual(testData.country)
       })
   })
-  it('GETs addresses by user id', () => {
+  it('/address/user-id/:id GETs one by user id', () => {
     return request(app.getHttpServer())
-      .get('/address/user-id/964275ed-f9da-49b6-8fde-9da1d472197b')
+      .get(`/address/user-id/${testData.user_id}`)
       .expect('Content-Type', /json/)
       .expect(200)
-    // FIXME: We will need the res.body. No idea why it's not available here
-    // .then((res) => {
-    //   expect(res.body).toEqual({ ...mockAddresses })
-    // })
+      .then((res) => {
+        expect(res.body).toBeDefined()
+        const response = res.body[0]
+
+        expect(response.id).toEqual(testData.id)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(testData.postalCode)
+        expect(response.country).toEqual(testData.country)
+
+        const user = response.user
+        expect(user.id).toEqual(mockUser.id)
+        expect(user.username).toEqual(mockUser.username)
+      })
   })
+
   it('GETs addresses by username', () => {
     return request(app.getHttpServer())
-      .get('/address/username/HappyCustomer')
+      .get(`/address/username/${mockUser.username}`)
       .expect('Content-Type', /json/)
       .expect(200)
+      .then((res) => {
+        const response = res.body[0]
+
+        // expect(response.id).toEqual(testUpdateDataid)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(testData.postalCode)
+        expect(response.country).toEqual(testData.country)
+
+        const user = response.user
+        expect(user.id).toEqual(mockUser.id)
+        expect(user.username).toEqual(mockUser.username)
+      })
+  })
+
+  it('/address GETs all', () => {
+    return request(app.getHttpServer())
+      .get('/address')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.length).toBeGreaterThanOrEqual(1)
+
+        const response = res.body[1]
+
+        expect(response.id).toEqual(testData.id)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(testData.postalCode)
+        expect(response.country).toEqual(testData.country)
+      })
   })
 
   it('PATCH handles a bad id value', () => {
     return request(app.getHttpServer()).patch('/address/id/x').expect(400)
   })
-
   it('/address/id/:id (PATCH)', () => {
     return request(app.getHttpServer())
-      .patch('/address/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .patch(`/address/id/${testData.id}`)
       .set('Authorization', `Bearer ${mockToken}`)
+
+      .send({ ...testData, postalCode: updatePostalCode })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockAddress })
+        const response = res.body
+
+        expect(response.id).toEqual(testData.id)
+        expect(response.firstName).toEqual(testData.firstName)
+        expect(response.lastName).toEqual(testData.lastName)
+        expect(response.address_1).toEqual(testData.address_1)
+        expect(response.address_2).toEqual(testData.address_2)
+        expect(response.city).toEqual(testData.city)
+        expect(response.postalCode).toEqual(updatePostalCode)
+        expect(response.country).toEqual(testData.country)
+        expect(response.user_id).toEqual(testData.user_id)
       })
   })
 
@@ -110,7 +187,7 @@ describe('AddressController (e2e)', () => {
   })
   it('/address/id/:id (DELETE)', () => {
     return request(app.getHttpServer())
-      .delete('/address/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .delete(`/address/id/${testData.id}`)
       .expect(200)
   })
 })
