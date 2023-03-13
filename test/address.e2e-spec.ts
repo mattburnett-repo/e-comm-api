@@ -25,8 +25,6 @@ const mockUser = {
   username: 'AddressTestUser'
 }
 
-const updatePostalCode = '54321'
-
 import { mockToken } from './mockData'
 
 describe('AddressController (e2e)', () => {
@@ -86,6 +84,10 @@ describe('AddressController (e2e)', () => {
         expect(response.city).toEqual(testData.city)
         expect(response.postalCode).toEqual(testData.postalCode)
         expect(response.country).toEqual(testData.country)
+
+        const user = response.user
+        expect(user.id).toEqual(mockUser.id)
+        expect(user.username).toEqual(mockUser.username)
       })
   })
   it('/address/user-id/:id GETs one by user id', () => {
@@ -120,7 +122,7 @@ describe('AddressController (e2e)', () => {
       .then((res) => {
         const response = res.body[0]
 
-        // expect(response.id).toEqual(testUpdateDataid)
+        expect(response.id).toEqual(testData.id)
         expect(response.firstName).toEqual(testData.firstName)
         expect(response.lastName).toEqual(testData.lastName)
         expect(response.address_1).toEqual(testData.address_1)
@@ -153,6 +155,10 @@ describe('AddressController (e2e)', () => {
         expect(response.city).toEqual(testData.city)
         expect(response.postalCode).toEqual(testData.postalCode)
         expect(response.country).toEqual(testData.country)
+
+        const user = response.user
+        expect(user.id).toEqual(mockUser.id)
+        expect(user.username).toEqual(mockUser.username)
       })
   })
 
@@ -160,16 +166,16 @@ describe('AddressController (e2e)', () => {
     return request(app.getHttpServer()).patch('/address/id/x').expect(400)
   })
   it('/address/id/:id (PATCH)', () => {
+    const updatePostalCode = '54321'
+
     return request(app.getHttpServer())
       .patch(`/address/id/${testData.id}`)
       .set('Authorization', `Bearer ${mockToken}`)
-
       .send({ ...testData, postalCode: updatePostalCode })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
         const response = res.body
-
         expect(response.id).toEqual(testData.id)
         expect(response.firstName).toEqual(testData.firstName)
         expect(response.lastName).toEqual(testData.lastName)
@@ -178,7 +184,10 @@ describe('AddressController (e2e)', () => {
         expect(response.city).toEqual(testData.city)
         expect(response.postalCode).toEqual(updatePostalCode)
         expect(response.country).toEqual(testData.country)
-        expect(response.user_id).toEqual(testData.user_id)
+
+        const user = response.user
+        expect(user.id).toEqual(mockUser.id)
+        expect(user.username).toEqual(mockUser.username)
       })
   })
 

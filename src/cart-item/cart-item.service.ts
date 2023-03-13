@@ -11,9 +11,7 @@ import { CartItem } from './entities/cart-item.entity'
 export class CartItemService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(CartItem) private cartItemRepository: Repository<CartItem>
-  ) {
+  constructor(@InjectRepository(CartItem) private repo: Repository<CartItem>) {
     this.logger = new Logger()
   }
 
@@ -22,33 +20,54 @@ export class CartItemService {
   }
 
   create(createCartItemDto: CreateCartItemDto): Promise<CartItem> {
-    const retVal = this.cartItemRepository.create(createCartItemDto)
+    const retVal = this.repo.create(createCartItemDto)
 
     this.logger.log(`CartService created a new CartItem: ${retVal.id}`)
-    return this.cartItemRepository.save(retVal)
+    return this.repo.save(createCartItemDto)
   }
 
   findAll(): Promise<CartItem[]> {
-    return this.cartItemRepository.find()
+    return this.repo
+      .createQueryBuilder('cart-item')
+      .leftJoinAndSelect('cart-item.cart', 'cart')
+      .select([
+        'cart-item.id',
+        'cart-item.cart_id',
+        'cart-item.product_id',
+        'cart-item.productName',
+        'cart-item.productQuantity',
+        'cart-item.productPrice',
+        'cart-item.lineItemTotalPrice',
+        'cart.id'
+      ])
+      .getMany()
   }
 
   findOneById(id: string): Promise<CartItem> {
-    return this.cartItemRepository.findOneById(id)
+    return this.repo
+      .createQueryBuilder('cart-item')
+      .leftJoinAndSelect('cart-item.cart', 'cart')
+      .select([
+        'cart-item.id',
+        'cart-item.cart_id',
+        'cart-item.product_id',
+        'cart-item.productName',
+        'cart-item.productQuantity',
+        'cart-item.productPrice',
+        'cart-item.lineItemTotalPrice',
+        'cart.id'
+      ])
+      .where('cart-item.id = :id', { id })
+      .getOne()
   }
 
   async update(id: string, updateCartItemDto: UpdateCartItemDto) {
-    const retVal = await this.findOneById(id)
-
-    retVal.id = updateCartItemDto.id
-    retVal.productId = updateCartItemDto.productId
-    retVal.productName = updateCartItemDto.productName
-    retVal.productQuantity = updateCartItemDto.productQuantity
-    retVal.productPrice = updateCartItemDto.productPrice
-    retVal.lineItemTotalPrice = updateCartItemDto.lineItemTotalPrice
-
     this.logger.log(`CartItemService updates a cart item: ${id}`)
 
-    return this.cartItemRepository.save(retVal)
+    const updated = await this.repo.save(updateCartItemDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: string) {
@@ -56,6 +75,6 @@ export class CartItemService {
 
     this.logger.log(`CartItemService deletes a cart item: ${id}`)
 
-    return this.cartItemRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

@@ -9,19 +9,26 @@ export class CreatePaymentDto {
 
   @IsUUID()
   @IsNotEmpty()
-  userId: string
+  user_id: string
+
+  @IsNumber()
+  @IsNotEmpty()
+  payment_type_id: number
 
   @IsString()
-  stripeId: string | null
+  stripe_id: string | null
 
   @IsNumber()
   created: number
 
   @IsString()
-  paymentMethod: string | null
+  payment_method: string | null
 
   @IsString()
-  transactionState: string | null
+  receipt_url: string | null
+
+  @IsString()
+  transaction_status: string | null
 
   @IsNumber()
   amount: number

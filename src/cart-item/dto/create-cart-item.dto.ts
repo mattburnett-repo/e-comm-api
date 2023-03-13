@@ -7,9 +7,13 @@ export class CreateCartItemDto {
   @IsNotEmpty()
   id: string
 
-  @IsString()
+  @IsUUID()
   @IsNotEmpty()
-  productId: string
+  cart_id: string
+
+  @IsUUID()
+  @IsNotEmpty()
+  product_id: string
 
   @IsString()
   @IsNotEmpty()
@@ -19,11 +23,11 @@ export class CreateCartItemDto {
   @IsNotEmpty()
   productQuantity: number
 
-  @IsNumber()
+  @IsDecimal()
   @IsNotEmpty()
   productPrice: number
 
-  @IsNumber()
+  @IsDecimal()
   @IsNotEmpty()
   lineItemTotalPrice: number
 }

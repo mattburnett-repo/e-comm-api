@@ -1,9 +1,9 @@
 import { CreateCartItemDto } from './dto/create-cart-item.dto'
 
 export const mockCartItem: CreateCartItemDto = {
-  id: 'fa482164- bb05 - 11ed-afa1 - 0242ac120002',
-  // cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-  productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
+  id: 'fa482164-bb05-11ed-afa1-0242ac120002',
+  cart_id: 'fad30dac-baf5-11ed-afa1-0242ac120002',
+  product_id: '6c480ae2-bb04-11ed-afa1-0242ac120002',
   productName: 'Test Product One',
   productQuantity: 5,
   productPrice: 10,
@@ -12,9 +12,9 @@ export const mockCartItem: CreateCartItemDto = {
 
 export const mockCartItems: CreateCartItemDto[] = [
   {
-    id: 'fa482164- bb05 - 11ed-afa1 - 0242ac120002',
-    // cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-    productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
+    id: 'fa482164-bb05-11ed-afa1-0242ac120002',
+    cart_id: 'fad30dac-baf5-11ed-afa1-0242ac120002',
+    product_id: '6c480ae2-bb04-11ed-afa1-0242ac120002',
     productName: 'Test Product One',
     productQuantity: 5,
     productPrice: 10,
@@ -22,8 +22,8 @@ export const mockCartItems: CreateCartItemDto[] = [
   },
   {
     id: '84f165ac-bb86-11ed-afa1-0242ac120002',
-    // cartId: 'fad30dac-baf5-11ed-afa1-0242ac120002',
-    productId: '6c480ae2-bb04-11ed-afa1-0242ac120002',
+    cart_id: 'fad30dac-baf5-11ed-afa1-0242ac120002',
+    product_id: '6c480ae2-bb04-11ed-afa1-0242ac120002',
     productName: 'Test Product Two',
     productQuantity: 10,
     productPrice: 20,
@@ -39,7 +39,16 @@ export const mockCartItemRepository = {
   getProtected: jest.fn().mockImplementation(),
   findOneById: jest.fn().mockResolvedValue(mockCartItem),
   update: jest.fn().mockResolvedValue({ ...mockCartItem }),
-  remove: jest.fn().mockResolvedValue(mockCartItem)
+  remove: jest.fn().mockResolvedValue(mockCartItem),
+
+  createQueryBuilder: jest.fn(() => ({
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    // setParameter: jest.fn().mockReturnThis(),
+    getMany: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockResolvedValue(mockCartItem)
+  }))
 }
 
 export const mockCartItemService = {

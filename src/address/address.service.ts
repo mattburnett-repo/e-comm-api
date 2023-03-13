@@ -19,11 +19,13 @@ export class AddressService {
   }
 
   create(createAddressDto: CreateAddressDto): Promise<Address> {
-    return this.repo.save(createAddressDto)
+    const retVal = this.repo.create(createAddressDto)
+
+    this.logger.log(`AddressService created a new Address: ${retVal.id}`)
+    return this.repo.save(retVal)
   }
 
   findAll(): Promise<Address[]> {
-    // return this.repo.find()
     return this.repo
       .createQueryBuilder('address')
       .leftJoinAndSelect('address.user', 'user')
@@ -44,7 +46,6 @@ export class AddressService {
   }
 
   findOneById(id: string): Promise<Address> {
-    // return this.repo.findOneById(id)
     return this.repo
       .createQueryBuilder('address')
       .leftJoinAndSelect('address.user', 'user')
@@ -106,11 +107,16 @@ export class AddressService {
       .getMany()
   }
 
-  update(id: string, updateAddressDto: UpdateAddressDto) {
+  async update(
+    id: string,
+    updateAddressDto: UpdateAddressDto
+  ): Promise<Address> {
     this.logger.log(`AddressService updates an Address: ${id}`)
 
-    // return this.repo.update(id, updateAddressDto)
-    return this.repo.save(updateAddressDto)
+    const updated = await this.repo.save(updateAddressDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: string) {

@@ -3,7 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -12,7 +14,7 @@ import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 import { CartItem } from '../../cart-item/entities/cart-item.entity'
 import { Order } from '../../order/entities/order.entity'
-import { CartType } from '../../cart-type/entities/cart-type.entity'
+import { User } from '../../user/entities/user.entity'
 @Index('cart_pkey', ['id'], { unique: true })
 @Entity('cart', { schema: 'public' })
 export class Cart {
@@ -20,6 +22,11 @@ export class Cart {
   @IsUUID()
   @IsNotEmpty()
   id: string
+
+  @Column({ nullable: false })
+  @IsUUID()
+  @IsNotEmpty()
+  user_id: string
 
   @Column('character varying', {
     name: 'name',
@@ -37,27 +44,24 @@ export class Cart {
   @IsString()
   description: string | null
 
-  @Column('date', {
-    name: 'order_date',
-    nullable: true,
-    default: () => 'CURRENT_DATE'
-  })
   @CreateDateColumn()
   created_at: Date
 
   @UpdateDateColumn()
   updated_at: Date
 
+  // @ManyToMany(() => User, (user) => user.cart, { onDelete: 'CASCADE' })
+  // user: User[]
+
+  @ManyToOne(() => User, (user) => user.cart, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: User[]
+
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
-    onDelete: 'SET NULL'
+    onDelete: 'CASCADE'
   })
   cartItem: CartItem[]
 
-  @ManyToMany(() => CartType, (cartType) => cartType.cart, {
-    onDelete: 'SET NULL'
-  })
-  cartType: CartType[]
-
-  @ManyToMany(() => Order, (order) => order.cart, { onDelete: 'SET NULL' })
+  @ManyToMany(() => Order, (order) => order.cart)
   order: Order[]
 }

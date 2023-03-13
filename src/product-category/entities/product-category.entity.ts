@@ -4,9 +4,8 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn
 } from 'typeorm'
 
@@ -15,7 +14,7 @@ import { Product } from '../../product/entities/product.entity'
 @Index('product-category_pkey', ['id'], { unique: true })
 @Entity()
 export class ProductCategory {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   @IsNumber()
   @IsNotEmpty()
   id: number
@@ -37,6 +36,5 @@ export class ProductCategory {
   updated_at: Date
 
   @ManyToMany(() => Product, (product) => product.category)
-  @JoinTable()
   product: Product[]
 }

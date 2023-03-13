@@ -36,5 +36,6 @@ export class CreateAddressDto {
   country: string
 
   @IsUUID()
+  @IsNotEmpty()
   user_id: string
 }

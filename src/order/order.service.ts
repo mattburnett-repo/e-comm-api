@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { Cart } from '../cart/entities/cart.entity'
 
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
@@ -11,9 +12,7 @@ import { Order } from './entities/order.entity'
 export class OrderService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(Order) private orderRepository: Repository<Order>
-  ) {
+  constructor(@InjectRepository(Order) private repo: Repository<Order>) {
     this.logger = new Logger()
   }
 
@@ -22,32 +21,83 @@ export class OrderService {
   }
 
   create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const retVal = this.orderRepository.create(createOrderDto)
+    const cart = new Cart()
+    cart.id = createOrderDto.cart_id
 
-    this.logger.log(`OrderService created a new Order: ${retVal.id}`)
-    return this.orderRepository.save(retVal)
+    const order = this.repo.create(createOrderDto)
+    order.cart = [cart]
+
+    this.logger.log(`OrderService creates an Order: ${order.id}`)
+
+    return this.repo.save(order)
   }
 
   findAll(): Promise<Order[]> {
-    return this.orderRepository.find()
+    return this.repo.find({
+      relations: ['cart', 'cart.cartItem'],
+      select: {
+        id: true,
+        cart_id: true,
+        user_id: true,
+        order_date: true,
+        tax: true,
+        total_price: true,
+        payment_id: true,
+        cart: {
+          id: true,
+          name: true,
+          description: true,
+          cartItem: {
+            id: true,
+            product_id: true,
+            productName: true,
+            productQuantity: true,
+            productPrice: true,
+            lineItemTotalPrice: true
+          }
+        }
+      }
+    })
   }
 
   findOneById(id: string): Promise<Order> {
-    return this.orderRepository.findOneById(id)
+    return this.repo.findOne({
+      where: {
+        id: id
+      },
+      relations: ['cart', 'cart.cartItem'],
+      select: {
+        id: true,
+        cart_id: true,
+        user_id: true,
+        order_date: true,
+        tax: true,
+        total_price: true,
+        payment_id: true,
+        cart: {
+          id: true,
+          name: true,
+          description: true,
+          cartItem: {
+            id: true,
+            product_id: true,
+            productName: true,
+            productQuantity: true,
+            productPrice: true,
+            lineItemTotalPrice: true
+          }
+        }
+      }
+    })
   }
 
   async update(id: string, updateOrderDto: UpdateOrderDto) {
-    const retVal = await this.findOneById(id)
-
-    retVal.id = updateOrderDto.id
-    retVal.orderDate = updateOrderDto.orderDate
-    retVal.tax = updateOrderDto.tax
-    retVal.totalPrice = updateOrderDto.totalPrice
-    retVal.paymentId = updateOrderDto.paymentId
-
     this.logger.log(`OrderService updates an Order: ${id}`)
 
-    return this.orderRepository.save(retVal)
+    const updated = await this.repo.save(updateOrderDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: string) {
@@ -55,6 +105,6 @@ export class OrderService {
 
     this.logger.log(`OrderService deletes an Order: ${id}`)
 
-    return this.orderRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

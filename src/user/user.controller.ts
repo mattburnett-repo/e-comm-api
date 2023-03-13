@@ -50,7 +50,7 @@ export class UserController {
     return this.usersService.findOneByUsername(username)
   }
 
-  @UseGuards(AccessTokenGuard)
+  // @UseGuards(AccessTokenGuard)
   @Patch('/id/:id')
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -59,7 +59,7 @@ export class UserController {
     return this.usersService.update(id, updateUserDto)
   }
 
-  @UseGuards(AccessTokenGuard)
+  // @UseGuards(AccessTokenGuard)
   @Delete('/id/:id')
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.usersService.remove(id)

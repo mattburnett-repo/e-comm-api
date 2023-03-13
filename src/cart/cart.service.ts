@@ -11,43 +11,56 @@ import { Cart } from './entities/cart.entity'
 export class CartService {
   logger: Logger
 
-  constructor(@InjectRepository(Cart) private repo: Repository<Cart>) {
+  constructor(@InjectRepository(Cart) private cart: Repository<Cart>) {
     this.logger = new Logger()
   }
 
   getProtected(): string {
     return 'This is a protected resource. If you see this, authentication was successful.'
   }
-  create(createCartDto: CreateCartDto): Promise<Cart> {
-    const retVal = this.repo.create(createCartDto)
+  async create(createCartDto: CreateCartDto): Promise<Cart> {
+    // console.log('cart service dto: ', createCartDto)
 
-    this.logger.log(`ExampleService created a new Example: ${retVal.id}`)
-    return this.repo.save(retVal)
+    this.logger.log(`ExampleService created a new Example: ${createCartDto.id}`)
+
+    return this.cart.save(createCartDto)
   }
 
   findAll(): Promise<Cart[]> {
-    return this.repo.find({
-      relations: {
-        cartItem: true
-      }
-    })
+    return this.cart
+      .createQueryBuilder('cart')
+      .leftJoinAndSelect('cart.cartItem', 'cartItem')
+      .select([
+        'cart.id',
+        'cart.user_id',
+        'cart.name',
+        'cart.description',
+        'cartItem.id',
+        'cartItem.cart_id',
+        'cartItem.product_id',
+        'cartItem.productName',
+        'cartItem.productQuantity',
+        'cartItem.productPrice',
+        'cartItem.lineItemTotalPrice'
+      ])
+      .getMany()
   }
 
   findOneById(id: string): Promise<Cart> {
-    return this.repo.findOne({
+    return this.cart.findOne({
       where: {
         id: id
       },
-      relations: {
-        cartItem: true
-      },
+      relations: ['cartItem'],
       select: {
         id: true,
+        user_id: true,
         name: true,
         description: true,
         cartItem: {
           id: true,
-          productId: true,
+          cart_id: true,
+          product_id: true,
           productName: true,
           productQuantity: true,
           productPrice: true,
@@ -58,15 +71,12 @@ export class CartService {
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {
-    const cart = await this.findOneById(id)
+    this.logger.log(`CartService updates a Cart: ${id}`)
 
-    cart.id = updateCartDto.id
-    cart.name = updateCartDto.name
-    cart.description = updateCartDto.description
+    const updated = await this.cart.save(updateCartDto)
+    const retVal = await this.findOneById(updated.id)
 
-    this.logger.log(`CartService updates a cart: ${id}`)
-
-    return this.repo.save(cart)
+    return retVal
   }
 
   async remove(id: string) {
@@ -74,6 +84,6 @@ export class CartService {
 
     this.logger.log(`CartService deletes a cart: ${id}`)
 
-    return this.repo.remove(toDelete)
+    return this.cart.remove(toDelete)
   }
 }

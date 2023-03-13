@@ -11,9 +11,7 @@ import { Payment } from './entities/payment.entity'
 export class PaymentService {
   logger: Logger
 
-  constructor(
-    @InjectRepository(Payment) private paymentRepository: Repository<Payment>
-  ) {
+  constructor(@InjectRepository(Payment) private repo: Repository<Payment>) {
     this.logger = new Logger()
   }
 
@@ -22,28 +20,27 @@ export class PaymentService {
   }
 
   create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
-    const retVal = this.paymentRepository.create(createPaymentDto)
-
-    this.logger.log(`PaymentService created a new Payment: ${retVal.id}`)
-    return this.paymentRepository.save(retVal)
+    //     const retVal = this.repo.create(createPaymentDto)
+    //
+    //     this.logger.log(`PaymentService created a new Payment: ${retVal.id}`)
+    return this.repo.save(createPaymentDto)
   }
 
   findAll(): Promise<Payment[]> {
-    return this.paymentRepository.find()
+    return this.repo.find()
   }
 
   findOneById(id: string): Promise<Payment> {
-    return this.paymentRepository.findOneById(id)
+    return this.repo.findOneById(id)
   }
 
-  async update(id: string, updateExampleDto: UpdatePaymentDto) {
-    const retVal = await this.findOneById(id)
-
-    retVal.id = updateExampleDto.id
-
+  async update(id: string, updatePaymenteDto: UpdatePaymentDto) {
     this.logger.log(`PaymentService updates a Payment: ${id}`)
 
-    return this.paymentRepository.save(retVal)
+    const updated = await this.repo.save(updatePaymenteDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: string) {
@@ -51,6 +48,6 @@ export class PaymentService {
 
     this.logger.log(`PaymentService deletes a Payment: ${id}`)
 
-    return this.paymentRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

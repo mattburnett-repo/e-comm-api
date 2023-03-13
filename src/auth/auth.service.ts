@@ -45,6 +45,7 @@ export class AuthService {
     const passwordMatches = await argon2.verify(user.password, data.password)
     if (!passwordMatches) throw new BadRequestException('Password is incorrect')
 
+
     const tokens = await this.getTokens(user.id, user.username)
     await this.updateRefreshToken(user.id, tokens.refreshToken)
     return tokens

@@ -6,10 +6,13 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToMany
+  ManyToMany,
+  JoinTable
 } from 'typeorm'
 
 import { ProductCategory } from '../../product-category/entities/product-category.entity'
+
+import { ColumnNumericTransformer } from '../../util/ColumnNumericTransformer'
 @Index('product_pkey', ['id'], { unique: true })
 @Entity()
 export class Product {
@@ -35,7 +38,13 @@ export class Product {
   })
   imageUrl: string | null
 
-  @Column('numeric', { name: 'price', nullable: false, precision: 6, scale: 2 })
+  @Column('numeric', {
+    name: 'price',
+    nullable: false,
+    precision: 6,
+    scale: 2,
+    transformer: new ColumnNumericTransformer()
+  })
   price: number
 
   @CreateDateColumn()
@@ -46,7 +55,23 @@ export class Product {
 
   @ManyToMany(
     () => ProductCategory,
-    (productCategory) => productCategory.product
+    (productCategory) => productCategory.product,
+    {
+      eager: false,
+      cascade: true,
+      onDelete: 'CASCADE'
+    }
   )
+  @JoinTable({
+    name: 'product_product_category', // table name for the junction table of this relation
+    joinColumn: {
+      name: 'product',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'product_category',
+      referencedColumnName: 'id'
+    }
+  })
   category: ProductCategory[]
 }

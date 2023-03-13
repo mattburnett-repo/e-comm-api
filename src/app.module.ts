@@ -17,7 +17,6 @@ import { PaymentModule } from './payment/payment.module'
 import { PaymentTypeModule } from './payment-type/payment-type.module'
 import { ProductModule } from './product/product.module'
 import { ProductCategoryModule } from './product-category/product-category.module'
-import { CartTypeModule } from './cart-type/cart-type.module'
 
 import dbConfig from './config/dbConfig'
 
@@ -43,8 +42,7 @@ const ENV = process.env.NODE_ENV
     PaymentModule,
     PaymentTypeModule,
     ProductCategoryModule,
-    ProductModule,
-    CartTypeModule
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService]

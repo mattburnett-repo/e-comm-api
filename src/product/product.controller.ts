@@ -44,7 +44,7 @@ export class ProductController {
   findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.productService.findOneById(id)
   }
-  @Get('/category/:id')
+  @Get('/category/id/:id')
   findAllByCategoryId(@Param('id', new ParseIntPipe()) id: number) {
     return this.productService.findAllByCategoryId(id)
   }

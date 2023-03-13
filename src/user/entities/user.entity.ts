@@ -7,13 +7,11 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  OneToMany,
-  ManyToMany,
-  JoinTable
+  OneToMany
 } from 'typeorm'
 
 import { hash } from 'argon2'
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString, IsUUID } from 'class-validator'
 
 import { Order } from '../../order/entities/order.entity'
 import { Address } from '../../address/entities/address.entity'
@@ -42,7 +40,7 @@ export class User {
   username: string
 
   @Column({ unique: true, nullable: true })
-  @IsString()
+  @IsEmail()
   email: string
 
   @Column({ nullable: false })
@@ -102,30 +100,21 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date
 
-  @ManyToMany(() => Cart, (cart) => cart.id, { onDelete: 'SET NULL' })
-  @JoinTable({
-    name: 'user_cart',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'cart_id',
-      referencedColumnName: 'id'
-    }
-  })
+  @OneToMany(() => Cart, (cart) => cart.user, { onDelete: 'CASCADE' })
   cart: Cart[]
 
-  @OneToMany(() => Order, (order) => order.user, { onDelete: 'SET NULL' })
+  @OneToMany(() => Order, (order) => order.user, {
+    onDelete: 'CASCADE'
+  })
   order: Order[]
 
   @OneToMany(() => Address, (address) => address.user, {
-    onDelete: 'SET NULL'
+    onDelete: 'CASCADE'
   })
   address: Address[]
 
   @OneToMany(() => Payment, (payment) => payment.user, {
-    onDelete: 'SET NULL'
+    onDelete: 'CASCADE'
   })
   payment: Payment[]
 }

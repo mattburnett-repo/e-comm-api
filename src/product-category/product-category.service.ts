@@ -13,7 +13,7 @@ export class ProductCategoryService {
 
   constructor(
     @InjectRepository(ProductCategory)
-    private productCategoryRepository: Repository<ProductCategory>
+    private repo: Repository<ProductCategory>
   ) {
     this.logger = new Logger()
   }
@@ -25,32 +25,26 @@ export class ProductCategoryService {
   create(
     createProductCategoryDto: CreateProductCategoryDto
   ): Promise<ProductCategory> {
-    const retVal = this.productCategoryRepository.create(
-      createProductCategoryDto
-    )
+    const retVal = this.repo.create(createProductCategoryDto)
 
     this.logger.log(
       `ProductCategoryService created a new ProductCategory: ${retVal.id}`
     )
-    return this.productCategoryRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
   findAll(): Promise<ProductCategory[]> {
-    return this.productCategoryRepository.find()
+    return this.repo.find()
   }
 
   findOneById(id: number): Promise<ProductCategory> {
-    return this.productCategoryRepository.findOneById(id)
+    return this.repo.findOneById(id)
   }
 
   async update(id: number, updateProductCategoryDto: UpdateProductCategoryDto) {
-    const example = await this.findOneById(id)
-
-    example.id = updateProductCategoryDto.id
-
     this.logger.log(`ProductCategoryService updates a ProductCategory: ${id}`)
 
-    return this.productCategoryRepository.save(example)
+    return this.repo.save(updateProductCategoryDto)
   }
 
   async remove(id: number) {
@@ -58,6 +52,6 @@ export class ProductCategoryService {
 
     this.logger.log(`ProductCategoryService deletes a ProductCategory: ${id}`)
 
-    return this.productCategoryRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

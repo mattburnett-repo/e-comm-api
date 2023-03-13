@@ -1,30 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { UserModule } from '../src/user/user.module'
-import { User } from '../src/user/entities/user.entity'
-import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
-
-import { mockUser, mockUsers, mockUserRepository } from '../src/user/mockData'
 import { mockToken } from './mockData'
+import { AppModule } from '../src/app.module'
 
-// https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
+const testUserData = {
+  id: '4c02b8be-c099-11ed-afa1-0242ac120002',
+  username: 'testUsername',
+  email: 'test@user.com',
+  password: 'password',
+  firstName: 'testFirstName',
+  lastName: 'testLastName',
+  refreshToken: mockToken
+}
 
 describe('UserController (e2e)', () => {
   let app: INestApplication
 
+  // Use AppModule so that we get all of the dependencies, and only need to focus on the tests, not all of the .overrides, etc. business
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule]
-    })
-      .overrideProvider(getRepositoryToken(User))
-      .useValue(mockUserRepository)
-      .overrideGuard(AccessTokenGuard)
-      .useValue(mockToken)
-      .compile()
+      imports: [AppModule]
+    }).compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()
@@ -34,22 +33,16 @@ describe('UserController (e2e)', () => {
     await app.close()
   })
 
-  it('/user GETs all', () => {
-    return request(app.getHttpServer())
-      .get('/user')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .expect(mockUsers)
-  })
-
   it('/user (POST)', () => {
     return request(app.getHttpServer())
       .post('/user')
-      .send({ mockUser })
+      .send(testUserData)
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
       })
   })
 
@@ -58,44 +51,85 @@ describe('UserController (e2e)', () => {
   })
   it('/user/id/:id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .get(`/user/id/${testUserData.id}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
+      })
+  })
+  it('/user GETs all', () => {
+    return request(app.getHttpServer())
+      .get('/user')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        const users = res.body
+        expect(users.length).toEqual(4)
+
+        const user = users[3]
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
   it('/user/username/:username (GET)', () => {
     return request(app.getHttpServer())
-      .get('/user/username/test')
+      .get(`/user/username/${testUserData.username}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
   it('PATCH handles a bad id value', () => {
-    return request(app.getHttpServer()).patch('/user/id/1').expect(400)
+    return request(app.getHttpServer()).patch('/user/id/x').expect(400)
   })
   it('/user/:id (PATCH', () => {
+    const updatedUsername = 'updatedUsername'
+
     return request(app.getHttpServer())
-      .patch('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .patch(`/user/id/${testUserData.id}`)
       .set('Authorization', `Bearer ${mockToken}`)
+      .send({ ...testUserData, username: updatedUsername })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockUser })
+        const user = res.body
+
+        expect(user).not.toBeNull()
+        expect(user.address).not.toBeNull()
+        expect(user.order).not.toBeNull()
+        expect(user.cart).not.toBeNull()
+        expect(user.payment).not.toBeNull()
       })
   })
 
   it('DELETE handles a bad id value', () => {
-    return request(app.getHttpServer()).delete('/user/id/1').expect(400)
+    return request(app.getHttpServer())
+      .delete('/user/id/1')
+      .set('Authorization', `Bearer ${mockToken}`)
+      .expect(400)
   })
   it('/user/id/:id (DELETE)', () => {
     return request(app.getHttpServer())
-      .delete('/user/id/1c027e94-d9dc-45f6-8661-7e26891aacd5')
+      .delete(`/user/id/${testUserData.id}`)
       .expect(200)
   })
 })

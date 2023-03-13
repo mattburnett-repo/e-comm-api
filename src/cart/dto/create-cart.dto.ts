@@ -7,6 +7,10 @@ export class CreateCartDto {
   @IsNotEmpty()
   id: string
 
+  @IsUUID()
+  @IsNotEmpty()
+  user_id: string
+
   @IsString()
   name: string
 

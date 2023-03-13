@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { ProductCategory } from '../product-category/entities/product-category.entity'
 
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
@@ -19,18 +20,48 @@ export class ProductService {
   }
 
   create(createProductDto: CreateProductDto): Promise<Product> {
-    const retVal = this.repo.create(createProductDto)
+    const productCategory = new ProductCategory()
+    productCategory.id = createProductDto.category_id
 
-    this.logger.log(`ProductService created a new Product: ${retVal.id}`)
-    return this.repo.save(retVal)
+    const product = this.repo.create(createProductDto)
+    product.category = [productCategory]
+
+    this.logger.log(`ProductService created a new Product: ${product.id}`)
+
+    return this.repo.save(product)
   }
 
   findAll(): Promise<Product[]> {
-    return this.repo.find()
+    return this.repo.find({
+      relations: ['category'],
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        imageUrl: true,
+        price: true,
+        category: {
+          id: true
+        }
+      }
+    })
   }
 
   findOneById(id: string): Promise<Product> {
-    return this.repo.findOneById(id)
+    return this.repo.findOne({
+      where: { id: id },
+      relations: ['category'],
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        imageUrl: true,
+        price: true,
+        category: {
+          id: true
+        }
+      }
+    })
   }
 
   findAllByCategoryId(id: number): Promise<Product[]> {
@@ -50,13 +81,12 @@ export class ProductService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    const retVal = await this.findOneById(id)
-
-    retVal.id = updateProductDto.id
-
     this.logger.log(`ExampleService updates a Product: ${id}`)
 
-    return this.repo.save(retVal)
+    const updated = await this.repo.save(updateProductDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: string) {

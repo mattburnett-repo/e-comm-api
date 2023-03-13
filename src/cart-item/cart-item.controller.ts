@@ -19,28 +19,28 @@ import { AccessTokenGuard } from '../common/guards/accessToken.guard'
 @Controller('cart-item')
 export class CartItemController {
   // eslint-disable-next-line prettier/prettier
-  constructor(private readonly cartItemService: CartItemService) { }
+  constructor(private readonly service: CartItemService) { }
 
   @Post()
   create(@Body() createCartItemDto: CreateCartItemDto) {
-    return this.cartItemService.create(createCartItemDto)
+    return this.service.create(createCartItemDto)
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('protected')
   @ApiBearerAuth('bearerAuth')
   getProtected(): string {
-    return this.cartItemService.getProtected()
+    return this.service.getProtected()
   }
 
   @Get()
   findAll() {
-    return this.cartItemService.findAll()
+    return this.service.findAll()
   }
 
   @Get('/id/:id')
   findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.cartItemService.findOneById(id)
+    return this.service.findOneById(id)
   }
 
   @Patch('/id/:id')
@@ -48,11 +48,11 @@ export class CartItemController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateCartItemDto: UpdateCartItemDto
   ) {
-    return this.cartItemService.update(id, updateCartItemDto)
+    return this.service.update(id, updateCartItemDto)
   }
 
   @Delete('/id/:id')
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.cartItemService.remove(id)
+    return this.service.remove(id)
   }
 }

@@ -19,7 +19,8 @@ export class Address {
   @IsNotEmpty()
   id: string
 
-  @Column()
+  @IsUUID()
+  @Column({ nullable: false })
   user_id: string
 
   @Column('character varying', {
@@ -71,15 +72,15 @@ export class Address {
   @IsNotEmpty()
   country: string
 
-  @ManyToOne(() => User, (user) => user.address, {
-    onDelete: 'SET NULL'
-  })
-  @JoinColumn({ name: 'user_id' })
-  user: User
-
   @CreateDateColumn()
   created_at: Date
 
   @UpdateDateColumn()
   updated_at: Date
+
+  @ManyToOne(() => User, (user) => user.address, {
+    onDelete: 'CASCADE'
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: User
 }

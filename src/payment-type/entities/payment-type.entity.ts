@@ -4,8 +4,8 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  OneToMany,
+  PrimaryColumn,
   UpdateDateColumn
 } from 'typeorm'
 import { Payment } from '../../payment/entities/payment.entity'
@@ -13,7 +13,9 @@ import { Payment } from '../../payment/entities/payment.entity'
 @Index('payment_type_pkey', ['id'], { unique: true })
 @Entity('payment_type', { schema: 'public' })
 export class PaymentType {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
+  @IsNumber()
+  @IsNotEmpty()
   id: number
 
   @Column('character varying', {
@@ -34,12 +36,12 @@ export class PaymentType {
   @IsNotEmpty()
   description: string
 
-  @OneToOne(() => Payment)
-  payment: Payment
-
   @CreateDateColumn()
   created_at: Date
 
   @UpdateDateColumn()
   updated_at: Date
+
+  @OneToMany(() => Payment, (payment) => payment.paymentType)
+  payment: Payment
 }

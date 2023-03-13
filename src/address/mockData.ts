@@ -40,6 +40,19 @@ export const mockAddresses: CreateAddressDto[] = [
   }
 ]
 
+export const testAddress = {
+  id: '6baa2042-bb78-11ed-afa1-0242ac120002',
+  firstName: 'Test First name 3',
+  lastName: 'Test Last Name 3',
+  address_1: '123 Street Ave. 3',
+  address_2: 'Suite 3 3',
+  city: 'Test City 3',
+  stateProvince: 'Test State 3',
+  postalCode: '12345 3',
+  country: 'Deutschland 3',
+  user_id: '4c02b8be-c099-11ed-afa1-0242ac120002'
+}
+
 export const mockAddressRepository = {
   create: jest.fn().mockResolvedValue(mockAddress),
   save: jest.fn().mockResolvedValue(mockAddress),
@@ -57,8 +70,8 @@ export const mockAddressRepository = {
     select: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
     // setParameter: jest.fn().mockReturnThis(),
-    getMany: jest.fn().mockReturnThis()
-    // getMany: jest.fn().mockResolvedValue(mockProducts)
+    getMany: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockResolvedValue(mockAddress)
   }))
 }
 
@@ -79,6 +92,7 @@ export const mockAddressService = {
 module.exports = {
   mockAddress: mockAddress,
   mockAddresses: mockAddresses,
+  testAddress: testAddress,
   mockAddressRepository: mockAddressRepository,
   mockAddressService: mockAddressService
 }

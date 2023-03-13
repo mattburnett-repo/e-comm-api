@@ -1,34 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
 
 import * as request from 'supertest'
 
-import { PaymentTypeModule } from '../src/payment-type/payment-type.module'
-import { PaymentType } from '../src/payment-type/entities/payment-type.entity'
-import { AccessTokenGuard } from '../src/common/guards/accessToken.guard'
-
-import {
-  mockPaymentType,
-  mockPaymentTypes,
-  mockPaymentTypeRepository
-} from '../src/payment-type/mockData'
 import { mockToken } from './mockData'
+import { AppModule } from '../src/app.module'
 
-// https://www.youtube.com/watch?v=dXOfOgFFKuY&t=776s
+const testPaymentTypeData = {
+  id: 7,
+  name: 'testPaymentTypeName',
+  description: 'testPaymentTypeDescription'
+}
 
 describe('PaymentTypeController (e2e)', () => {
   let app: INestApplication
 
+  // Use AppModule so that we get all of the dependencies, and only need to focus on the tests, not all of the .overrides, etc. business
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [PaymentTypeModule]
-    })
-      .overrideProvider(getRepositoryToken(PaymentType))
-      .useValue(mockPaymentTypeRepository)
-      .overrideGuard(AccessTokenGuard)
-      .useValue(mockToken)
-      .compile()
+      imports: [AppModule]
+    }).compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()
@@ -38,24 +29,34 @@ describe('PaymentTypeController (e2e)', () => {
     await app.close()
   })
 
+  it('/payment-type POSTs one', () => {
+    return request(app.getHttpServer())
+      .post('/payment-type')
+      .send(testPaymentTypeData)
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .then((res) => {
+        const paymentType = res.body
+
+        expect(paymentType.id).toEqual(testPaymentTypeData.id)
+        expect(paymentType.name).toEqual(testPaymentTypeData.name)
+        expect(paymentType.description).toEqual(testPaymentTypeData.description)
+      })
+  })
+
   it('/payment-type GETs all', () => {
     return request(app.getHttpServer())
       .get('/payment-type')
       .expect('Content-Type', /json/)
       .expect(200)
-      .expect(mockPaymentTypes)
-  })
-
-  it('/payment-type POSTs one', () => {
-    return request(app.getHttpServer())
-      .post('/payment-type')
-      .send({ mockPaymentType })
-      .expect('Content-Type', /json/)
-      .expect(201)
       .then((res) => {
-        expect(res.body).toEqual({
-          ...mockPaymentType
-        })
+        const paymentTypes = res.body
+        expect(paymentTypes.length).toEqual(7)
+
+        const paymentType = paymentTypes[6]
+        expect(paymentType.id).toEqual(testPaymentTypeData.id)
+        expect(paymentType.name).toEqual(testPaymentTypeData.name)
+        expect(paymentType.description).toEqual(testPaymentTypeData.description)
       })
   })
 
@@ -64,11 +65,14 @@ describe('PaymentTypeController (e2e)', () => {
   })
   it('/payment-type/id/:id GETs one by id', () => {
     return request(app.getHttpServer())
-      .get('/payment-type/id/2')
+      .get(`/payment-type/id/${testPaymentTypeData.id}`)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockPaymentType })
+        const paymentType = res.body
+        expect(paymentType.id).toEqual(testPaymentTypeData.id)
+        expect(paymentType.name).toEqual(testPaymentTypeData.name)
+        expect(paymentType.description).toEqual(testPaymentTypeData.description)
       })
   })
 
@@ -76,13 +80,19 @@ describe('PaymentTypeController (e2e)', () => {
     return request(app.getHttpServer()).patch('/payment-type/id/x').expect(400)
   })
   it('/payment-type/id/:id (PATCH)', () => {
+    const updatedNameValue = 'updated payment type name'
+
     return request(app.getHttpServer())
-      .patch('/payment-type/id/2')
+      .patch(`/payment-type/id/${testPaymentTypeData.id}`)
       .set('Authorization', `Bearer ${mockToken}`)
+      .send({ ...testPaymentTypeData, name: updatedNameValue })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ ...mockPaymentType })
+        const paymentType = res.body
+        expect(paymentType.id).toEqual(testPaymentTypeData.id)
+        expect(paymentType.name).toEqual(updatedNameValue)
+        expect(paymentType.description).toEqual(testPaymentTypeData.description)
       })
   })
 
@@ -90,6 +100,8 @@ describe('PaymentTypeController (e2e)', () => {
     return request(app.getHttpServer()).delete('/payment-type/id/x').expect(400)
   })
   it('/payment-type/id/:id (DELETE)', () => {
-    return request(app.getHttpServer()).delete('/payment-type/id/2').expect(200)
+    return request(app.getHttpServer())
+      .delete(`/payment-type/id/${testPaymentTypeData.id}`)
+      .expect(200)
   })
 })

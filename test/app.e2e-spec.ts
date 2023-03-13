@@ -68,9 +68,6 @@ describe('AppController (e2e)', () => {
   it('can see /cart-item', () => {
     return request(app.getHttpServer()).get('/cart-item').expect(200)
   })
-  it('can see /cart-type', () => {
-    return request(app.getHttpServer()).get('/cart-type').expect(200)
-  })
   it('can see /example', () => {
     return request(app.getHttpServer()).get('/example').expect(200)
   })

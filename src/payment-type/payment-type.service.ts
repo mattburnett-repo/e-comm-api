@@ -13,7 +13,7 @@ export class PaymentTypeService {
 
   constructor(
     @InjectRepository(PaymentType)
-    private paymentTypeRepository: Repository<PaymentType>
+    private repo: Repository<PaymentType>
   ) {
     this.logger = new Logger()
   }
@@ -23,30 +23,27 @@ export class PaymentTypeService {
   }
 
   create(createPaymentTypeDto: CreatePaymentTypeDto): Promise<PaymentType> {
-    const retVal = this.paymentTypeRepository.create(createPaymentTypeDto)
+    const retVal = this.repo.create(createPaymentTypeDto)
 
     this.logger.log(`ExampleService created a new Example: ${retVal.id}`)
-    return this.paymentTypeRepository.save(retVal)
+    return this.repo.save(retVal)
   }
 
   findAll(): Promise<PaymentType[]> {
-    return this.paymentTypeRepository.find()
+    return this.repo.find()
   }
 
   findOneById(id: number): Promise<PaymentType> {
-    return this.paymentTypeRepository.findOneById(id)
+    return this.repo.findOneById(id)
   }
 
   async update(id: number, updatePaymentTypeDto: UpdatePaymentTypeDto) {
-    const retVal = await this.findOneById(id)
-
-    retVal.id = updatePaymentTypeDto.id
-    retVal.name = updatePaymentTypeDto.name
-    retVal.description = updatePaymentTypeDto.description
-
     this.logger.log(`ExampleService updates an retVal: ${id}`)
 
-    return this.paymentTypeRepository.save(retVal)
+    const updated = await this.repo.save(updatePaymentTypeDto)
+    const retVal = await this.findOneById(updated.id)
+
+    return retVal
   }
 
   async remove(id: number) {
@@ -54,6 +51,6 @@ export class PaymentTypeService {
 
     this.logger.log(`ExampleService deletes an Example: ${id}`)
 
-    return this.paymentTypeRepository.remove(toDelete)
+    return this.repo.remove(toDelete)
   }
 }

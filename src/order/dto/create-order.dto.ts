@@ -7,16 +7,23 @@ export class CreateOrderDto {
   @IsNotEmpty()
   id: string
 
+  @IsUUID()
+  @IsNotEmpty()
+  cart_id: string
+
   @IsDate()
   @IsNotEmpty()
-  orderDate: Date
+  order_date: Date
 
   @IsNumber()
   tax: number
 
   @IsNumber()
-  totalPrice: number
+  total_price: number
 
-  @IsNumber()
-  paymentId: number
+  @IsUUID()
+  payment_id: string
+
+  @IsUUID()
+  user_id: string
 }
