@@ -42,7 +42,7 @@ describe('UserController (e2e)', () => {
       .then((res) => {
         const user = res.body
 
-        expect(user).not.toBeNull()
+        expect(user).not.toBeUndefined()
       })
   })
 
@@ -57,11 +57,11 @@ describe('UserController (e2e)', () => {
       .then((res) => {
         const user = res.body
 
-        expect(user).not.toBeNull()
-        expect(user.address).not.toBeNull()
-        expect(user.order).not.toBeNull()
-        expect(user.cart).not.toBeNull()
-        expect(user.payment).not.toBeNull()
+        expect(user).not.toBeUndefined()
+        expect(user.address).not.toBeUndefined()
+        expect(user.order).not.toBeUndefined()
+        expect(user.cart).not.toBeUndefined()
+        expect(user.payment).not.toBeUndefined()
       })
   })
   it('/user GETs all', () => {
@@ -74,11 +74,11 @@ describe('UserController (e2e)', () => {
         expect(users.length).toEqual(4)
 
         const user = users[3]
-        expect(user).not.toBeNull()
-        expect(user.address).not.toBeNull()
-        expect(user.order).not.toBeNull()
-        expect(user.cart).not.toBeNull()
-        expect(user.payment).not.toBeNull()
+        expect(user).not.toBeUndefined()
+        expect(user.address).not.toBeUndefined()
+        expect(user.order).not.toBeUndefined()
+        expect(user.cart).not.toBeUndefined()
+        expect(user.payment).not.toBeUndefined()
       })
   })
 
@@ -90,11 +90,11 @@ describe('UserController (e2e)', () => {
       .then((res) => {
         const user = res.body
 
-        expect(user).not.toBeNull()
-        expect(user.address).not.toBeNull()
-        expect(user.order).not.toBeNull()
-        expect(user.cart).not.toBeNull()
-        expect(user.payment).not.toBeNull()
+        expect(user).not.toBeUndefined()
+        expect(user.address).not.toBeUndefined()
+        expect(user.order).not.toBeUndefined()
+        expect(user.cart).not.toBeUndefined()
+        expect(user.payment).not.toBeUndefined()
       })
   })
 
@@ -113,11 +113,11 @@ describe('UserController (e2e)', () => {
       .then((res) => {
         const user = res.body
 
-        expect(user).not.toBeNull()
-        expect(user.address).not.toBeNull()
-        expect(user.order).not.toBeNull()
-        expect(user.cart).not.toBeNull()
-        expect(user.payment).not.toBeNull()
+        expect(user).not.toBeUndefined()
+        expect(user.address).not.toBeUndefined()
+        expect(user.order).not.toBeUndefined()
+        expect(user.cart).not.toBeUndefined()
+        expect(user.payment).not.toBeUndefined()
       })
   })
 
