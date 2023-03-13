@@ -4,11 +4,7 @@ export class seedTables implements MigrationInterface {
   name = 'seedTables1678040718351'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-<<<<<<< HEAD
-    //  Data tables
-=======
     //  Base data tables
->>>>>>> relations_dev
     await queryRunner.query(
       `INSERT INTO "user" VALUES ('964275ed-f9da-49b6-8fde-9da1d472197b', 'HappyCustomer', 'happy@customer.com', 'happyCustomer', 'Happy', 'Customer')`
     )
@@ -19,29 +15,7 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO address VALUES ('324e2014-bafb-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 'Test First name', 'Test Last Name', '123 Street Ave.', 'Suite 3', 'Test City', 'Test State', '12345', 'Deutschland', Now(), Now())`
     )
     await queryRunner.query(
-<<<<<<< HEAD
-      `INSERT INTO cart VALUES ('fad30dac-baf5-11ed-afa1-0242ac120002', 'Test Cart Name', 'Test Cart Description', Now())`
-    )
-    await queryRunner.query(
-      `INSERT INTO cart_type VALUES (1, 'User', 'Typical user cart')`
-    )
-    await queryRunner.query(
-      `INSERT INTO cart_type VALUES (2, 'Gift', 'Gift cart')`
-    )
-    await queryRunner.query(
-      `INSERT INTO cart_type VALUES (3, 'Promotional', 'Promotional cart')`
-    )
-    await queryRunner.query(
-      `INSERT INTO cart_type VALUES (4, 'Popular', 'Popular cart')`
-    )
-    await queryRunner.query(
-      `INSERT INTO cart_item VALUES ('fa482164-bb05-11ed-afa1-0242ac120002', '6c480ae2-bb04-11ed-afa1-0242ac120002', 'Test Product One', 5, 10, 50, Now(), Now(), 'fad30dac-baf5-11ed-afa1-0242ac120002')`
-    )
-    await queryRunner.query(
-      `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', Now(), 1.23, 3.45, 12345, Now(), Now(), '964275ed-f9da-49b6-8fde-9da1d472197b')`
-=======
       `INSERT INTO cart VALUES ('fad30dac-baf5-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 'Test Cart Name', 'Test Cart Description', Now())`
->>>>>>> relations_dev
     )
     await queryRunner.query(
       `INSERT INTO payment_type VALUES (1, 'paypal', 'PayPal')`
@@ -62,14 +36,10 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO payment_type VALUES(6, 'applePay', 'Apple Pay')`
     )
     await queryRunner.query(
-<<<<<<< HEAD
-      `INSERT INTO payment VALUES('cfdd4196-bb02-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 'stripeId-test-value', 12345, 'test payment method', 'https://receipt-url.com', 'test transaction status', 123.45)`
-=======
       `INSERT INTO payment VALUES('cfdd4196-bb02-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 6, 'stripeId-test-value', 12345, 'test payment method', 'https://receipt-url.com', 'test transaction status', 123.45)`
     )
     await queryRunner.query(
       `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002', 'cfad3828-bfdc-11ed-afa1-0242ac120002', Now(),  1.23, 3.45, '964275ed-f9da-49b6-8fde-9da1d472197b', Now(), Now())`
->>>>>>> relations_dev
     )
     await queryRunner.query(
       `INSERT INTO product_category VALUES(1,'Solar Energy','Solar energy is a renewable energy source that can be harnessed to power a variety of devices and systems, from small handheld gadgets to large-scale buildings.')`
@@ -89,23 +59,11 @@ export class seedTables implements MigrationInterface {
 
     // Many-to-many / Association / Join tables
     await queryRunner.query(
-<<<<<<< HEAD
-      `INSERT INTO cart_type_cart_cart VALUES(3, 'fad30dac-baf5-11ed-afa1-0242ac120002')`
-    )
-    await queryRunner.query(
-      `INSERT INTO order_cart_cart VALUES('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
-    )
-
-    await queryRunner.query(
-      `INSERT INTO user_cart VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
-    )
-=======
       `INSERT INTO order_cart_cart VALUES('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     )
     // await queryRunner.query(
     //   `INSERT INTO user_cart VALUES('964275ed-f9da-49b6-8fde-9da1d472197b', 'fad30dac-baf5-11ed-afa1-0242ac120002')`
     // )
->>>>>>> relations_dev
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier, @typescript-eslint/no-empty-function

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator'
+import {
+  IsDecimal,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUUID
+} from 'class-validator'
 import { PrimaryGeneratedColumn } from 'typeorm'
 
 export class CreateCartItemDto {
