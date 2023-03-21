@@ -48,6 +48,10 @@ export class ProductController {
   findAllByCategoryId(@Param('id', new ParseIntPipe()) id: number) {
     return this.productService.findAllByCategoryId(id)
   }
+  @Get('/sub-category/code/:code')
+  findAllBySubCategoryCode(@Param('code') code: string) {
+    return this.productService.findAllBySubCategoryCode(code)
+  }
 
   @Patch('/id/:id')
   update(

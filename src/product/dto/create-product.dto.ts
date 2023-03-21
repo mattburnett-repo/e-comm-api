@@ -19,7 +19,9 @@ export class CreateProductDto {
   description: string
 
   @IsString()
-  imageUrl: string | null
+  image_01_url: string | null
+  @IsString()
+  image_02_url: string | null
 
   @IsNumber()
   @IsNotEmpty()

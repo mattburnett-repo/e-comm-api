@@ -86,6 +86,9 @@ describe('AppController (e2e)', () => {
   it('can see /product-category', () => {
     return request(app.getHttpServer()).get('/product-category').expect(200)
   })
+  it('can see /sub-category', () => {
+    return request(app.getHttpServer()).get('/sub-category').expect(200)
+  })
   it('can see /user', () => {
     return request(app.getHttpServer()).get('/user').expect(200)
   })
