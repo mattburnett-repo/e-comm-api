@@ -60,14 +60,14 @@ describe('ProductCategoryService', () => {
     expect(repoSpy).toBeCalledWith(1)
   })
 
-  it('should update an example', () => {
+  it('should update a product category', () => {
     expect(service.update(1, mockProductCategory)).resolves.toEqual({
       id: '1',
       ...mockProductCategory
     })
   })
 
-  it('should delete an example', () => {
+  it('should delete a product category', () => {
     expect(service.remove(1)).resolves.toEqual({
       ...mockProductCategory
     })

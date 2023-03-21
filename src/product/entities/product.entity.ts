@@ -11,6 +11,7 @@ import {
 } from 'typeorm'
 
 import { ProductCategory } from '../../product-category/entities/product-category.entity'
+import { SubCategory } from '../../sub-category/entities/sub-category.entity'
 
 import { ColumnNumericTransformer } from '../../util/ColumnNumericTransformer'
 @Index('product_pkey', ['id'], { unique: true })
@@ -32,11 +33,17 @@ export class Product {
   description: string
 
   @Column('character varying', {
-    name: 'image_url',
+    name: 'image_01_url',
     nullable: true,
     length: 250
   })
-  imageUrl: string | null
+  image_01_url: string | null
+  @Column('character varying', {
+    name: 'image_02_url',
+    nullable: true,
+    length: 250
+  })
+  image_02_url: string | null
 
   @Column('numeric', {
     name: 'price',
@@ -65,13 +72,31 @@ export class Product {
   @JoinTable({
     name: 'product_product_category', // table name for the junction table of this relation
     joinColumn: {
-      name: 'product',
+      name: 'product_id',
       referencedColumnName: 'id'
     },
     inverseJoinColumn: {
-      name: 'product_category',
+      name: 'product_category_id',
       referencedColumnName: 'id'
     }
   })
   category: ProductCategory[]
+
+  @ManyToMany(() => SubCategory, (subCategory) => subCategory.product, {
+    eager: false,
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
+  @JoinTable({
+    name: 'product_sub_category', // table name for the junction table of this relation
+    joinColumn: {
+      name: 'product_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'sub_category_id',
+      referencedColumnName: 'id'
+    }
+  })
+  subCategory: SubCategory[]
 }

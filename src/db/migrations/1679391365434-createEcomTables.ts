@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class createEcommTables1678715975667 implements MigrationInterface {
-  name = 'createEcommTables1678040718350'
+export class createEcomTables1679391365434 implements MigrationInterface {
+  name = 'createEcomTables1678040718350'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -46,7 +46,13 @@ export class createEcommTables1678715975667 implements MigrationInterface {
       `CREATE UNIQUE INDEX "product-category_pkey" ON "product_category" ("id") `
     )
     await queryRunner.query(
-      `CREATE TABLE "product" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "description" character varying(1000) NOT NULL, "image_url" character varying(250), "price" numeric(6,2) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`
+      `CREATE TABLE "sub_category" ("id" integer NOT NULL, "code" character varying NOT NULL, "description" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_59f4461923255f1ce7fc5e7423c" PRIMARY KEY ("id"))`
+    )
+    await queryRunner.query(
+      `CREATE UNIQUE INDEX "product-subcategory_pkey" ON "sub_category" ("id") `
+    )
+    await queryRunner.query(
+      `CREATE TABLE "product" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "description" character varying(1000) NOT NULL, "image_01_url" character varying(250), "image_02_url" character varying(250), "price" numeric(6,2) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`
     )
     await queryRunner.query(
       `CREATE UNIQUE INDEX "product_pkey" ON "product" ("id") `
@@ -70,13 +76,22 @@ export class createEcommTables1678715975667 implements MigrationInterface {
       `CREATE INDEX "IDX_c3228fc681bcef672352d2186e" ON "order_cart_cart" ("cartId") `
     )
     await queryRunner.query(
-      `CREATE TABLE "product_product_category" ("product" uuid NOT NULL, "product_category" integer NOT NULL, CONSTRAINT "PK_fe08b5bafb0d2fcce89c3657303" PRIMARY KEY ("product", "product_category"))`
+      `CREATE TABLE "product_product_category" ("product_id" uuid NOT NULL, "product_category_id" integer NOT NULL, CONSTRAINT "PK_75a4ebdf54e893a0f12c4286f18" PRIMARY KEY ("product_id", "product_category_id"))`
     )
     await queryRunner.query(
-      `CREATE INDEX "IDX_28c26170fe870e7c31767582b4" ON "product_product_category" ("product") `
+      `CREATE INDEX "IDX_7273f54c7b24fa0968847cd813" ON "product_product_category" ("product_id") `
     )
     await queryRunner.query(
-      `CREATE INDEX "IDX_b2c963bfbc9a991225a3b8569c" ON "product_product_category" ("product_category") `
+      `CREATE INDEX "IDX_88d0a3fddb81d64b2f1fad3359" ON "product_product_category" ("product_category_id") `
+    )
+    await queryRunner.query(
+      `CREATE TABLE "product_sub_category" ("product_id" uuid NOT NULL, "sub_category_id" integer NOT NULL, CONSTRAINT "PK_d89ae1654c8f5e49c98ac52020e" PRIMARY KEY ("product_id", "sub_category_id"))`
+    )
+    await queryRunner.query(
+      `CREATE INDEX "IDX_9085e8522a3cfa66883332e521" ON "product_sub_category" ("product_id") `
+    )
+    await queryRunner.query(
+      `CREATE INDEX "IDX_6911c50c5c114253dd22727b61" ON "product_sub_category" ("sub_category_id") `
     )
     await queryRunner.query(
       `ALTER TABLE "address" ADD CONSTRAINT "FK_35cd6c3fafec0bb5d072e24ea20" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
@@ -106,19 +121,31 @@ export class createEcommTables1678715975667 implements MigrationInterface {
       `ALTER TABLE "order_cart_cart" ADD CONSTRAINT "FK_c3228fc681bcef672352d2186ef" FOREIGN KEY ("cartId") REFERENCES "cart"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     )
     await queryRunner.query(
-      `ALTER TABLE "product_product_category" ADD CONSTRAINT "FK_28c26170fe870e7c31767582b46" FOREIGN KEY ("product") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "product_product_category" ADD CONSTRAINT "FK_7273f54c7b24fa0968847cd813f" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     )
     await queryRunner.query(
-      `ALTER TABLE "product_product_category" ADD CONSTRAINT "FK_b2c963bfbc9a991225a3b8569c9" FOREIGN KEY ("product_category") REFERENCES "product_category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "product_product_category" ADD CONSTRAINT "FK_88d0a3fddb81d64b2f1fad33593" FOREIGN KEY ("product_category_id") REFERENCES "product_category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    )
+    await queryRunner.query(
+      `ALTER TABLE "product_sub_category" ADD CONSTRAINT "FK_9085e8522a3cfa66883332e521a" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE CASCADE`
+    )
+    await queryRunner.query(
+      `ALTER TABLE "product_sub_category" ADD CONSTRAINT "FK_6911c50c5c114253dd22727b615" FOREIGN KEY ("sub_category_id") REFERENCES "sub_category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "product_product_category" DROP CONSTRAINT "FK_b2c963bfbc9a991225a3b8569c9"`
+      `ALTER TABLE "product_sub_category" DROP CONSTRAINT "FK_6911c50c5c114253dd22727b615"`
     )
     await queryRunner.query(
-      `ALTER TABLE "product_product_category" DROP CONSTRAINT "FK_28c26170fe870e7c31767582b46"`
+      `ALTER TABLE "product_sub_category" DROP CONSTRAINT "FK_9085e8522a3cfa66883332e521a"`
+    )
+    await queryRunner.query(
+      `ALTER TABLE "product_product_category" DROP CONSTRAINT "FK_88d0a3fddb81d64b2f1fad33593"`
+    )
+    await queryRunner.query(
+      `ALTER TABLE "product_product_category" DROP CONSTRAINT "FK_7273f54c7b24fa0968847cd813f"`
     )
     await queryRunner.query(
       `ALTER TABLE "order_cart_cart" DROP CONSTRAINT "FK_c3228fc681bcef672352d2186ef"`
@@ -148,10 +175,17 @@ export class createEcommTables1678715975667 implements MigrationInterface {
       `ALTER TABLE "address" DROP CONSTRAINT "FK_35cd6c3fafec0bb5d072e24ea20"`
     )
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_b2c963bfbc9a991225a3b8569c"`
+      `DROP INDEX "public"."IDX_6911c50c5c114253dd22727b61"`
     )
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_28c26170fe870e7c31767582b4"`
+      `DROP INDEX "public"."IDX_9085e8522a3cfa66883332e521"`
+    )
+    await queryRunner.query(`DROP TABLE "product_sub_category"`)
+    await queryRunner.query(
+      `DROP INDEX "public"."IDX_88d0a3fddb81d64b2f1fad3359"`
+    )
+    await queryRunner.query(
+      `DROP INDEX "public"."IDX_7273f54c7b24fa0968847cd813"`
     )
     await queryRunner.query(`DROP TABLE "product_product_category"`)
     await queryRunner.query(
@@ -166,6 +200,8 @@ export class createEcommTables1678715975667 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "cart_item"`)
     await queryRunner.query(`DROP INDEX "public"."product_pkey"`)
     await queryRunner.query(`DROP TABLE "product"`)
+    await queryRunner.query(`DROP INDEX "public"."product-subcategory_pkey"`)
+    await queryRunner.query(`DROP TABLE "sub_category"`)
     await queryRunner.query(`DROP INDEX "public"."product-category_pkey"`)
     await queryRunner.query(`DROP TABLE "product_category"`)
     await queryRunner.query(`DROP INDEX "public"."cart_pkey"`)

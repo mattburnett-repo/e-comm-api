@@ -38,7 +38,8 @@ export class ProductService {
         id: true,
         name: true,
         description: true,
-        imageUrl: true,
+        image_01_url: true,
+        image_02_url: true,
         price: true,
         category: {
           id: true
@@ -55,7 +56,8 @@ export class ProductService {
         id: true,
         name: true,
         description: true,
-        imageUrl: true,
+        image_01_url: true,
+        image_02_url: true,
         price: true,
         category: {
           id: true
@@ -72,11 +74,29 @@ export class ProductService {
         'product.id',
         'product.name',
         'product.description',
-        'product.imageUrl',
+        'product.image_01_url',
+        'product.image_02_url',
         'product.price',
         'category.id'
       ])
       .where('category.id = :id', { id })
+      .getMany()
+  }
+
+  async findAllBySubCategoryCode(code: string): Promise<Product[]> {
+    return this.repo
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.subCategory', 'subCategory')
+      .select([
+        'product.id',
+        'product.name',
+        'product.description',
+        'product.image_01_url',
+        'product.image_02_url',
+        'product.price',
+        'subCategory.code'
+      ])
+      .where('subCategory.code = :code', { code })
       .getMany()
   }
 

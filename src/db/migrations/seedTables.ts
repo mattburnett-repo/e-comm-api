@@ -56,6 +56,16 @@ export class seedTables implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO product_category VALUES(5, 'Organic and natural personal care products','Organic and natural personal care products are made with ingredients that are sustainably sourced and don''t contain harmful chemicals or synthetic fragrances. They are better for both the environment and your health.')`
     )
+    // sub category values
+    await queryRunner.query(
+      `INSERT INTO sub_category VALUES(1, 'featured', 'Featured')`
+    )
+    await queryRunner.query(
+      `INSERT INTO sub_category VALUES(2, 'trending', 'Trending')`
+    )
+    await queryRunner.query(
+      `INSERT INTO sub_category VALUES(3, 'sale', 'Sale')`
+    )
 
     // Many-to-many / Association / Join tables
     await queryRunner.query(

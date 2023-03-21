@@ -11,11 +11,15 @@ const testProductData = {
   category_id: 2,
   name: 'Test Product Name',
   description: 'Test Product Description',
-  imageUrl: 'http://image.com',
+  image_01_url: 'http://image.com',
+  image_02_url: 'http://image.com',
   price: 123.45
 }
 
-import { testProductByCategoryData } from '../src/product/mockData'
+import {
+  testProductByCategoryData,
+  testProductsBySubCategoryData
+} from '../src/product/mockData'
 
 describe('ProductController (e2e)', () => {
   let app: INestApplication
@@ -47,7 +51,8 @@ describe('ProductController (e2e)', () => {
         expect(product.name).toEqual(testProductData.name)
         expect(product.description).toEqual(testProductData.description)
         expect(product.price).toEqual(testProductData.price)
-        expect(product.imageUrl).toEqual(testProductData.imageUrl)
+        expect(product.image_01_url).toEqual(testProductData.image_01_url)
+        expect(product.image_02_url).toEqual(testProductData.image_02_url)
 
         const categories = product.category
         expect(categories.length).toBeGreaterThan(0)
@@ -71,7 +76,8 @@ describe('ProductController (e2e)', () => {
         expect(product.name).toEqual(testProductData.name)
         expect(product.description).toEqual(testProductData.description)
         expect(product.price).toEqual(testProductData.price)
-        expect(product.imageUrl).toEqual(testProductData.imageUrl)
+        expect(product.image_01_url).toEqual(testProductData.image_01_url)
+        expect(product.image_02_url).toEqual(testProductData.image_02_url)
 
         const categories = product.category
         expect(categories.length).toBeGreaterThan(0)
@@ -95,11 +101,48 @@ describe('ProductController (e2e)', () => {
         expect(product.description).toEqual(
           testProductByCategoryData.description
         )
-        expect(product.imageUrl).toEqual(testProductByCategoryData.imageUrl)
+        expect(product.image_01_url).toEqual(
+          testProductByCategoryData.image_01_url
+        )
+        expect(product.image_02_url).toEqual(
+          testProductByCategoryData.image_02_url
+        )
+
         expect(product.price).toEqual(testProductByCategoryData.price)
 
         const category = product.category[0]
         expect(category.id).toEqual(testProductByCategoryData.category.id)
+      })
+  })
+  it('/product/sub-category/:code GETs all by sub category code', () => {
+    const subCategory = 'trending'
+
+    return request(app.getHttpServer())
+      .get(`/product/sub-category/code/${subCategory}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        const products = res.body
+
+        expect(products.length).toEqual(3)
+
+        const product = products[2]
+
+        expect(product.id).toEqual(testProductsBySubCategoryData[2].id)
+        expect(product.name).toEqual(testProductsBySubCategoryData[2].name)
+        expect(product.description).toEqual(
+          testProductsBySubCategoryData[2].description
+        )
+        expect(product.image_01_url).toEqual(
+          testProductsBySubCategoryData[2].image_01_url
+        )
+        expect(product.image_02_url).toEqual(
+          testProductsBySubCategoryData[2].image_02_url
+        )
+
+        expect(product.price).toEqual(testProductsBySubCategoryData[2].price)
+
+        expect(product.subCategory[0].code).toEqual(subCategory)
       })
   })
 
@@ -118,7 +161,8 @@ describe('ProductController (e2e)', () => {
         expect(product.name).toEqual(testProductData.name)
         expect(product.description).toEqual(testProductData.description)
         expect(product.price).toEqual(testProductData.price)
-        expect(product.imageUrl).toEqual(testProductData.imageUrl)
+        expect(product.image_01_url).toEqual(testProductData.image_01_url)
+        expect(product.image_02_url).toEqual(testProductData.image_02_url)
 
         const categories = product.category
         expect(categories.length).toBeGreaterThan(0)
@@ -147,7 +191,8 @@ describe('ProductController (e2e)', () => {
         expect(product.name).toEqual(updatedProductName)
         expect(product.description).toEqual(testProductData.description)
         expect(product.price).toEqual(testProductData.price)
-        expect(product.imageUrl).toEqual(testProductData.imageUrl)
+        expect(product.image_01_url).toEqual(testProductData.image_01_url)
+        expect(product.image_02_url).toEqual(testProductData.image_02_url)
 
         const categories = product.category
         expect(categories.length).toBeGreaterThan(0)
