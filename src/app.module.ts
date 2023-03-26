@@ -18,6 +18,8 @@ import { PaymentTypeModule } from './payment-type/payment-type.module'
 import { ProductModule } from './product/product.module'
 import { ProductCategoryModule } from './product-category/product-category.module'
 import { SubCategoryModule } from './sub-category/sub-category.module'
+import { StripeModule } from './stripe/stripe.module'
+import { CustomersModule } from './customers/customers.module'
 
 import dbConfig from './config/dbConfig'
 
@@ -44,7 +46,12 @@ const ENV = process.env.NODE_ENV
     PaymentTypeModule,
     ProductCategoryModule,
     ProductModule,
-    SubCategoryModule
+    SubCategoryModule,
+    // FIXME: use ConfigService instead of process.env.xxx
+    StripeModule.forRoot(process.env.STRIPE_KEY, {
+      apiVersion: '2022-11-15'
+    }),
+    CustomersModule
   ],
   controllers: [AppController],
   providers: [AppService]

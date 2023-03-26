@@ -17,6 +17,8 @@ export default registerAs('database', () => {
     migrations: [__dirname + '/../db/migrations/*.{js,ts}'],
     migrationsTableName: 'migrations',
 
-    ssl: process.env.DB_SSL_MODE === 'true' ? true : false
+    ssl: process.env.DB_SSL_MODE === 'true' ? true : false,
+
+    stripe_key: process.env.STRIPE_KEY
   }
 })
