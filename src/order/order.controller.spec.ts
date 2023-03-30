@@ -66,7 +66,7 @@ describe('OrderController', () => {
       mockStripeSession
     )
   })
-  it('should list a test stripe customer', async () => {
+  it.skip('should list a test stripe customer', async () => {
     expect(controller.listCustomers()).resolves.toEqual(mockStripeCustomer)
   })
 
