@@ -85,6 +85,7 @@ describe('OrderController (e2e)', () => {
       .expect(200)
       .then((res) => {
         const orders = res.body
+
         expect(orders.length).toEqual(2)
 
         const order = orders[1]

@@ -39,7 +39,7 @@ export class seedTables implements MigrationInterface {
       `INSERT INTO payment VALUES('cfdd4196-bb02-11ed-afa1-0242ac120002', '964275ed-f9da-49b6-8fde-9da1d472197b', 6, 'stripeId-test-value', 12345, 'test payment method', 'https://receipt-url.com', 'test transaction status', 123.45)`
     )
     await queryRunner.query(
-      `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002', 'cfad3828-bfdc-11ed-afa1-0242ac120002', Now(),  1.23, 3.45, '964275ed-f9da-49b6-8fde-9da1d472197b', Now(), Now())`
+      `INSERT INTO "order" VALUES ('1882376c-bafe-11ed-afa1-0242ac120002', 'fad30dac-baf5-11ed-afa1-0242ac120002', 'cfad3828-bfdc-11ed-afa1-0242ac120002', null, Now(),  1.23, 3.45, '964275ed-f9da-49b6-8fde-9da1d472197b', Now(), Now())`
     )
     await queryRunner.query(
       `INSERT INTO product_category VALUES(1,'Solar Energy','Solar energy is a renewable energy source that can be harnessed to power a variety of devices and systems, from small handheld gadgets to large-scale buildings.')`

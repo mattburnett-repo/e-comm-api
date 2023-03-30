@@ -1,4 +1,4 @@
-import { IsUUID, IsNotEmpty, IsDate, IsNumber } from 'class-validator'
+import { IsUUID, IsString, IsNotEmpty, IsDate, IsNumber } from 'class-validator'
 import { PrimaryGeneratedColumn } from 'typeorm'
 
 export class CreateOrderDto {
@@ -10,6 +10,9 @@ export class CreateOrderDto {
   @IsUUID()
   @IsNotEmpty()
   cart_id: string
+
+  @IsString()
+  stripe_id: string
 
   @IsDate()
   @IsNotEmpty()
