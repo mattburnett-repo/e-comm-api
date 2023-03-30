@@ -32,6 +32,19 @@ export class OrderService {
     return this.repo.save(order)
   }
 
+  //  FIXME: need a clear answer on type for the Stripe Session Object
+  insertStripeSessionData(stripeSessionData: any): Promise<Order> {
+    const order = new Order()
+    order.stripe_id = stripeSessionData.id
+    order.order_date = stripeSessionData.created
+    order.total_price = stripeSessionData.amount_total * 100
+
+    const retVal = this.repo.create(order)
+    this.logger.log(`OrderService insertStripeSessionData:  ${retVal.id}`)
+
+    return this.repo.save(retVal)
+  }
+
   findAll(): Promise<Order[]> {
     return this.repo.find({
       relations: ['cart', 'cart.cartItem'],
@@ -91,7 +104,7 @@ export class OrderService {
     })
   }
 
-  async update(id: string, updateOrderDto: UpdateOrderDto) {
+  async update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     this.logger.log(`OrderService updates an Order: ${id}`)
 
     const updated = await this.repo.save(updateOrderDto)

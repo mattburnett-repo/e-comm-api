@@ -1,4 +1,4 @@
-import { IsUUID, IsNotEmpty } from 'class-validator'
+import { IsUUID, IsString, IsNotEmpty } from 'class-validator'
 import {
   Column,
   CreateDateColumn,
@@ -26,11 +26,15 @@ export class Order {
   id: string
 
   @IsUUID()
-  @Column({ name: 'cart_id' })
+  @Column({ name: 'cart_id', nullable: true })
   cart_id: string
 
-  @Column('uuid', { name: 'user_id', nullable: false })
+  @Column('uuid', { name: 'user_id', nullable: true })
   user_id: string
+
+  @Column('character varying', { name: 'stripe_id', nullable: true })
+  @IsString()
+  stripe_id: string
 
   @CreateDateColumn()
   order_date: Date

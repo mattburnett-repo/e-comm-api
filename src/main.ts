@@ -19,7 +19,14 @@ async function bootstrap() {
 
   app.use(cookieParser())
   app.use(helmet())
-  app.enableCors()
+
+  const corsOptions = {
+    origin: [configService.get('CLIENT_URL'), 'http://localhost:5173'],
+    // origin: '*',
+    methods: 'GET, PUT, POST, PATCH, DELETE',
+    allowedHeaders: 'Content-Type, Authorization'
+  }
+  app.enableCors(corsOptions)
 
   // logger goes here
   //    or just instantiate a logger in the class/es you want logging for

@@ -1,15 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+// import { Repository } from 'typeorm'
 
 import { Order } from './entities/order.entity'
 import { OrderService } from './order.service'
 
-import { mockOrder, mockOrders, mockOrderRepository } from './mockData'
+import {
+  mockOrder,
+  mockOrders,
+  mockOrderRepository,
+  mockStripeSessionOrder
+} from './mockData'
+import { mockStripeSession } from '../stripe/mockData'
 
 describe('OrderService', () => {
   let service: OrderService
-  let repo: Repository<Order>
+  // let repo: Repository<Order>
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,7 +29,7 @@ describe('OrderService', () => {
     }).compile()
 
     service = module.get<OrderService>(OrderService)
-    repo = module.get<Repository<Order>>(getRepositoryToken(Order))
+    // repo = module.get<Repository<Order>>(getRepositoryToken(Order))
   })
 
   it('should be defined', () => {
@@ -41,22 +47,19 @@ describe('OrderService', () => {
       order_date: '2015-01-01',
       ...mockOrder
     })
-    // expect(repo.create).toBeCalledTimes(1)
-    // expect(repo.create).toBeCalledWith({ ...mockOrder })
-    // expect(repo.save).toBeCalledTimes(1)
+  })
+  it('should insert stripe order data', () => {
+    expect(service.insertStripeSessionData(mockStripeSession)).resolves.toEqual(
+      mockStripeSessionOrder
+    )
   })
   it('should find all orders', () => {
     expect(service.findAll()).resolves.toEqual(mockOrders)
   })
   it('should find an order by id', () => {
-    // const repoSpy = jest.spyOn(repo, 'findOneById')
     expect(
       service.findOneById('1882376c-bafe-11ed-afa1-0242ac120002')
     ).resolves.toEqual(mockOrder)
-    // expect(
-    //   service.findOneById('1882376c-bafe-11ed-afa1-0242ac120002')
-    // ).resolves.toEqual(mockOrder)
-    // expect(repoSpy).toBeCalledWith('1882376c-bafe-11ed-afa1-0242ac120002')
   })
   it('should update an example', () => {
     expect(
